@@ -12,6 +12,8 @@ public class pushable_tile_script : MonoBehaviour
 	private float move_timer = 0.0f;
 	private float MOVE_TIME = 0.3f;
 	private string move_direction = "";
+	private bool starting_to_move = false;
+	private Quaternion final_rotation;
 
 
 
@@ -46,6 +48,11 @@ public class pushable_tile_script : MonoBehaviour
 		}
 		if (move_direction == "UP")
 		{
+			if (starting_to_move)
+			{
+				//model.RotateAround(transform.position + new Vector3(0.0f, 0.5f, 0.0f), new Vector3(1.0f, 0.0f, 0.0f), 90.0f);
+				starting_to_move = false;
+			}
 			model.position = transform.position + new Vector3(0.0f, 0.5f, -move_timer / MOVE_TIME);
 			model.RotateAround(transform.position + new Vector3(0.0f, 0.5f, 0.0f), new Vector3(1.0f, 0.0f, 0.0f), Time.deltaTime * 90.0f / MOVE_TIME);
 		}
@@ -53,20 +60,24 @@ public class pushable_tile_script : MonoBehaviour
 		{
 			model.position = transform.position + new Vector3(0.0f, 0.5f, move_timer / MOVE_TIME);
 			model.RotateAround(transform.position + new Vector3(0.0f, 0.5f, 0.0f), new Vector3(1.0f, 0.0f, 0.0f), Time.deltaTime * -90.0f / MOVE_TIME);
+			Debug.Log("rotation="+model.rotation.x+"  "+model.rotation.y+"  "+model.rotation.z);
 		}
 		if (move_direction == "LEFT")
 		{
 			model.position = transform.position + new Vector3(move_timer / MOVE_TIME, 0.5f, 0.0f);
 			model.RotateAround(transform.position + new Vector3(0.0f, 0.5f, 0.0f), new Vector3(0.0f, 0.0f, 1.0f), Time.deltaTime * 90.0f / MOVE_TIME);
+			Debug.Log("rotation="+model.rotation.x+"  "+model.rotation.y+"  "+model.rotation.z);
 		}
 		if (move_direction == "RIGHT")
 		{
 			model.position = transform.position + new Vector3(-move_timer / MOVE_TIME, 0.5f, 0.0f);
 			model.RotateAround(transform.position + new Vector3(0.0f, 0.5f, 0.0f), new Vector3(0.0f, 0.0f, 1.0f), Time.deltaTime * -90.0f / MOVE_TIME);
+			Debug.Log("rotation="+model.rotation.x+"  "+model.rotation.y+"  "+model.rotation.z);
 		}
 		
 		
 	}
+
 
 
 	public void push_this_tile(string direction)
@@ -84,6 +95,7 @@ public class pushable_tile_script : MonoBehaviour
 					tilemap.update_pushable_data(id, x, y);
 					move_timer = MOVE_TIME;
 					move_direction = direction;
+					starting_to_move = true;
 				}
 				else
 				Debug.Log("cant push!");
@@ -98,6 +110,7 @@ public class pushable_tile_script : MonoBehaviour
 					tilemap.update_pushable_data(id, x, y);
 					move_timer = MOVE_TIME;
 					move_direction = direction;
+					starting_to_move = true;
 				}
 				else
 					Debug.Log("cant push!");
@@ -112,6 +125,7 @@ public class pushable_tile_script : MonoBehaviour
 					tilemap.update_pushable_data(id, x, y);
 					move_timer = MOVE_TIME;
 					move_direction = direction;
+					starting_to_move = true;
 				}
 				else
 					Debug.Log("cant push!");
@@ -126,6 +140,7 @@ public class pushable_tile_script : MonoBehaviour
 					tilemap.update_pushable_data(id, x, y);
 					move_timer = MOVE_TIME;
 					move_direction = direction;
+					starting_to_move = true;
 				}
 				else
 					Debug.Log("cant push!");
