@@ -41,40 +41,82 @@ public class pushable_tile_script : MonoBehaviour
 	{
 		move_timer -= Time.deltaTime;
 		float timer = move_timer;
+		float current_y = 0.5f + 0.2f * Mathf.Sin((move_timer / MOVE_TIME) * 3.14159f);
+		
+		if (move_direction == "UP")
+		{
+			if (starting_to_move)
+			{
+				model.RotateAround(transform.position + new Vector3(0.0f, 0.5f, 0.0f), new Vector3(1.0f, 0.0f, 0.0f), 90.0f);
+				final_rotation = model.localRotation;
+				model.RotateAround(transform.position + new Vector3(0.0f, 0.5f, 0.0f), new Vector3(1.0f, 0.0f, 0.0f), -90.0f);
+				starting_to_move = false;
+			}
+			model.position = transform.position + new Vector3(0.0f, current_y, -move_timer / MOVE_TIME);
+			model.RotateAround(transform.position + new Vector3(0.0f, 0.5f, 0.0f), new Vector3(1.0f, 0.0f, 0.0f), Time.deltaTime * 90.0f / MOVE_TIME);
+			if (timer <= 0.0f)
+			{
+				model.rotation = final_rotation;
+				model.localPosition = new Vector3(0.0f, 0.5f, 0.0f);
+			}
+		}
+		if (move_direction == "DOWN")
+		{
+			if (starting_to_move)
+			{
+				model.RotateAround(transform.position + new Vector3(0.0f, 0.5f, 0.0f), new Vector3(1.0f, 0.0f, 0.0f), -90.0f);
+				final_rotation = model.localRotation;
+				model.RotateAround(transform.position + new Vector3(0.0f, 0.5f, 0.0f), new Vector3(1.0f, 0.0f, 0.0f), 90.0f);
+				starting_to_move = false;
+			}
+			model.position = transform.position + new Vector3(0.0f, current_y, move_timer / MOVE_TIME);
+			model.RotateAround(transform.position + new Vector3(0.0f, 0.5f, 0.0f), new Vector3(1.0f, 0.0f, 0.0f), Time.deltaTime * -90.0f / MOVE_TIME);
+			if (timer <= 0.0f)
+			{
+				model.rotation = final_rotation;
+				model.localPosition = new Vector3(0.0f, 0.5f, 0.0f);
+			}
+		}
+		if (move_direction == "LEFT")
+		{
+			if (starting_to_move)
+			{
+				model.RotateAround(transform.position + new Vector3(0.0f, 0.5f, 0.0f), new Vector3(0.0f, 0.0f, 1.0f), 90.0f);
+				final_rotation = model.localRotation;
+				model.RotateAround(transform.position + new Vector3(0.0f, 0.5f, 0.0f), new Vector3(0.0f, 0.0f, 1.0f), -90.0f);
+				starting_to_move = false;
+			}
+			model.position = transform.position + new Vector3(move_timer / MOVE_TIME, current_y, 0.0f);
+			model.RotateAround(transform.position + new Vector3(0.0f, 0.5f, 0.0f), new Vector3(0.0f, 0.0f, 1.0f), Time.deltaTime * 90.0f / MOVE_TIME);
+			if (timer <= 0.0f)
+			{
+				model.rotation = final_rotation;
+				model.localPosition = new Vector3(0.0f, 0.5f, 0.0f);
+			}
+		}
+		if (move_direction == "RIGHT")
+		{
+			if (starting_to_move)
+			{
+				model.RotateAround(transform.position + new Vector3(0.0f, 0.5f, 0.0f), new Vector3(0.0f, 0.0f, 1.0f), -90.0f);
+				final_rotation = model.localRotation;
+				model.RotateAround(transform.position + new Vector3(0.0f, 0.5f, 0.0f), new Vector3(0.0f, 0.0f, 1.0f), 90.0f);
+				starting_to_move = false;
+			}
+			model.position = transform.position + new Vector3(-move_timer / MOVE_TIME, current_y, 0.0f);
+			model.RotateAround(transform.position + new Vector3(0.0f, 0.5f, 0.0f), new Vector3(0.0f, 0.0f, 1.0f), Time.deltaTime * -90.0f / MOVE_TIME);
+			if (timer <= 0.0f)
+			{
+				model.rotation = final_rotation;
+				model.localPosition = new Vector3(0.0f, 0.5f, 0.0f);
+			}
+		}
+		
 		if (timer < 0.0f)
 		{
 			timer = 0.0f;
 			move_direction = "";
 		}
-		if (move_direction == "UP")
-		{
-			if (starting_to_move)
-			{
-				//model.RotateAround(transform.position + new Vector3(0.0f, 0.5f, 0.0f), new Vector3(1.0f, 0.0f, 0.0f), 90.0f);
-				starting_to_move = false;
-			}
-			model.position = transform.position + new Vector3(0.0f, 0.5f, -move_timer / MOVE_TIME);
-			model.RotateAround(transform.position + new Vector3(0.0f, 0.5f, 0.0f), new Vector3(1.0f, 0.0f, 0.0f), Time.deltaTime * 90.0f / MOVE_TIME);
-		}
-		if (move_direction == "DOWN")
-		{
-			model.position = transform.position + new Vector3(0.0f, 0.5f, move_timer / MOVE_TIME);
-			model.RotateAround(transform.position + new Vector3(0.0f, 0.5f, 0.0f), new Vector3(1.0f, 0.0f, 0.0f), Time.deltaTime * -90.0f / MOVE_TIME);
-			Debug.Log("rotation="+model.rotation.x+"  "+model.rotation.y+"  "+model.rotation.z);
-		}
-		if (move_direction == "LEFT")
-		{
-			model.position = transform.position + new Vector3(move_timer / MOVE_TIME, 0.5f, 0.0f);
-			model.RotateAround(transform.position + new Vector3(0.0f, 0.5f, 0.0f), new Vector3(0.0f, 0.0f, 1.0f), Time.deltaTime * 90.0f / MOVE_TIME);
-			Debug.Log("rotation="+model.rotation.x+"  "+model.rotation.y+"  "+model.rotation.z);
-		}
-		if (move_direction == "RIGHT")
-		{
-			model.position = transform.position + new Vector3(-move_timer / MOVE_TIME, 0.5f, 0.0f);
-			model.RotateAround(transform.position + new Vector3(0.0f, 0.5f, 0.0f), new Vector3(0.0f, 0.0f, 1.0f), Time.deltaTime * -90.0f / MOVE_TIME);
-			Debug.Log("rotation="+model.rotation.x+"  "+model.rotation.y+"  "+model.rotation.z);
-		}
-		
 		
 	}
 
