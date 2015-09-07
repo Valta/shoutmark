@@ -45,7 +45,7 @@ public class _TILEMAP : MonoBehaviour
 	private float[] object_y = new float[MAX_NUMBER_OF_OBJECTS];
 	private float[] object_radius = new float[MAX_NUMBER_OF_OBJECTS];
 
-	// moving objects:
+										// pushable objects:
 	private const int MAX_NUMBER_OF_PUSHABLES = 100;
 	private int number_of_pushables = 0;
 	private int[] pushable_x = new int[MAX_NUMBER_OF_OBJECTS];
