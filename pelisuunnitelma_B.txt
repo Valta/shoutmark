@@ -2,22 +2,23 @@ Taktinen hiiviskely/ammuskelu roboteilla
 
 Esikuvat Fallout, Jagged Alliance, Cannon Fodder, Metal gear solid, Mechwarrior
 
-Täysin hiirellä ohjattaja peli koska mobiilit
+Täysin hiirellä ohjattava peli koska mobiilit
 
-Pelaajan tehtävä on hyökättävä erilaisiin vihollisen tukikohtiin maailmankartalla. Hyökättävä alue laajenee onnistuneen valtauksen jälkeen lähialueille. maailmankartassa ei välttämättä tarvi matkustaa vaan valitaan seuraava mahdollinen hyökkäyskohde klikkaamalla sitä.
+Pelaajan tehtävä on hyökätä erilaisiin vihollisen tukikohtiin maailmankartalla. Hyökättäväksi mahdollinen alue laajenee onnistuneen valtauksen jälkeen lähialueille. maailmankartassa ei välttämättä tarvitse fyysisesti matkustaa vaan valitaan seuraava mahdollinen hyökkäyskohde klikkaamalla sitä.
 
 Pelaajalla on käytössään robotteja(aluksi vain yksi) jotka lähettämällä hyökkäykseen vallataan alueita, saadaan resursseja, löydetään uusien parempien aseiden blueprinttejä ym.
 
-pelaajalla on oma homebase(UI käyttöliittymä) johon ei voi hyökätä. homebasessa valitaan hyökättävä kohde, hyökkäykseen käytettävät robotit(korkeintaan 4 per missio), valitaan roboteille aseet ja tavarat, rakennetaan aseita, kehitetään robotteja, korjataan robotteja, tilataan uusia robotteja tuhoutuneiden tilalle(jos pelaaja menettää kokonaan missionissa tuhoutuneen robotin).
+pelaajalla on oma homebase(UI käyttöliittymä) johon ei voi hyökätä. homebasessa valitaan hyökättävä kohde, valitaan hyökkäykseen käytettävät robotit(korkeintaan 4 per missio), valitaan roboteille aseet ja tavarat, rakennetaan aseita, kehitetään robotteja, korjataan robotteja, tilataan uusia robotteja tuhoutuneiden tilalle(jos pelaaja menettää kokonaan missionissa tuhoutuneen robotin).
 
-Mission tilassa peli on reaaliaikainen. mobiilista johtuen robotit ampuvat itsestään(jokaiseen aseeseen on määritelty tulinopeus) edessään näkemät viholliset ellei toisin käsketä. Myös hiippailu ona mahdollista. Aseiden panokset simuloidaan ja osumakohdat tarkastetaan. pelaajan tehtävänä on robottien liikuttaminen valitsemalla robotti ja klikattava aluetta joho robotti liikkuu. Pelaaja suorittaa UIn avulla myös kaikki erikoistoiminnot. Robotit näkevät vain eteensä ja pelaaja näkee vain ne viholliset jotka hänen robottinsa näkevät. 
-Missionin kartat ovat monireittisiä ja viholliset hyvin liikkuvia joten omaa selustaakin on turvattava. Robotit kääntyvät itsestään hitaasti jos ne ottavat osumaa. robottien hyvällä asettelulla päästään kuitenkin parempaan tulokseen kun robotit ovat valmiita ampumaan oikeaan suuntaan.
+Mission tilassa peli on reaaliaikainen. mobiilista johtuen robotit ampuvat itsestään(jokaiseen aseeseen on määritelty tulinopeus) edessään näkemät viholliset ellei toisin käsketä. Myös hiippailu on mahdollista. Aseiden panokset simuloidaan ja osumakohdat tarkastetaan. Pelaajan tehtävänä on robottien liikuttaminen valitsemalla robotti yksi kerrallaan ja klikattava aluetta johon robotti liikkuu. Pelaaja suorittaa UIn avulla myös kaikki erikoistoiminnot. Robotit näkevät vain eteensä ja pelaaja näkee vain ne viholliset jotka hänen robottinsa näkevät.
+ 
+Missionin kartat ovat monireittisiä ja viholliset ovat hyvin liikkuvia joten omaa selustaakin on turvattava. Robotit kääntyvät itsestään hitaasti jos ne ottavat osumaa. Robottien hyvällä asettelulla päästään kuitenkin parempaan tulokseen kun robotit ovat valmiita ampumaan oikeaan suuntaan.
 
 Roboteilla voi olla erilaisia ominaisuuksia. toiset näkevät pitemmälle/laajemmalle, toiset ovat kestävämpiä, toiset nopeampia, toiset parempia osumaan tietyllä aseella jne.
 
 yleisimpiä ui elementtejä kuten healthbareja ei ole vaan kaikki pelaajan informoiminen tapahtuu ruudun ylälaidassa kulkevalla tekstipohjaisella englanninkielisellä selostuksella(optio ääniselostukseen jos on aikaa).  
 
-Roboteista johtuen hahmojen ja maailman graafinen ulkoasu on hyvin vapaa, eikä sen tarvi pohjautua realismiin.
+Roboteista johtuen hahmojen ja maailman graafinen ulkoasu on hyvin vapaa, eikä sen tarvi pohjautua realismiin. Koska ihmishahmoja ei pelissä ole, graafiseen väkivaltaan ei tarvitse laittaa rajoitteita.
 
 
 Työstettävät osa-alueet
@@ -34,6 +35,7 @@ maailmankartta:
 grafiikat
 tilemap
 hyökättävien paikkojen valitseminen, paikkojen unlockkaus lähialueilta.
+gridipohjainen
 
 missionit:
 grafiikat, modelit
@@ -44,11 +46,11 @@ vihun AI(liikkuminen, pelaajan robottien havaitseminen , ampuminen, hälytys jne)
 vihun animointi
 aseiden simulointi, aseiden osumien randomisointi tarkkuussimulaatiolla
 damagen oton ja healthin laskeminen
-eri osumakohtia roboteissa? vaikka osumakohtia voisi tuhota ja aseita disabloida niin sitä ei tarvitse näyttää graafisesti, ase ei vaan enää ammu ja selostukseen lähetetään tieto)
+eri osumakohtia roboteissa? vaikka osumakohtia voisi tuhota ja aseita disabloida niin sitä ei tarvitse välttämättä näyttää graafisesti, ase ei vaan enää ammu ja selostukseen lähetetään tieto)
 
 reward scene tai UI paneeli
 grafiikat
-mitä resursseja, tavaroita, aseiden blueprinttejä saatiin edellisestä missionista 
+mitä resursseja, tavaroita, aseiden blueprinttejä, ym saatiin edellisestä missionista 
 
 homebase:
 grafiikat, modelit
@@ -59,15 +61,17 @@ aseiden ja laitteiden asettaminen robotteihin
 aseiden osto/kehitys
 robottien kehittäminen kokemuspisteillä?
 
-
-
-
+Gamemanageri
+pysyy elossa scenestä toiseen ja hoitaa pelin savetuksen ja latauksen
+pitää muistissa kaikki asetukset ja pelin kulun
+pitää muistissa pelaajan omistamat resurssit, robotit, aseet, ym.
+hoitaa viestinnän homebasen, ja maailmankartan ja missioneiden välillä.
 
 Selostusmanageri
 robotit lähettävät tietoa managerille
 kolme eri prioriteettia: korkea(esim vihollinen nähty), keskitaso(minulla on tämän verran hpeeta jäljellä), alhainen(vitsit, robottien tuumailut ym, managerin itsensä höpöttämät yleismaailmalliset asiat)
-manageri hoitaa selostuksen niin että korkeamman prioriteetin selustukset menevät alhaisempia edelle jonossa. Tuoreempi vastaavanlainen tieto samasta kohteesta myös korvaa vanhemman joka ei ole vielä mennyt esitettäväksi.  
+manageri hoitaa selostuksen niin että korkeamman prioriteetin selostukset menevät alhaisempia edelle jonossa. Tuoreempi vastaavanlainen tieto samasta kohteesta myös korvaa vanhemman jos se ei ole vielä mennyt esitettäväksi.  
 
 
 
-Peliä ei tarvitse saada valmiiksi eikä sen tarvitse olla pelillisesti järkevä tai haasteellinen kunhan meillä on jotain teknisesti hienoa näytettävää joka kääntyy ja pyörii mobiililla. Toki olisi kiva jos peliä olisi myös mukava pelata. Kaikille ainakin riittä hommaa.
+Peliä ei tarvitse saada valmiiksi eikä sen tarvitse olla pelillisesti järkevä tai haasteellinen kunhan meillä on jotain teknisesti hienoa näytettävää joka kääntyy ja pyörii mobiililla. Toki olisi kiva jos peliä olisi myös mukava pelata. Kaikille ainakin riittä hommaa. Jos innostutte tästä niin mielelläni kuulisin lisäideoita ja parannusehdotuksia. 
