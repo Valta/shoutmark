@@ -1,0 +1,73 @@
+Taktinen hiiviskely/ammuskelu roboteilla
+
+Esikuvat Fallout, Jagged Alliance, Cannon Fodder, Metal gear solid, Mechwarrior
+
+Täysin hiirellä ohjattaja peli koska mobiilit
+
+Pelaajan tehtävä on hyökättävä erilaisiin vihollisen tukikohtiin maailmankartalla. Hyökättävä alue laajenee onnistuneen valtauksen jälkeen lähialueille. maailmankartassa ei välttämättä tarvi matkustaa vaan valitaan seuraava mahdollinen hyökkäyskohde klikkaamalla sitä.
+
+Pelaajalla on käytössään robotteja(aluksi vain yksi) jotka lähettämällä hyökkäykseen vallataan alueita, saadaan resursseja, löydetään uusien parempien aseiden blueprinttejä ym.
+
+pelaajalla on oma homebase(UI käyttöliittymä) johon ei voi hyökätä. homebasessa valitaan hyökättävä kohde, hyökkäykseen käytettävät robotit(korkeintaan 4 per missio), valitaan roboteille aseet ja tavarat, rakennetaan aseita, kehitetään robotteja, korjataan robotteja, tilataan uusia robotteja tuhoutuneiden tilalle(jos pelaaja menettää kokonaan missionissa tuhoutuneen robotin).
+
+Mission tilassa peli on reaaliaikainen. mobiilista johtuen robotit ampuvat itsestään(jokaiseen aseeseen on määritelty tulinopeus) edessään näkemät viholliset ellei toisin käsketä. Myös hiippailu ona mahdollista. Aseiden panokset simuloidaan ja osumakohdat tarkastetaan. pelaajan tehtävänä on robottien liikuttaminen valitsemalla robotti ja klikattava aluetta joho robotti liikkuu. Pelaaja suorittaa UIn avulla myös kaikki erikoistoiminnot. Robotit näkevät vain eteensä ja pelaaja näkee vain ne viholliset jotka hänen robottinsa näkevät. 
+Missionin kartat ovat monireittisiä ja viholliset hyvin liikkuvia joten omaa selustaakin on turvattava. Robotit kääntyvät itsestään hitaasti jos ne ottavat osumaa. robottien hyvällä asettelulla päästään kuitenkin parempaan tulokseen kun robotit ovat valmiita ampumaan oikeaan suuntaan.
+
+Roboteilla voi olla erilaisia ominaisuuksia. toiset näkevät pitemmälle/laajemmalle, toiset ovat kestävämpiä, toiset nopeampia, toiset parempia osumaan tietyllä aseella jne.
+
+yleisimpiä ui elementtejä kuten healthbareja ei ole vaan kaikki pelaajan informoiminen tapahtuu ruudun ylälaidassa kulkevalla tekstipohjaisella englanninkielisellä selostuksella(optio ääniselostukseen jos on aikaa).  
+
+Roboteista johtuen hahmojen ja maailman graafinen ulkoasu on hyvin vapaa, eikä sen tarvi pohjautua realismiin.
+
+
+Työstettävät osa-alueet
+
+Audio:
+musiikit
+efektit
+
+alkuvalikko:
+UI koodi
+grafiikat
+
+maailmankartta:
+grafiikat
+tilemap
+hyökättävien paikkojen valitseminen, paikkojen unlockkaus lähialueilta.
+
+missionit:
+grafiikat, modelit
+tilemapit
+robottien animointi
+reitinhaku
+vihun AI(liikkuminen, pelaajan robottien havaitseminen , ampuminen, hälytys jne)
+vihun animointi
+aseiden simulointi, aseiden osumien randomisointi tarkkuussimulaatiolla
+damagen oton ja healthin laskeminen
+eri osumakohtia roboteissa? vaikka osumakohtia voisi tuhota ja aseita disabloida niin sitä ei tarvitse näyttää graafisesti, ase ei vaan enää ammu ja selostukseen lähetetään tieto)
+
+reward scene tai UI paneeli
+grafiikat
+mitä resursseja, tavaroita, aseiden blueprinttejä saatiin edellisestä missionista 
+
+homebase:
+grafiikat, modelit
+UI koodi
+robottien valitseminen tehtävään
+uusien robottien tilaaminen
+aseiden ja laitteiden asettaminen robotteihin
+aseiden osto/kehitys
+robottien kehittäminen kokemuspisteillä?
+
+
+
+
+
+Selostusmanageri
+robotit lähettävät tietoa managerille
+kolme eri prioriteettia: korkea(esim vihollinen nähty), keskitaso(minulla on tämän verran hpeeta jäljellä), alhainen(vitsit, robottien tuumailut ym, managerin itsensä höpöttämät yleismaailmalliset asiat)
+manageri hoitaa selostuksen niin että korkeamman prioriteetin selustukset menevät alhaisempia edelle jonossa. Tuoreempi vastaavanlainen tieto samasta kohteesta myös korvaa vanhemman joka ei ole vielä mennyt esitettäväksi.  
+
+
+
+Peliä ei tarvitse saada valmiiksi eikä sen tarvitse olla pelillisesti järkevä tai haasteellinen kunhan meillä on jotain teknisesti hienoa näytettävää joka kääntyy ja pyörii mobiililla. Toki olisi kiva jos peliä olisi myös mukava pelata. Kaikille ainakin riittä hommaa.
