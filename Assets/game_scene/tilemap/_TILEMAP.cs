@@ -44,6 +44,7 @@ public class _TILEMAP : MonoBehaviour
 	private float[] object_x = new float[MAX_NUMBER_OF_OBJECTS];
 	private float[] object_y = new float[MAX_NUMBER_OF_OBJECTS];
 	private float[] object_radius = new float[MAX_NUMBER_OF_OBJECTS];
+	private int player_id = -1;
 
 										// pushable objects:
 	private const int MAX_NUMBER_OF_PUSHABLES = 100;
@@ -143,6 +144,22 @@ public class _TILEMAP : MonoBehaviour
 		}
 		return -1; // the object list is full, return illegal id.
 	}
+
+
+
+	public void set_player_id(int id)
+	{
+		player_id = id;
+	}
+
+
+
+	public void get_player_information(ref float x, ref float y, ref float radius)		//
+	{																					//
+		x = object_x[player_id];														//
+		y = object_y[player_id];														//
+		radius = object_radius[player_id];												//
+	}																					//
 
 
 

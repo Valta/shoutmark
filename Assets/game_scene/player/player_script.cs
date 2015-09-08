@@ -24,6 +24,7 @@ public class player_script : MonoBehaviour
 		gamecamera = GameObject.Find("Main Camera").GetComponent<camera_script>();
 		
 		id = tilemap.add_to_object_list(x, y, PLAYER_RADIUS);
+		tilemap.set_player_id(id);
 		gamecamera.set_camera_target(x, y, true);
 	}
 
