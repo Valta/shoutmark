@@ -10,7 +10,8 @@ public class radar_script : MonoBehaviour
 	private float direction = 45.0f;
 	private Vector3[] line_end = new Vector3[NUMBER_OF_RAYS];
 	private bool[] max_distance_reached = new bool[NUMBER_OF_RAYS];
-
+	private bool[] player_detected = new bool[NUMBER_OF_RAYS];
+	
 	private LineRenderer[] lines = new LineRenderer[NUMBER_OF_RAYS + 1];
 
 
@@ -20,12 +21,11 @@ public class radar_script : MonoBehaviour
 		
 		for (int a = 0; a < NUMBER_OF_RAYS + 1; a++)
 		{
-			
 			GameObject line = (GameObject)Instantiate(radar_line, new Vector3(0.0f, 0.0f, 0.0f), Quaternion.identity);
 			line.transform.SetParent(transform);
 			lines[a] = line.GetComponent<LineRenderer>();
-			lines[a].SetPosition(0, new Vector3(0.0f, 0.0f, 0.0f));
-			lines[a].SetPosition(1, new Vector3(0.0f, 0.0f, 0.0f));
+			lines[a].SetPosition(0, new Vector3(0.0f, 0.0f, 0.5f));
+			lines[a].SetPosition(1, new Vector3(0.0f, 0.0f, 0.8f));
 		}
 	}
 
@@ -43,23 +43,34 @@ public class radar_script : MonoBehaviour
 	private void raycast_radar(float center_x, float center_y, float direction, float length, float width_in_degrees)
 	{
 		float HEIGHT = 0.8f;
-		bool player_detected = false;
+		//bool player_detected = false;
+		for (int a = 0; a < NUMBER_OF_RAYS; a++) player_detected[a] = false;
 		
-		shoot_rays(center_x, center_y, direction, length, width_in_degrees, HEIGHT, ref player_detected);
+		//shoot_rays(center_x, center_y, direction, length, width_in_degrees, HEIGHT, ref player_detected);
+		shoot_rays(center_x, center_y, direction, length, width_in_degrees, HEIGHT, player_detected);
 		smooth_radar_edges();
 		set_line_positions(center_x, center_y, HEIGHT);
 		
+		/*
 		if (player_detected)
-			set_line_colors(new Color(1, 0, 0));
+			set_line_colors(new Color(1.0f, 0.0f, 0.0f, 0.9f));
 		else
-			set_line_colors(new Color(0, 0.5f, 0));
-		
+			set_line_colors(new Color(0.0f, 1.0f, 0.0f, 0.9f));
+		*/
+		set_line_colors(new Color(0.0f, 1.0f, 0.0f, 1.0f));
 	}
 
 
 
-	private void shoot_rays(float center_x, float center_y, float center_direction, float max_length, float width_in_degrees, float height, ref bool player_detected)
-	{
+	private void shoot_rays(float center_x,
+							float center_y,
+							float center_direction,
+							float max_length,
+							float width_in_degrees,
+							float height,
+							//ref bool player_detected)
+							bool[] player_detected)
+		{
 		float STEP = 0.1f;
 		int MAX_STEPS = (int)(max_length / STEP);
 		
@@ -101,12 +112,13 @@ public class radar_script : MonoBehaviour
 					}
 				}
 				if (x > player_x - player_radius && x < player_x + player_radius &&
-				    y > player_y - player_radius && y < player_y + player_radius)
+					y > player_y - player_radius && y < player_y + player_radius)
 				{
 					x -= step_x ;		// one step back.
 					y -= step_y ;		//
 					raycasting = false;
-					player_detected = true;
+					//player_detected = true;
+					player_detected[a] = true;
 				}
 				if (steps > MAX_STEPS)
 				{
@@ -144,6 +156,7 @@ public class radar_script : MonoBehaviour
 
 	private void set_line_positions(float center_x, float center_y, float height)
 	{
+		/*
 		for (int a = 0; a < NUMBER_OF_RAYS + 1; a++)
 		{
 			if (a == 0)
@@ -156,15 +169,25 @@ public class radar_script : MonoBehaviour
 			else
 				lines[a].SetPosition(1, line_end[a]);
 		}
+		*/
+		for (int a = 0; a < NUMBER_OF_RAYS; a++)
+		{
+			lines[a].SetPosition(0, new Vector3(center_x, height, center_y));
+			lines[a].SetPosition(1, line_end[a]);
+		}
+		
 	}
 
 
 
 	private void set_line_colors(Color color)
 	{
-		for (int a = 0; a < NUMBER_OF_RAYS + 1; a++)
+		for (int a = 0; a < NUMBER_OF_RAYS + 0; a++)
 		{
-			lines[a].material.color = color;
+			if (player_detected[a])
+				lines[a].material.color = new Color(1.0f, 0.0f, 0.0f, 1.0f);
+			else
+				lines[a].material.color = new Color(color.r, color.g, color.b, color.a * a / NUMBER_OF_RAYS);
 		}
 	}
 	
