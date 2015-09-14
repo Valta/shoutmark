@@ -1,5 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
+using UnityEngine.UI;
+
 
 
 public class ui_test : MonoBehaviour
@@ -9,11 +11,12 @@ public class ui_test : MonoBehaviour
 	private float x = 0.0f;
 	private float y = 0.0f;
 
-	private const int MAX_NUMBER_OF_LETTERS = 10;
+	private const int MAX_NUMBER_OF_LETTERS = 256;
 	private RectTransform[] letter = new RectTransform[MAX_NUMBER_OF_LETTERS];
-
-
-
+	private RawImage[] letter_uv = new RawImage[MAX_NUMBER_OF_LETTERS];
+	
+	private Rect[] letter_rectangle = new Rect[256];
+	
 	private float screen_width = 0.0f;
 	private float screen_height = 0.0f;
 	private float letter_size = 0.0f;
@@ -25,18 +28,24 @@ public class ui_test : MonoBehaviour
 	void Start()
 	{
 		get_screen_size();
+		calculate_letter_rectangles();
 		
 		test = GameObject.Find("Canvas").transform.FindChild("RawImage").GetComponent<RectTransform>();
 		
-		Transform canvas = GameObject.Find("Canvas").transform;
+		Transform canvas = GameObject.Find("Canvas").transform.FindChild("message_texts");
 		for (int a = 0; a < MAX_NUMBER_OF_LETTERS; a++)
 		{
 			GameObject new_letter = (GameObject)Instantiate(test_piece, new Vector3(0.0f, 0.0f, 0.0f), Quaternion.identity);
 			new_letter.transform.SetParent(canvas);
 			letter[a] = new_letter.GetComponent<RectTransform>();
 			letter[a].localScale = new Vector3(1.0f, 1.0f, 1.0f);
-			letter[a].anchoredPosition = new Vector2(screen_left + (a % 3) * letter_size, screen_top - (int)(a / 3) * letter_size);
+			int temp = 16;
+			letter[a].anchoredPosition = new Vector2(screen_left + (a % temp+1) * letter_size*1.1f, screen_top - ((int)(a / temp)+1) * letter_size*1.1f);
 			letter[a].sizeDelta = new Vector2(letter_size, letter_size);
+			
+			letter_uv[a] = new_letter.GetComponent<RawImage>();
+			letter_uv[a].uvRect = letter_rectangle[a];
+			Debug.Log("a= "+a+" rect="+letter_rectangle[a]);
 		}
 		
 		/*
@@ -56,9 +65,26 @@ public class ui_test : MonoBehaviour
 	{
 		screen_width = Screen.width;
 		screen_height = Screen.height;
-		letter_size = screen_height * 0.1f;
+		letter_size = screen_height * 0.2f;
 		screen_top = screen_height * 0.5f;
 		screen_left = -screen_width * 0.5f;
+	}
+
+
+
+	private void calculate_letter_rectangles()
+	{
+		float indent = 0.0005f;
+		for (int x = 0; x < 16; x++)
+		{
+			for (int y = 0; y < 16; y++)
+			{
+				letter_rectangle[(15 - y) * 16 + x] = new Rect(	x / 16.0f + indent,
+																y / 16.0f + indent,
+																1.0f / 16.0f - 2.0f * indent,
+																1.0f / 16.0f - 2.0f * indent);
+			}
+		}
 	}
 
 
