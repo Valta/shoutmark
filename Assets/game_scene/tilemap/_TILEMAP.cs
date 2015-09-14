@@ -71,7 +71,7 @@ public class _TILEMAP : MonoBehaviour
 
 	void Update()
 	{
-	
+		//COORDINATE_TEST();
 	}
 
 
@@ -254,4 +254,21 @@ public class _TILEMAP : MonoBehaviour
 		else
 			return TILE_BLOCK; // if coordinates are outside the level, return any non-movable wall tile.
 	}
+
+
+
+	private void COORDINATE_TEST()
+	{
+		if (Input.GetMouseButton(0))
+		{
+			float sw = Screen.width;
+			float sh = Screen.height;
+			float mx = Input.mousePosition.x;
+			float my = Input.mousePosition.y;
+			Debug.Log("x="+mx+"  y="+my);
+		}
+		
+	}
+	
+
 }
