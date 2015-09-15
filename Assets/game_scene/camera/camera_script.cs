@@ -24,6 +24,8 @@ public class camera_script : MonoBehaviour
 
 	private void apply_keyboard_input()
 	{
+				if (Input.GetKeyDown(KeyCode.Q)) PRINT.report("message abc ABC 123");
+		
 		bool write_info = false;
 		float speed = Time.deltaTime * 10.0f;
 		
