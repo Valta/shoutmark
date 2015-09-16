@@ -257,18 +257,5 @@ public class _TILEMAP : MonoBehaviour
 
 
 
-	private void COORDINATE_TEST()
-	{
-		if (Input.GetMouseButton(0))
-		{
-			float sw = Screen.width;
-			float sh = Screen.height;
-			float mx = Input.mousePosition.x;
-			float my = Input.mousePosition.y;
-			Debug.Log("x="+mx+"  y="+my);
-		}
-		
-	}
-	
 
 }

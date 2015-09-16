@@ -24,7 +24,8 @@ public class camera_script : MonoBehaviour
 
 	private void apply_keyboard_input()
 	{
-				if (Input.GetKeyDown(KeyCode.Q)) PRINT.report("message abc ABC 123");
+				if (Input.GetKeyDown(KeyCode.Q)) PRINT.report("MWmwABCD!#¤%&/()=?@${[]} \\\" +-*/ äåöÄÅÖ  '");
+				if (Input.GetKeyDown(KeyCode.W)) PRINT.report("?@${[]} \\\" +-*/ äåöÄÅÖ ABCDEabcde '");
 		
 		bool write_info = false;
 		float speed = Time.deltaTime * 10.0f;
