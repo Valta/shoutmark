@@ -15,7 +15,7 @@ public class _TILEMAP : MonoBehaviour
 	private int[,] map = new int[MAX_LEVEL_SIZE, MAX_LEVEL_SIZE];
 	private int level_width = 0;
 	private int level_height = 0;
-	private int current_level = 1;
+	private int current_level = 0;
 	private _LEVELS levels;
 	
 										// prefabs:
@@ -78,6 +78,10 @@ public class _TILEMAP : MonoBehaviour
 
 	public void instantiate_tilemap()
 	{
+		GameObject tilemap_parent_gameobject = (GameObject)Instantiate(new GameObject(), new Vector3(0.0f, 0.0f, 0.0f), Quaternion.identity);
+		Transform tilemap_parent = tilemap_parent_gameobject.transform;
+		tilemap_parent.name = "_TILEMAP_PARENT";
+		
 		for (int x = 0; x < level_width; x++)
 		{
 			for (int y = 0; y < level_height; y++)
@@ -87,43 +91,58 @@ public class _TILEMAP : MonoBehaviour
 				
 				if (map[x, y] == TILE_FLOOR)
 				{
-					GameObject.Instantiate(tile_floor, tile_position, tile_rotation);
+					GameObject floor = (GameObject)Instantiate(tile_floor, tile_position, tile_rotation);
+					floor.transform.SetParent(tilemap_parent);
 				}
 				if (map[x, y] == TILE_BLOCK)
 				{
-					GameObject.Instantiate(tile_floor, tile_position, tile_rotation);
-					GameObject.Instantiate(tile_block, tile_position, tile_rotation);
+					GameObject floor = (GameObject)Instantiate(tile_floor, tile_position, tile_rotation);
+					GameObject other = (GameObject)Instantiate(tile_block, tile_position, tile_rotation);
+					floor.transform.SetParent(tilemap_parent);
+					other.transform.SetParent(tilemap_parent);
 				}
 				if (map[x, y] == TILE_TRANSPARENTWALL)
 				{
-					GameObject.Instantiate(tile_floor, tile_position, tile_rotation);
-					GameObject.Instantiate(tile_transparentwall, tile_position, tile_rotation);
+					GameObject floor = (GameObject)Instantiate(tile_floor, tile_position, tile_rotation);
+					GameObject other = (GameObject)Instantiate(tile_transparentwall, tile_position, tile_rotation);
+					floor.transform.SetParent(tilemap_parent);
+					other.transform.SetParent(tilemap_parent);
 				}
 				if (map[x, y] == TILE_WIREFRAMESPRITE)
 				{
-					GameObject.Instantiate(tile_floor, tile_position, tile_rotation);
-					GameObject.Instantiate(tile_wireframesprite, tile_position, tile_rotation);
+					GameObject floor = (GameObject)Instantiate(tile_floor, tile_position, tile_rotation);
+					GameObject other = (GameObject)Instantiate(tile_wireframesprite, tile_position, tile_rotation);
+					floor.transform.SetParent(tilemap_parent);
+					other.transform.SetParent(tilemap_parent);
 				}
 				if (map[x, y] == TILE_TESTCUBE)
 				{
-					GameObject.Instantiate(tile_floor, tile_position, tile_rotation);
-					GameObject.Instantiate(tile_testcube, tile_position, tile_rotation);
+					GameObject floor = (GameObject)Instantiate(tile_floor, tile_position, tile_rotation);
+					GameObject other = (GameObject)Instantiate(tile_testcube, tile_position, tile_rotation);
+					floor.transform.SetParent(tilemap_parent);
+					other.transform.SetParent(tilemap_parent);
 				}
 				if (map[x, y] == TILE_PUSHABLE)
 				{
-					GameObject.Instantiate(tile_floor, tile_position, tile_rotation);
-					GameObject.Instantiate(tile_pushable, tile_position, tile_rotation);
+					GameObject floor = (GameObject)Instantiate(tile_floor, tile_position, tile_rotation);
+					GameObject other = (GameObject)Instantiate(tile_pushable, tile_position, tile_rotation);
+					floor.transform.SetParent(tilemap_parent);
+					other.transform.SetParent(tilemap_parent);
 				}
 				if (map[x, y] == START)
 				{
-					GameObject.Instantiate(tile_floor, tile_position, tile_rotation);
-					GameObject.Instantiate(player, tile_position, tile_rotation);
+					GameObject floor = (GameObject)Instantiate(tile_floor, tile_position, tile_rotation);
+					GameObject other = (GameObject)Instantiate(player, tile_position, tile_rotation);
+					floor.transform.SetParent(tilemap_parent);
+					other.transform.SetParent(tilemap_parent);
 					map[x, y] = TILE_FLOOR;
 				}
 				if (map[x, y] == ENEMY)
 				{
-					GameObject.Instantiate(tile_floor, tile_position, tile_rotation);
-					GameObject.Instantiate(enemy, tile_position, tile_rotation);
+					GameObject floor = (GameObject)Instantiate(tile_floor, tile_position, tile_rotation);
+					GameObject other = (GameObject)Instantiate(enemy, tile_position, tile_rotation);
+					floor.transform.SetParent(tilemap_parent);
+					other.transform.SetParent(tilemap_parent);
 					map[x, y] = TILE_FLOOR;
 				}
 			}
