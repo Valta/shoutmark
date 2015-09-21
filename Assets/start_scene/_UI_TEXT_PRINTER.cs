@@ -153,7 +153,7 @@ public class _UI_TEXT_PRINTER : MonoBehaviour
 			letter_check_index++;
 			if (letter_check_index >= MAX_NUMBER_OF_LETTERS) letter_check_index = 0;
 			
-			//Debug.Log("character "+text[a]+"  value="+(int)text[a]);
+			Debug.Log("character "+text[a]+"  value="+(int)text[a]);
 		}
 	}
 
