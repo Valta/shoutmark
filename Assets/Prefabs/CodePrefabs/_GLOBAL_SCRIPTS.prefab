@@ -13,7 +13,6 @@ GameObject:
   - 114: {fileID: 11461638}
   - 114: {fileID: 11497626}
   - 114: {fileID: 11412430}
-  - 114: {fileID: 11435518}
   m_Layer: 0
   m_Name: _GLOBAL_SCRIPTS
   m_TagString: Untagged
@@ -74,17 +73,6 @@ MonoBehaviour:
   tile_pushable: {fileID: 165472, guid: 954cb385d6139c744a6440281ec6bce3, type: 2}
   player: {fileID: 119714, guid: 4584322eab6cd194b9aef3b475151058, type: 2}
   enemy: {fileID: 176420, guid: 01e509c10d1974744b29cf820fa47b92, type: 2}
---- !u!114 &11435518
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 123962}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2920bbe931fdd88499c867d1c1c51393, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &11461638
 MonoBehaviour:
   m_ObjectHideFlags: 1

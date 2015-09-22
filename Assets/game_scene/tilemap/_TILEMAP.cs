@@ -57,15 +57,7 @@ public class _TILEMAP : MonoBehaviour
 
 	void Start()
 	{
-		levels = GameObject.Find("_GLOBAL_SCRIPTS").GetComponent<_LEVELS>();
-		/*
-		levels.load_level(	current_level,
-							ref level_width,
-							ref level_height,
-							map);
-		Debug.Log("w,h="+level_width+","+level_height);
-		instantiate_tilemap();
-		*/
+		levels = gameObject.GetComponent<_LEVELS>();
 	}
 
 
@@ -76,7 +68,25 @@ public class _TILEMAP : MonoBehaviour
 
 
 
-	public void instantiate_tilemap()
+				// public interface:
+
+	public int get_level() {return current_level;}
+
+	public void set_level(int level) {current_level = level;}
+
+	public void start_game()
+	{
+		levels.load_level(	current_level,
+							ref level_width,
+							ref level_height,
+							map);
+		Debug.Log("w,h="+level_width+","+level_height);
+		instantiate_tilemap();
+	}
+
+
+
+	private void instantiate_tilemap()
 	{
 		GameObject tilemap_parent_gameobject = (GameObject)Instantiate(new GameObject(), new Vector3(0.0f, 0.0f, 0.0f), Quaternion.identity);
 		Transform tilemap_parent = tilemap_parent_gameobject.transform;
