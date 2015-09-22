@@ -74,7 +74,6 @@ public class _TILEMAP : MonoBehaviour
 
 	void Update()
 	{
-		//COORDINATE_TEST();
         global_timer += Time.deltaTime;
 	}
 
@@ -136,17 +135,15 @@ public class _TILEMAP : MonoBehaviour
 				if (map[x, y] == START)
 				{
 					GameObject floor = (GameObject)Instantiate(tile_floor, tile_position, tile_rotation);
-					GameObject other = (GameObject)Instantiate(player, tile_position, tile_rotation);
+					GameObject.Instantiate(player, tile_position, tile_rotation);
 					floor.transform.SetParent(tilemap_parent);
-					other.transform.SetParent(tilemap_parent);
 					map[x, y] = TILE_FLOOR;
 				}
 				if (map[x, y] == ENEMY)
 				{
 					GameObject floor = (GameObject)Instantiate(tile_floor, tile_position, tile_rotation);
-					GameObject other = (GameObject)Instantiate(enemy, tile_position, tile_rotation);
+					GameObject.Instantiate(enemy, tile_position, tile_rotation);
 					floor.transform.SetParent(tilemap_parent);
-					other.transform.SetParent(tilemap_parent);
 					map[x, y] = TILE_FLOOR;
 				}
 			}
