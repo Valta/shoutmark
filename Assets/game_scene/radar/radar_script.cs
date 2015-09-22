@@ -62,6 +62,7 @@ public class radar_script : MonoBehaviour
 	{
 		float HEIGHT = 0.8f;
 		
+		player_detected = false;
 		shoot_rays(center_x, center_y, direction, length, width_in_degrees, HEIGHT);
 		smooth_radar_edges();
 		set_line_positions(center_x, center_y, HEIGHT);
