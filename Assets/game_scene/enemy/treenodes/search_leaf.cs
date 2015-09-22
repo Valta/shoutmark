@@ -1,10 +1,10 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class chase_leaf : GeneralNode {
+public class search_leaf : GeneralNode {
 
     // constructor for setup (not relying on Unity's Start or Awake)
-    public chase_leaf(treeroot_script world_status, enemy_script this_actor)
+    public search_leaf(treeroot_script world_status, enemy_script this_actor)
     {
         status = world_status;
         actor = this_actor;
@@ -18,22 +18,25 @@ public class chase_leaf : GeneralNode {
     public override void Close()
     {
         open = false;
+        curState = State.SUCCESS;
     }
     public override void StartAction()
     {
         // do smth at state beginning
-        // set move direction   
-        //Debug.Log("chase");
+        curState = State.RUNNING;
+        // set destination to last player position
     }
     public override void EndAction()
     {
         // do smth at state end
         curState = State.SUCCESS;
+        status.searching = false;
     }
     public override State Tick()
     {
         if (CheckConditions())
-        {            
+        {
+            Debug.Log("search");
             curState = State.SUCCESS;
             StartAction();
         }
@@ -42,7 +45,8 @@ public class chase_leaf : GeneralNode {
     }
     public bool CheckConditions()
     {
-        if (status.player_sighted && !status.player_in_range)
+        // player is out of sight AND last known position is not reached
+        if (!status.player_sighted && status.searching)
             return true;
         return false;
     }

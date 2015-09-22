@@ -4,38 +4,36 @@ using System.Collections.Generic;
 
 public class idle_selector : GeneralNode
 {
-     
-    public State curState = State.SUCCESS; // init as success bc all is possible
-    treeroot_script status;
     List<GeneralNode> children;
 
     // constructor for setup (not relying on Unity's Start or Awake)
-    public idle_selector(treeroot_script world_status)
+    public idle_selector(treeroot_script world_status, enemy_script this_actor)
     {
         status = world_status;
+        actor = this_actor;
         children = new List<GeneralNode>();
-        children.Add(new gossip_leaf(world_status));
-        children.Add(new idle_leaf(world_status));
-        
+        children.Add(new gossip_leaf(world_status, this_actor));
+        children.Add(new idle_leaf(world_status, this_actor));
+        curState = State.SUCCESS;
     }
     // presumably we need these. Use when found out where.
-    public void Open()
+    public override void Open()
     {
-       
+        open = true;
     }
-    public void Close()
+    public override void Close()
     {
-        
+        open = false;
     }
-    public void StartAction()
+    public override void StartAction()
     {
         // do smth at state beginning
         // start moving in random direction here / roaming coroutine?
-        curState = State.RUNNING;
-        //info.ChangeText("idling...");
+        // curState = State.RUNNING;
+        status.searching = false;
 
     }
-    public void EndAction()
+    public override void EndAction()
     {
         // do smth at state end
         // call from parent node if priority node returns success?
@@ -43,10 +41,20 @@ public class idle_selector : GeneralNode
     }
     public override State Tick()
     {
-        curState = RunChild(0);
-        if (curState == State.FAILURE)
-            curState = RunChild(1);
-            // only another node can interfere.
+        for (int i = 0; i < children.Count; ++i)
+        {
+            children[i].Open();
+            curState = children[i].Tick();
+            if (curState != State.FAILURE)
+            {
+                foreach (GeneralNode g in children)
+                {
+                    if (children[i] != g)
+                        g.Close();
+                }
+                return curState;
+            }
+        }
         
         return curState;
     }
@@ -59,5 +67,5 @@ public class idle_selector : GeneralNode
     {
         return children[i].Tick();
     }
-
+    
 }

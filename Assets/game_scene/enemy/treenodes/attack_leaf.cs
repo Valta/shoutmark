@@ -3,37 +3,35 @@ using System.Collections;
 
 public class attack_leaf : GeneralNode {
 
-    public State curState = State.FAILURE; // init as success bc all is possible
-    treeroot_script status;
-    
     float animationtimer;
     float cooldowntimer;
     bool hasAttacked = false;
     // constructor for setup (not relying on Unity's Start or Awake)
-    public attack_leaf(treeroot_script world_status)
+    public attack_leaf(treeroot_script world_status, enemy_script this_actor)
     {
         status = world_status;
-        
+        actor = this_actor;
+        curState = State.FAILURE;
     }
     // presumably we need these. Use when found out where.
-    public void Open()
+    public override void Open()
     {
-        
+        open = true;
     }
-    public void Close()
+    public override void Close()
     {
-        
+        open = false;
     }
-    public void StartAction()
+    public override void StartAction()
     {
         // do smth at state beginning
         curState = State.RUNNING;
         animationtimer = 1;
         cooldowntimer = 2;
         hasAttacked = false;
-        //info.ChangeText("Attacking...");
+        
     }
-    public void EndAction()
+    public override void EndAction()
     {
 
     }
@@ -42,6 +40,7 @@ public class attack_leaf : GeneralNode {
         
         if (CheckConditions())
         {
+            Debug.Log("fight");
             if (curState != State.RUNNING)
             {
                 StartAction();

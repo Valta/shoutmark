@@ -27,11 +27,11 @@ public class treeroot_script : MonoBehaviour {
     public float last_gossip;
 
     void Start()
-    {
-        rootnode = new main_selector(this);
+    {        
         radar = this.gameObject.GetComponent<radar_script>();
         friends_last_seen = new List<Vector3>();
-        actor = this.gameObject.GetComponent<enemy_script>();        
+        actor = this.gameObject.GetComponent<enemy_script>();
+        rootnode = new main_selector(this, actor);
     }
 
     void Update()
@@ -62,7 +62,7 @@ public class treeroot_script : MonoBehaviour {
                    closest_friend = v;               
            }
         }
-
+        player_sighted = radar.seeing_player();        
         player_last_seen = radar.last_player_position();
         player_in_range = Vector3.Distance(_position, player_last_seen) < ATTACK_RANGE;
 

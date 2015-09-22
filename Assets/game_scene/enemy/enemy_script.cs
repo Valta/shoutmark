@@ -18,7 +18,8 @@ public class enemy_script : MonoBehaviour
 	private float speed_y = 0.0f;
 	private int id = -1;
 
-
+    private bool roaming;
+    public void SetRoaming(bool is_roaming) { roaming = is_roaming; }
 
 	void Start()
 	{
@@ -38,8 +39,9 @@ public class enemy_script : MonoBehaviour
 	{
 		dt =Time.deltaTime;
 		
-		apply_numpad_input();
-		//apply_ai();
+		//apply_numpad_input();
+		if (roaming)
+            apply_ai();
 		
 		move_enemy();
 		rotate_model();
