@@ -150,7 +150,7 @@ public class enemy_script : MonoBehaviour
 
 	private void scroll_texture()
 	{
-		int step = (int)Mathf.Abs((int)(Time.realtimeSinceStartup * TEXTURE_SPEED + id * 0.5f) % 36 - 12);
+		int step = (int)Mathf.Abs((int)(_TIMER.time() * TEXTURE_SPEED + id * 0.5f) % 36 - 12);
 		model_material.SetTextureOffset("_MainTex", new Vector2(0.0f, step / 12.0f));
 	}
 

@@ -15,7 +15,7 @@ public class _TIMER : MonoBehaviour
 
 	void Update()
 	{
-		if (!game_paused)time_since_start += Time.deltaTime;
+		if (!game_paused) time_since_start += Time.deltaTime;
 	}
 
 

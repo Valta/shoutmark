@@ -61,9 +61,8 @@ public class radar_script : MonoBehaviour
 	private void raycast_radar(float center_x, float center_y, float direction, float length, float width_in_degrees)
 	{
 		float HEIGHT = 0.8f;
-		bool player_detected = false;
 		
-		shoot_rays(center_x, center_y, direction, length, width_in_degrees, HEIGHT, ref player_detected);
+		shoot_rays(center_x, center_y, direction, length, width_in_degrees, HEIGHT);
 		smooth_radar_edges();
 		set_line_positions(center_x, center_y, HEIGHT);
 		
@@ -81,8 +80,7 @@ public class radar_script : MonoBehaviour
 							float center_direction,
 							float max_length,
 							float width_in_degrees,
-							float height,
-							ref bool player_detected)
+							float height)
 	{
 		float STEP = 0.1f;
 		int MAX_STEPS = (int)(max_length / STEP);

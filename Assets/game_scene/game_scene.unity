@@ -214,7 +214,6 @@ MonoBehaviour:
   m_SubmitButton: Submit
   m_CancelButton: Cancel
   m_InputActionsPerSecond: 10
-  m_RepeatDelay: .5
   m_AllowActivationOnMobileDevice: 0
 --- !u!114 &1051069684
 MonoBehaviour:
@@ -303,7 +302,6 @@ Camera:
   m_OcclusionCulling: 1
   m_StereoConvergence: 10
   m_StereoSeparation: .0219999999
-  m_StereoMirrorMode: 0
 --- !u!4 &1261632116
 Transform:
   m_ObjectHideFlags: 0
@@ -361,7 +359,7 @@ MeshRenderer:
   m_CastShadows: 1
   m_ReceiveShadows: 0
   m_Materials:
-  - {fileID: 2100000, guid: 90c7789f894723a47aeff0d8ea190fc6, type: 2}
+  - {fileID: 2100000, guid: d9f688f33df6cbc4b940b4eb2b4f1b95, type: 2}
   m_SubsetIndices: 
   m_StaticBatchRoot: {fileID: 0}
   m_UseLightProbes: 0
