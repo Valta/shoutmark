@@ -58,13 +58,14 @@ public class _TILEMAP : MonoBehaviour
 	void Start()
 	{
 		levels = GameObject.Find("_GLOBAL_SCRIPTS").GetComponent<_LEVELS>();
-		
+		/*
 		levels.load_level(	current_level,
 							ref level_width,
 							ref level_height,
 							map);
 		Debug.Log("w,h="+level_width+","+level_height);
 		instantiate_tilemap();
+		*/
 	}
 
 
