@@ -12,6 +12,7 @@ GameObject:
   - 114: {fileID: 11411098}
   - 114: {fileID: 11451628}
   - 114: {fileID: 11461638}
+  - 114: {fileID: 11469572}
   m_Layer: 0
   m_Name: _GLOBAL_SCRIPTS
   m_TagString: Untagged
@@ -69,10 +70,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 123962}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8e53a37edcc75c64d81185aa48702311, type: 3}
+  m_Script: {fileID: 11500000, guid: c83cae3f466607a4980bca756544585f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  test_piece: {fileID: 194508, guid: 4501d15d6fcbc2f4281f1b47031db0b9, type: 2}
+  letter_prefab: {fileID: 130740, guid: ce6eea0064130d84182548f91e9d22f1, type: 2}
 --- !u!114 &11461638
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -82,6 +83,17 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 2920bbe931fdd88499c867d1c1c51393, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &11469572
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 123962}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cc52923e2f12b3243877d5477c364d55, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1001 &100100000
