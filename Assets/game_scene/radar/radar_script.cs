@@ -3,17 +3,35 @@ using System.Collections;
 
 public class radar_script : MonoBehaviour
 {
+	private Vector3 last_detected_player_position;
+	private float direction = 45.0f;
+	private float radar_lenght = 3.0f;
+	private float radar_width = 45.0f;
+	private bool player_detected = false;
+	
 	private _TILEMAP tilemap;
 	public GameObject radar_line;
-    public Vector3 last_player_position;
-	
 	private const int NUMBER_OF_RAYS = 30;
-	private float direction = 45.0f;
 	private Vector3[] line_end = new Vector3[NUMBER_OF_RAYS];
 	private bool[] max_distance_reached = new bool[NUMBER_OF_RAYS];
-	private bool[] player_detected = new bool[NUMBER_OF_RAYS];
-	
+	//private bool[] player_detected = new bool[NUMBER_OF_RAYS];
 	private LineRenderer[] lines = new LineRenderer[NUMBER_OF_RAYS + 1];
+
+
+
+				// public interface:
+
+	public Vector3 last_player_position() {return last_detected_player_position;}
+
+	public void set_direction(float angle_in_degrees) {direction = angle_in_degrees;}
+
+	public void set_length(float length) {radar_lenght = length;}
+
+	public void set_width(float width) {radar_width = width;}
+
+	public bool seeing_player() {return player_detected;}
+
+
 
 
 	void Start()
@@ -35,8 +53,7 @@ public class radar_script : MonoBehaviour
 	void Update()
 	{
 		
-		raycast_radar(transform.position.x, transform.position.z, direction, 3.0f, 90.0f);
-		direction += Time.deltaTime * 90.0f;
+		raycast_radar(transform.position.x, transform.position.z, direction, radar_lenght, radar_width);
 	}
 
 
@@ -44,21 +61,17 @@ public class radar_script : MonoBehaviour
 	private void raycast_radar(float center_x, float center_y, float direction, float length, float width_in_degrees)
 	{
 		float HEIGHT = 0.8f;
-		//bool player_detected = false;
-		for (int a = 0; a < NUMBER_OF_RAYS; a++) player_detected[a] = false;
+		bool player_detected = false;
 		
-		//shoot_rays(center_x, center_y, direction, length, width_in_degrees, HEIGHT, ref player_detected);
-		shoot_rays(center_x, center_y, direction, length, width_in_degrees, HEIGHT, player_detected);
+		shoot_rays(center_x, center_y, direction, length, width_in_degrees, HEIGHT, ref player_detected);
 		smooth_radar_edges();
 		set_line_positions(center_x, center_y, HEIGHT);
 		
-		/*
+		
 		if (player_detected)
-			set_line_colors(new Color(1.0f, 0.0f, 0.0f, 0.9f));
+			set_line_colors(new Color(1.0f, 0.0f, 0.0f, 1.0f)); // red lines
 		else
-			set_line_colors(new Color(0.0f, 1.0f, 0.0f, 0.9f));
-		*/
-		set_line_colors(new Color(0.0f, 1.0f, 0.0f, 1.0f));
+			set_line_colors(new Color(0.0f, 1.0f, 0.0f, 1.0f)); // green lines
 	}
 
 
@@ -69,9 +82,9 @@ public class radar_script : MonoBehaviour
 							float max_length,
 							float width_in_degrees,
 							float height,
-							//ref bool player_detected)
-							bool[] player_detected)
-		{
+							ref bool player_detected)
+							//bool[] player_detected)
+	{
 		float STEP = 0.1f;
 		int MAX_STEPS = (int)(max_length / STEP);
 		
@@ -97,7 +110,8 @@ public class radar_script : MonoBehaviour
 			bool raycasting = true;
 			while (raycasting)
 			{
-				if (tilemap.get_tile((int)(x), (int)(-y)) == _TILEMAP.TILE_FLOOR)
+				if (tilemap.get_tile((int)(x + STEP * 0.5f), (int)(-y)) == _TILEMAP.TILE_FLOOR &&
+					tilemap.get_tile((int)(x - STEP * 0.5f), (int)(-y)) == _TILEMAP.TILE_FLOOR)
 				{
 					x += step_x;
 					y += step_y;
@@ -118,10 +132,9 @@ public class radar_script : MonoBehaviour
 					x -= step_x ;		// one step back.
 					y -= step_y ;		//
 					raycasting = false;
-					//player_detected = true;
-					player_detected[a] = true;
-                    last_player_position.x = player_x;
-                    last_player_position.y = player_y;
+					player_detected = true;
+					last_detected_player_position.x = player_x;
+					last_detected_player_position.y = player_y;
 				}
 				if (steps > MAX_STEPS)
 				{
@@ -137,7 +150,7 @@ public class radar_script : MonoBehaviour
 
 	private void smooth_radar_edges()
 	{
-		float SMOOTH_EDGE_DISTANCE = 0.06f;
+		float SMOOTH_EDGE_DISTANCE = 0.08f;
 		
 		for (int a = 0; a < NUMBER_OF_RAYS; a++)
 		{
@@ -159,7 +172,7 @@ public class radar_script : MonoBehaviour
 
 	private void set_line_positions(float center_x, float center_y, float height)
 	{
-		/*
+		
 		for (int a = 0; a < NUMBER_OF_RAYS + 1; a++)
 		{
 			if (a == 0)
@@ -172,12 +185,6 @@ public class radar_script : MonoBehaviour
 			else
 				lines[a].SetPosition(1, line_end[a]);
 		}
-		*/
-		for (int a = 0; a < NUMBER_OF_RAYS; a++)
-		{
-			lines[a].SetPosition(0, new Vector3(center_x, height, center_y));
-			lines[a].SetPosition(1, line_end[a]);
-		}
 		
 	}
 
@@ -185,16 +192,8 @@ public class radar_script : MonoBehaviour
 
 	private void set_line_colors(Color color)
 	{
-		for (int a = 0; a < NUMBER_OF_RAYS + 0; a++)
-		{
-			if (player_detected[a])
-				lines[a].material.color = new Color(1.0f, 0.0f, 0.0f, 1.0f);
-			else
-				lines[a].material.color = new Color(color.r, color.g, color.b, color.a * a / NUMBER_OF_RAYS);
-		}
+		for (int a = 0; a < NUMBER_OF_RAYS + 1; a++) lines[a].material.color =color;
 	}
-	
-
 
 
 }

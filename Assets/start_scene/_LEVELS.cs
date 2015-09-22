@@ -46,7 +46,7 @@ public class _LEVELS : MonoBehaviour
 				"Ts-----------T",
 				"T------t-----T",
 				"T------tB----T",
-				"T----------B-T",
+				"T--P-------B-T",
 				"T------t-----T",
 				"T--te--t-----T",
 				"T---ttt---e-BT",

@@ -63,7 +63,7 @@ public class treeroot_script : MonoBehaviour {
            }
         }
 
-        player_last_seen = radar.last_player_position;
+        player_last_seen = radar.last_player_position();
         player_in_range = Vector3.Distance(_position, player_last_seen) < ATTACK_RANGE;
 
         // 
