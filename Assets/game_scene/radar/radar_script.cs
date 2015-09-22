@@ -6,7 +6,7 @@ public class radar_script : MonoBehaviour
 	private Vector3 last_detected_player_position;
 	private float direction = 45.0f;
 	private float radar_lenght = 3.0f;
-	private float radar_width = 45.0f;
+	private float radar_width = 90.0f;
 	private bool player_detected = false;
 	
 	private _TILEMAP tilemap;
@@ -83,7 +83,6 @@ public class radar_script : MonoBehaviour
 							float width_in_degrees,
 							float height,
 							ref bool player_detected)
-							//bool[] player_detected)
 	{
 		float STEP = 0.1f;
 		int MAX_STEPS = (int)(max_length / STEP);
@@ -138,6 +137,8 @@ public class radar_script : MonoBehaviour
 				}
 				if (steps > MAX_STEPS)
 				{
+					x -= step_x * 2.0f ;		// one step back.
+					y -= step_y * 2.0f ;		//
 					raycasting = false;
 					max_distance_reached[a] = true;
 				}
@@ -160,10 +161,10 @@ public class radar_script : MonoBehaviour
 				float Y = Mathf.Floor(line_end[a].z);
 				float x = line_end[a].x - X;
 				float y = line_end[a].z - Y;
-				if (x > 0.0f && x < SMOOTH_EDGE_DISTANCE * 2.0f) line_end[a].x = X + SMOOTH_EDGE_DISTANCE;
-				if (y > 0.0f && y < SMOOTH_EDGE_DISTANCE * 2.0f) line_end[a].z = Y + SMOOTH_EDGE_DISTANCE;
-				if (x < 1.0f && x > 1.0f - SMOOTH_EDGE_DISTANCE * 2.0f) line_end[a].x = X + 1.0f - SMOOTH_EDGE_DISTANCE;
-				if (y < 1.0f && y > 1.0f - SMOOTH_EDGE_DISTANCE * 2.0f) line_end[a].z = Y + 1.0f - SMOOTH_EDGE_DISTANCE;
+				if (x >= 0.0f && x <= SMOOTH_EDGE_DISTANCE * 2.0f) line_end[a].x = X + SMOOTH_EDGE_DISTANCE;
+				if (y >= 0.0f && y <= SMOOTH_EDGE_DISTANCE * 2.0f) line_end[a].z = Y + SMOOTH_EDGE_DISTANCE;
+				if (x <= 1.0f && x >= 1.0f - SMOOTH_EDGE_DISTANCE * 2.0f) line_end[a].x = X + 1.0f - SMOOTH_EDGE_DISTANCE;
+				if (y <= 1.0f && y >= 1.0f - SMOOTH_EDGE_DISTANCE * 2.0f) line_end[a].z = Y + 1.0f - SMOOTH_EDGE_DISTANCE;
 			}
 		}
 	}
