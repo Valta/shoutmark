@@ -9,6 +9,8 @@ GameObject:
   m_Component:
   - 4: {fileID: 464100}
   - 114: {fileID: 11488782}
+  - 114: {fileID: 11418182}
+  - 114: {fileID: 11499816}
   m_Layer: 0
   m_Name: enemy
   m_TagString: Untagged
@@ -89,6 +91,19 @@ MeshFilter:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 190328}
   m_Mesh: {fileID: 10207, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &11418182
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 176420}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 618a0ea9848aa84479120caf6d5e76f4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  radar_line: {fileID: 174870, guid: ad8f8a132956fca41b1b69e2cd005924, type: 2}
+  last_player_position: {x: 0, y: 0, z: 0}
 --- !u!114 &11488782
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -100,6 +115,29 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0858b13d348fc8e4ab8d1f196820632b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &11499816
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 176420}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 78dac9fa2da51a44fb4be661840a1fd8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _position: {x: 0, y: 0, z: 0}
+  player_last_seen: {x: 0, y: 0, z: 0}
+  friends_last_seen: []
+  closest_friend: {x: 0, y: 0, z: 0}
+  player_sighted: 0
+  player_in_range: 0
+  friend_close: 0
+  can_attack: 1
+  will_talk: 0
+  searching: 0
+  last_attack: 0
+  last_gossip: 0
 --- !u!1001 &100100000
 Prefab:
   m_ObjectHideFlags: 1

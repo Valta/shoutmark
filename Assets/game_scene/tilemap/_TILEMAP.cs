@@ -11,6 +11,8 @@ using System.Collections;
 
 public class _TILEMAP : MonoBehaviour
 {
+    public static float global_timer;
+
 	private const int MAX_LEVEL_SIZE = 50;
 	private int[,] map = new int[MAX_LEVEL_SIZE, MAX_LEVEL_SIZE];
 	private int level_width = 0;
@@ -65,6 +67,7 @@ public class _TILEMAP : MonoBehaviour
 							map);
 		Debug.Log("w,h="+level_width+","+level_height);
 		instantiate_tilemap();
+        global_timer = 0;
 	}
 
 
@@ -72,6 +75,7 @@ public class _TILEMAP : MonoBehaviour
 	void Update()
 	{
 		//COORDINATE_TEST();
+        global_timer += Time.deltaTime;
 	}
 
 

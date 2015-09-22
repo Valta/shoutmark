@@ -5,6 +5,7 @@ public class radar_script : MonoBehaviour
 {
 	private _TILEMAP tilemap;
 	public GameObject radar_line;
+    public Vector3 last_player_position;
 	
 	private const int NUMBER_OF_RAYS = 30;
 	private float direction = 45.0f;
@@ -119,6 +120,8 @@ public class radar_script : MonoBehaviour
 					raycasting = false;
 					//player_detected = true;
 					player_detected[a] = true;
+                    last_player_position.x = player_x;
+                    last_player_position.y = player_y;
 				}
 				if (steps > MAX_STEPS)
 				{
