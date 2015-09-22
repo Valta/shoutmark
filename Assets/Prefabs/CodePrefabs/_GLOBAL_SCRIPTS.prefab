@@ -71,6 +71,7 @@ MonoBehaviour:
   tile_wireframesprite: {fileID: 145836, guid: 26c16bad39df2e649abd122f9b624176, type: 2}
   tile_testcube: {fileID: 108772, guid: 5a7a68fb53499d04195f0b4b4078ef65, type: 2}
   tile_pushable: {fileID: 165472, guid: 954cb385d6139c744a6440281ec6bce3, type: 2}
+  tile_goal: {fileID: 154032, guid: 98b8e285fb88ac946bda2bcf81a3fa9c, type: 2}
   player: {fileID: 119714, guid: 4584322eab6cd194b9aef3b475151058, type: 2}
   enemy: {fileID: 176420, guid: 01e509c10d1974744b29cf820fa47b92, type: 2}
 --- !u!114 &11461638

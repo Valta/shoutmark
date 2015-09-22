@@ -23,11 +23,13 @@ public class _LEVELS : MonoBehaviour
 			for (int y = 0; y < level_height; y++)
 			{
 				map[x, y] = _TILEMAP.TILE_FLOOR;
+				if (data[y][x] == ' ') map[x, y] = _TILEMAP.TILE_START_AREA;
 				if (data[y][x] == 'B') map[x, y] = _TILEMAP.TILE_BLOCK;
 				if (data[y][x] == 'T') map[x, y] = _TILEMAP.TILE_TRANSPARENTWALL;
 				if (data[y][x] == 'W') map[x, y] = _TILEMAP.TILE_WIREFRAMESPRITE;
 				if (data[y][x] == 't') map[x, y] = _TILEMAP.TILE_TESTCUBE;
 				if (data[y][x] == 'P') map[x, y] = _TILEMAP.TILE_PUSHABLE;
+				if (data[y][x] == 'G') map[x, y] = _TILEMAP.TILE_GOAL;
 				if (data[y][x] == 's') map[x, y] = _TILEMAP.START;
 				if (data[y][x] == 'e') map[x, y] = _TILEMAP.ENEMY;
 			}
@@ -43,14 +45,16 @@ public class _LEVELS : MonoBehaviour
 			string[] level =
 			{
 				"TTTTTTTTTTTTTT",
-				"Ts-----------T",
-				"T------t-----T",
-				"T------tB----T",
-				"T--P-------B-T",
-				"T------t-----T",
-				"T--te--t-----T",
-				"T---ttt---e-BT",
 				"T------------T",
+				"T---------G--T",
+				"Tt---TTTT----T",
+				"T-------t----T",
+				"T-------tt---T",
+				"TTTTTt---te--T",
+				"T    t---t---T",
+				"Ts   t---t---T",
+				"T    --G-----T",
+				"T    --------T",
 				"TTTTTTTTTTTTTT"
 			};
 			return level;

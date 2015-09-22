@@ -18,25 +18,33 @@ public class _TILEMAP : MonoBehaviour
 	private int current_level = 0;
 	private _LEVELS levels;
 	
+										// counters:
+	public int total_goal_blocks = 0;
+	public int goal_blocks = 0;
+	
 										// prefabs:
 	public GameObject tile_floor;
+	public GameObject tile_start_area;
 	public GameObject tile_block;
 	public GameObject tile_transparentwall;
 	public GameObject tile_wireframesprite;
 	public GameObject tile_testcube;
 	public GameObject tile_pushable;
+	public GameObject tile_goal;
 	public GameObject player;
 	public GameObject enemy;
 	
 										// map[,] array values:
 	public const int TILE_FLOOR = 0;
-	public const int TILE_BLOCK = 1;
-	public const int TILE_TRANSPARENTWALL = 2;
-	public const int TILE_WIREFRAMESPRITE = 3;
-	public const int TILE_TESTCUBE = 4;
-	public const int TILE_PUSHABLE = 5;
-	public const int START = 6;
-	public const int ENEMY = 7;
+	public const int TILE_START_AREA = 1;
+	public const int TILE_BLOCK = 2;
+	public const int TILE_TRANSPARENTWALL = 3;
+	public const int TILE_WIREFRAMESPRITE = 4;
+	public const int TILE_TESTCUBE = 5;
+	public const int TILE_PUSHABLE = 6;
+	public const int TILE_GOAL = 7;
+	public const int START = 8;
+	public const int ENEMY = 9;
 	
 										// moving objects:
 	private const int MAX_NUMBER_OF_OBJECTS = 100;
@@ -49,9 +57,10 @@ public class _TILEMAP : MonoBehaviour
 										// pushable objects:
 	private const int MAX_NUMBER_OF_PUSHABLES = 100;
 	private int number_of_pushables = 0;
-	private int[] pushable_x = new int[MAX_NUMBER_OF_OBJECTS];
-	private int[] pushable_y = new int[MAX_NUMBER_OF_OBJECTS];
-	private pushable_tile_script[] pushable_script = new pushable_tile_script[MAX_NUMBER_OF_OBJECTS];
+	private int[] pushable_x = new int[MAX_NUMBER_OF_PUSHABLES];
+	private int[] pushable_y = new int[MAX_NUMBER_OF_PUSHABLES];
+	private int[] pushable_tile_type = new int[MAX_NUMBER_OF_PUSHABLES];
+	private pushable_tile_script[] pushable_script = new pushable_tile_script[MAX_NUMBER_OF_PUSHABLES];
 
 
 
@@ -64,6 +73,12 @@ public class _TILEMAP : MonoBehaviour
 
 	void Update()
 	{
+		//Debug.Log("goal blocks="+goal_blocks);
+		if (goal_blocks == total_goal_blocks)
+		{
+			goal_blocks = 0;
+			PRINT.report("LEVEL CLEAR!");
+		}
 	}
 
 
@@ -80,8 +95,10 @@ public class _TILEMAP : MonoBehaviour
 							ref level_width,
 							ref level_height,
 							map);
-		Debug.Log("w,h="+level_width+","+level_height);
+		total_goal_blocks = 0;
+		goal_blocks = 0;
 		instantiate_tilemap();
+		PRINT.report("FIND " + total_goal_blocks + " GOAL BLOCKS.");
 	}
 
 
@@ -102,6 +119,11 @@ public class _TILEMAP : MonoBehaviour
 				if (map[x, y] == TILE_FLOOR)
 				{
 					GameObject floor = (GameObject)Instantiate(tile_floor, tile_position, tile_rotation);
+					floor.transform.SetParent(tilemap_parent);
+				}
+				if (map[x, y] == TILE_START_AREA)
+				{
+					GameObject floor = (GameObject)Instantiate(tile_start_area, tile_position, tile_rotation);
 					floor.transform.SetParent(tilemap_parent);
 				}
 				if (map[x, y] == TILE_BLOCK)
@@ -139,9 +161,17 @@ public class _TILEMAP : MonoBehaviour
 					floor.transform.SetParent(tilemap_parent);
 					other.transform.SetParent(tilemap_parent);
 				}
-				if (map[x, y] == START)
+				if (map[x, y] == TILE_GOAL)
 				{
 					GameObject floor = (GameObject)Instantiate(tile_floor, tile_position, tile_rotation);
+					GameObject other = (GameObject)Instantiate(tile_goal, tile_position, tile_rotation);
+					floor.transform.SetParent(tilemap_parent);
+					other.transform.SetParent(tilemap_parent);
+					total_goal_blocks++;
+				}
+				if (map[x, y] == START)
+				{
+					GameObject floor = (GameObject)Instantiate(tile_start_area, tile_position, tile_rotation);
 					GameObject.Instantiate(player, tile_position, tile_rotation);
 					floor.transform.SetParent(tilemap_parent);
 					map[x, y] = TILE_FLOOR;
@@ -198,12 +228,13 @@ public class _TILEMAP : MonoBehaviour
 
 
 
-	public int add_to_pushable_list(int x, int y, pushable_tile_script script)
+	public int add_to_pushable_list(int x, int y, int type, pushable_tile_script script)
 	{
 		if (number_of_pushables < MAX_NUMBER_OF_PUSHABLES)
 		{
 			pushable_x[number_of_pushables] = x;
 			pushable_y[number_of_pushables] = y;
+			pushable_tile_type[number_of_pushables] = type;
 			pushable_script[number_of_pushables] = script;
 			number_of_pushables++;
 			return (number_of_pushables - 1); // return the id for the pushable tile.
@@ -250,7 +281,9 @@ public class _TILEMAP : MonoBehaviour
 				y < object_y[a] + object_radius[a]) return false;		//
 		}																//
 		
-		if (map[xx, yy] == TILE_FLOOR) return true; // free tile?
+		if (map[xx, yy] == TILE_FLOOR ||
+			map[xx, yy] == TILE_START_AREA)
+			return true; // free tile?
 		
 		return false; // something else is on the way.
 	}
@@ -259,7 +292,7 @@ public class _TILEMAP : MonoBehaviour
 
 	public bool can_a_tile_be_pushed_here(int x, int y)
 	{
-		if (map[x, y] == TILE_FLOOR) return true; else return false;
+		if (map[x, y] == TILE_FLOOR || map[x, y] == TILE_START_AREA) return true; else return false;
 	}
 
 

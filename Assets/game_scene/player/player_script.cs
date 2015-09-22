@@ -111,7 +111,9 @@ public class player_script : MonoBehaviour
 		{
 			int tile_check_1 = tilemap.get_tile((int)(x - PUSH_RADIUS), (int)(-y - PUSH_DISTANCE));
 			int tile_check_2 = tilemap.get_tile((int)(x + PUSH_RADIUS), (int)(-y - PUSH_DISTANCE));
-			if (tile_check_1 == _TILEMAP.TILE_PUSHABLE && tile_check_2 == _TILEMAP.TILE_PUSHABLE)
+			if ((tile_check_1 == _TILEMAP.TILE_PUSHABLE ||
+				tile_check_1 == _TILEMAP.TILE_GOAL) &&
+				tile_check_2 == tile_check_1)
 			{
 				Debug.Log("pushing up");
 				pushable_tile_script pushable = tilemap.get_pushable_tile_script((int)x, (int)(-y - PUSH_DISTANCE));
@@ -124,7 +126,9 @@ public class player_script : MonoBehaviour
 		{
 			int tile_check_1 = tilemap.get_tile((int)(x - PUSH_RADIUS), (int)(-y + PUSH_DISTANCE));
 			int tile_check_2 = tilemap.get_tile((int)(x + PUSH_RADIUS), (int)(-y + PUSH_DISTANCE));
-			if (tile_check_1 == _TILEMAP.TILE_PUSHABLE && tile_check_2 == _TILEMAP.TILE_PUSHABLE)
+			if ((tile_check_1 == _TILEMAP.TILE_PUSHABLE ||
+				tile_check_1 == _TILEMAP.TILE_GOAL) &&
+				tile_check_2 == tile_check_1)
 			{
 				pushable_tile_script pushable = tilemap.get_pushable_tile_script((int)x, (int)(-y + PUSH_DISTANCE));
 				pushable.push_this_tile("DOWN");
@@ -136,7 +140,9 @@ public class player_script : MonoBehaviour
 		{
 			int tile_check_1 = tilemap.get_tile((int)(x - PUSH_DISTANCE), (int)(-y - PUSH_RADIUS));
 			int tile_check_2 = tilemap.get_tile((int)(x - PUSH_DISTANCE), (int)(-y + PUSH_RADIUS));
-			if (tile_check_1 == _TILEMAP.TILE_PUSHABLE && tile_check_2 == _TILEMAP.TILE_PUSHABLE)
+			if ((tile_check_1 == _TILEMAP.TILE_PUSHABLE ||
+				tile_check_1 == _TILEMAP.TILE_GOAL) &&
+				tile_check_2 == tile_check_1)
 			{
 				pushable_tile_script pushable = tilemap.get_pushable_tile_script((int)(x - PUSH_DISTANCE), (int)(-y));
 				pushable.push_this_tile("LEFT");
@@ -147,8 +153,11 @@ public class player_script : MonoBehaviour
 		{
 			int tile_check_1 = tilemap.get_tile((int)(x + PUSH_DISTANCE), (int)(-y - PUSH_RADIUS));
 			int tile_check_2 = tilemap.get_tile((int)(x + PUSH_DISTANCE), (int)(-y + PUSH_RADIUS));
-			if (tile_check_1 == _TILEMAP.TILE_PUSHABLE && tile_check_2 == _TILEMAP.TILE_PUSHABLE)
+			if ((tile_check_1 == _TILEMAP.TILE_PUSHABLE ||
+				tile_check_1 == _TILEMAP.TILE_GOAL) &&
+				tile_check_2 == tile_check_1)
 			{
+				Debug.Log("trying to push right. type="+tile_check_1);
 				pushable_tile_script pushable = tilemap.get_pushable_tile_script((int)(x + PUSH_DISTANCE), (int)(-y));
 				pushable.push_this_tile("RIGHT");
 			}

@@ -117,11 +117,10 @@ public class _UI_TEXT_PRINTER : MonoBehaviour
 	{
 		if (PRINT.ui_text_printer_get_message() != "")
 		{
-			display_text(PRINT.ui_text_printer_get_message(), -160, TEMP_text_y, 10,
-						new Color(Random.Range(0.0f, 1.0f), Random.Range(0.0f, 1.0f), Random.Range(0.0f, 1.0f)));
-			TEMP_text_y += 10;
+			display_text(PRINT.ui_text_printer_get_message(), -160, TEMP_text_y, 15,
+						new Color(Random.Range(0.5f, 1.0f), Random.Range(0.0f, 1.0f), Random.Range(0.5f, 1.0f)));
+			TEMP_text_y += 15;
 			if (TEMP_text_y > 90) TEMP_text_y -= 193;
-			Debug.Log("THERE IS MESSAGE:"+PRINT.ui_text_printer_get_message());
 			PRINT.ui_text_printer_clear_message();
 		}
 	}
@@ -146,14 +145,12 @@ public class _UI_TEXT_PRINTER : MonoBehaviour
 			letter_rawimage[letter_check_index].color = font_color;
 			
 			if (text[a] == 'M' || text[a] == 'm' || text[a] == 'W'|| text[a] == 'w')
-				next_letter_x += next_letter_size_x * 0.95f;
+				next_letter_x += next_letter_size_x * 1.0f;
 			else
-				next_letter_x += next_letter_size_x * 0.85f;
+				next_letter_x += next_letter_size_x * 0.9f;
 			
 			letter_check_index++;
 			if (letter_check_index >= MAX_NUMBER_OF_LETTERS) letter_check_index = 0;
-			
-			Debug.Log("character "+text[a]+"  value="+(int)text[a]);
 		}
 	}
 

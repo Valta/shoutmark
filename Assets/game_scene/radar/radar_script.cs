@@ -84,7 +84,7 @@ public class radar_script : MonoBehaviour
 							float height)
 	{
 		float STEP = 0.1f;
-		int MAX_STEPS = (int)(max_length / STEP);
+		int MAX_STEPS = (int)(max_length / STEP) + 2;
 		
 		float angle_resolution = width_in_degrees / (NUMBER_OF_RAYS - 1.0f);
 		center_direction = (int)(center_direction / angle_resolution) * angle_resolution;

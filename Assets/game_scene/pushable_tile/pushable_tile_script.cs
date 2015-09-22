@@ -5,10 +5,12 @@ public class pushable_tile_script : MonoBehaviour
 {
 	private _TILEMAP tilemap;
 	private int id = -1;
+	private int type = -1;
 	private Transform model;
 	
 	private int x = 0;
 	private int y = 0;
+	private int tile_under = _TILEMAP.TILE_FLOOR;
 	private float move_timer = 0.0f;
 	private float MOVE_TIME = 0.3f;
 	private string move_direction = "";
@@ -21,10 +23,19 @@ public class pushable_tile_script : MonoBehaviour
 	{
 		x = (int)transform.position.x;
 		y = (int)(-transform.position.z);
+		get_type_of_this_tile();
 		
 		tilemap = GameObject.Find("_GLOBAL_SCRIPTS").GetComponent<_TILEMAP>();
-		id = tilemap.add_to_pushable_list(x, y, gameObject.GetComponent<pushable_tile_script>());
+		id = tilemap.add_to_pushable_list(x, y, type, gameObject.GetComponent<pushable_tile_script>());
 		model = transform.FindChild("Cube");
+	}
+
+
+
+	private void get_type_of_this_tile()
+	{
+		if (transform.name == "tile_pushable(Clone)") type = _TILEMAP.TILE_PUSHABLE;
+		if (transform.name == "tile_goal(Clone)") type = _TILEMAP.TILE_GOAL;
 	}
 
 
@@ -124,6 +135,8 @@ public class pushable_tile_script : MonoBehaviour
 
 	public void push_this_tile(string direction)
 	{
+		int previous_tile_under = tile_under;
+		
 		if (move_timer <= 0.0f)
 		{
 			Debug.Log("tile is pushed to direction"+direction);
@@ -131,13 +144,19 @@ public class pushable_tile_script : MonoBehaviour
 			{
 				if (tilemap.can_a_tile_be_pushed_here(x, y + 1))
 				{
-					tilemap.set_tile(x, y + 1, _TILEMAP.TILE_PUSHABLE);
-					tilemap.set_tile(x, y, _TILEMAP.TILE_FLOOR);
+					tile_under = tilemap.get_tile(x, y + 1);
+					tilemap.set_tile(x, y + 1, type);
+					tilemap.set_tile(x, y, previous_tile_under);
 					y++;
 					tilemap.update_pushable_data(id, x, y);
 					move_timer = MOVE_TIME;
 					move_direction = direction;
 					starting_to_move = true;
+					
+					if (tile_under == _TILEMAP.TILE_START_AREA && previous_tile_under != tile_under)
+						tilemap.goal_blocks++;
+					if (previous_tile_under == _TILEMAP.TILE_START_AREA && previous_tile_under != tile_under)
+						tilemap.goal_blocks--;
 				}
 				else
 				Debug.Log("cant push!");
@@ -146,13 +165,19 @@ public class pushable_tile_script : MonoBehaviour
 			{
 				if (tilemap.can_a_tile_be_pushed_here(x, y - 1))
 				{
-					tilemap.set_tile(x, y - 1, _TILEMAP.TILE_PUSHABLE);
-					tilemap.set_tile(x, y, _TILEMAP.TILE_FLOOR);
+					tile_under = tilemap.get_tile(x, y - 1);
+					tilemap.set_tile(x, y - 1, type);
+					tilemap.set_tile(x, y, previous_tile_under);
 					y--;
 					tilemap.update_pushable_data(id, x, y);
 					move_timer = MOVE_TIME;
 					move_direction = direction;
 					starting_to_move = true;
+					
+					if (tile_under == _TILEMAP.TILE_START_AREA && previous_tile_under != tile_under)
+						tilemap.goal_blocks++;
+					if (previous_tile_under == _TILEMAP.TILE_START_AREA && previous_tile_under != tile_under)
+						tilemap.goal_blocks--;
 				}
 				else
 					Debug.Log("cant push!");
@@ -161,13 +186,19 @@ public class pushable_tile_script : MonoBehaviour
 			{
 				if (tilemap.can_a_tile_be_pushed_here(x - 1, y))
 				{
-					tilemap.set_tile(x - 1, y, _TILEMAP.TILE_PUSHABLE);
-					tilemap.set_tile(x, y, _TILEMAP.TILE_FLOOR);
+					tile_under = tilemap.get_tile(x - 1, y);
+					tilemap.set_tile(x - 1, y, type);
+					tilemap.set_tile(x, y, previous_tile_under);
 					x--;
 					tilemap.update_pushable_data(id, x, y);
 					move_timer = MOVE_TIME;
 					move_direction = direction;
 					starting_to_move = true;
+					
+					if (tile_under == _TILEMAP.TILE_START_AREA && previous_tile_under != tile_under)
+						tilemap.goal_blocks++;
+					if (previous_tile_under == _TILEMAP.TILE_START_AREA && previous_tile_under != tile_under)
+						tilemap.goal_blocks--;
 				}
 				else
 					Debug.Log("cant push!");
@@ -176,13 +207,19 @@ public class pushable_tile_script : MonoBehaviour
 			{
 				if (tilemap.can_a_tile_be_pushed_here(x + 1, y))
 				{
-					tilemap.set_tile(x + 1, y, _TILEMAP.TILE_PUSHABLE);
-					tilemap.set_tile(x, y, _TILEMAP.TILE_FLOOR);
+					tile_under = tilemap.get_tile(x + 1, y);
+					tilemap.set_tile(x + 1, y, type);
+					tilemap.set_tile(x, y, previous_tile_under);
 					x++;
 					tilemap.update_pushable_data(id, x, y);
 					move_timer = MOVE_TIME;
 					move_direction = direction;
 					starting_to_move = true;
+					
+					if (tile_under == _TILEMAP.TILE_START_AREA && previous_tile_under != tile_under)
+						tilemap.goal_blocks++;
+					if (previous_tile_under == _TILEMAP.TILE_START_AREA && previous_tile_under != tile_under)
+						tilemap.goal_blocks--;
 				}
 				else
 					Debug.Log("cant push!");
