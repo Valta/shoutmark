@@ -47,9 +47,9 @@ public class treeroot_script : MonoBehaviour {
         // get player sighted from radar
 
 
-        if (_TILEMAP.global_timer - last_attack > 1.0f)
+        if (_TIMER.time() - last_attack > 1.0f)
             can_attack = true;
-        if (_TILEMAP.global_timer - last_gossip > 2.0f)
+		if (_TIMER.time() - last_gossip > 2.0f)
         {
             will_talk = true;
            foreach (Vector3 v in friends_last_seen)

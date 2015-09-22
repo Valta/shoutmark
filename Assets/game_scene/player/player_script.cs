@@ -32,7 +32,7 @@ public class player_script : MonoBehaviour
 
 	void Update()
 	{
-		float speed = 4.0f * Time.deltaTime;
+		float speed = 4.0f * _TIMER.deltatime();
 		speed_x = 0.0f;
 		speed_y = 0.0f;
 		if (Input.GetKey(KeyCode.UpArrow))
@@ -59,6 +59,8 @@ public class player_script : MonoBehaviour
 		move_player();
 		gamecamera.set_camera_target(x, y, false);
 		tilemap.update_object_data(id, x, y);
+		
+		if (Input.GetKeyDown(KeyCode.P)) _TIMER.set_pause(!_TIMER.paused());
 	}
 
 

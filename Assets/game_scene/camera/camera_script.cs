@@ -87,7 +87,7 @@ public class camera_script : MonoBehaviour
 
 	private void move_towards_target()
 	{
-		float SPEED = Time.deltaTime * 2.0f;
+		float SPEED = _TIMER.deltatime() * 2.0f;
 		transform.position = transform.position + (camera_target - transform.position) * SPEED;
 	}
 }
