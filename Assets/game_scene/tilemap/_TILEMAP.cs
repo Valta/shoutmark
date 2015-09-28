@@ -77,7 +77,7 @@ public class _TILEMAP : MonoBehaviour
 		if (goal_blocks == total_goal_blocks)
 		{
 			goal_blocks = 0;
-			PRINT.report("LEVEL CLEAR!");
+			//PRINT.report("LEVEL CLEAR!");
 		}
 	}
 
@@ -98,7 +98,7 @@ public class _TILEMAP : MonoBehaviour
 		total_goal_blocks = 0;
 		goal_blocks = 0;
 		instantiate_tilemap();
-		PRINT.report("FIND " + total_goal_blocks + " GOAL BLOCKS.");
+		PRINT.report("FIND " + total_goal_blocks + " GOAL BLOCKS.", -160, -50,1,65);
 	}
 
 
@@ -286,6 +286,21 @@ public class _TILEMAP : MonoBehaviour
 			return true; // free tile?
 		
 		return false; // something else is on the way.
+	}
+
+
+
+	public bool floor(float x, float y)
+	{
+		int xx = (int)x;			// now [xx, yy] are the
+		int yy = (int)(-y);			// map array coordinates.
+		
+		if (x < 0 || y > 0 || xx >= level_width || yy >= level_height) return false; // outside the map?
+		if (map[xx, yy] == TILE_FLOOR ||
+			map[xx, yy] == TILE_START_AREA)
+			return true; // floor tile?
+		
+		return false; // some other tile.
 	}
 
 

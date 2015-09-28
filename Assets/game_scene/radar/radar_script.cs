@@ -108,8 +108,7 @@ public class radar_script : MonoBehaviour
 			bool raycasting = true;
 			while (raycasting)
 			{
-				if (tilemap.get_tile((int)(x + STEP * 0.5f), (int)(-y)) == _TILEMAP.TILE_FLOOR &&
-					tilemap.get_tile((int)(x - STEP * 0.5f), (int)(-y)) == _TILEMAP.TILE_FLOOR)
+				if (tilemap.floor(x - STEP * 0.5f, y) && tilemap.floor(x + STEP * 0.5f, y))
 				{
 					x += step_x;
 					y += step_y;

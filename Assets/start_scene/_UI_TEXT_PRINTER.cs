@@ -6,27 +6,104 @@ using UnityEngine.UI;
 
 public class PRINT
 {
-	private static string next_message = "";
+	private const int MAX_NUMBER_OF_MESSAGES = 3;
 	
-	
-	
-	public static void report(string message)
+	private static string[] message = new string[MAX_NUMBER_OF_MESSAGES];
+	private static int[] message_x = new int[MAX_NUMBER_OF_MESSAGES];
+	private static int[] message_y = new int[MAX_NUMBER_OF_MESSAGES];
+	private static int[] message_color = new int[MAX_NUMBER_OF_MESSAGES];
+	private static int[] message_id = new int[MAX_NUMBER_OF_MESSAGES];
+	private static bool[] message_update = new bool[MAX_NUMBER_OF_MESSAGES];
+
+
+
+	public static void report(string new_message, int x, int y, int color, int id)
 	{
-		next_message = message;
+		Debug.Log("PRINT: prosessoidaan "+new_message+" x="+x+" y="+y+" id="+id+" color="+color);
+		bool new_id = true;
+		
+		for (int a = 0; a < MAX_NUMBER_OF_MESSAGES; a++)
+		{
+			if (message_id[a] == id)
+			{
+				new_id = false;
+				
+				if (message[a] != new_message) message_update[a] = true;
+				message[a] = new_message;
+				message_x[a] = x;
+				message_y[a] = y;
+				message_color[a] = color;
+				Debug.Log("PRINT: new message="+new_message+"  update="+message_update[a]);
+			}
+		}
+		
+		if (new_id)
+		{
+			int index = MAX_NUMBER_OF_MESSAGES - 1;
+			for (int a = MAX_NUMBER_OF_MESSAGES - 2; a >= 0; a--)
+			{
+				if (message_id[a] == 0) index = a;
+			}
+			message[index] = new_message;
+			message_x[index] = x;
+			message_y[index] = y;
+			message_color[index] = color;
+			message_id[index] = id;
+			message_update[index] = true;
+			Debug.Log("PRINT: new message="+new_message+"  NEW ID update="+message_update[index]);
+		}
 	}
-	
-	
-	public static string ui_text_printer_get_message()
+
+
+
+	public static void clear_message(int id)
 	{
-		return next_message;
+		if (id >= 0 && id < MAX_NUMBER_OF_MESSAGES)
+		{
+			message_id[id] = 0;
+			message_update[id] = false;
+		}
 	}
-	
-	
-	
-	public static void ui_text_printer_clear_message()
+
+
+
+	public static void clear_messages()
 	{
-		next_message = "";
+		for (int a = 0; a < MAX_NUMBER_OF_MESSAGES; a++)
+		{
+			message_id[a] = 0;
+			message_update[a] = false;
+		}
 	}
+
+
+
+	public static int number_of_updated_messages()
+	{
+		int count = 0;
+		for (int a = 0; a < MAX_NUMBER_OF_MESSAGES; a++)
+		{
+			if (message_update[a]) count++;
+		}
+		return count;
+	}
+
+
+	public static void get_updated_message(ref string new_message, ref int x, ref int y, ref int color, ref int id)
+	{
+		int index = MAX_NUMBER_OF_MESSAGES - 1;
+		for (int a = MAX_NUMBER_OF_MESSAGES - 2; a >= 0; a--)
+		{
+			if (message_update[a]) index = a;
+		}
+		message_update[index] = false;
+		new_message = message[index];
+		x = message_x[index];
+		y = message_y[index];
+		color = message_color[index];
+		id = message_id[index];
+	}
+
 }
 
 
@@ -35,13 +112,14 @@ public class _UI_TEXT_PRINTER : MonoBehaviour
 {
 	public GameObject letter_prefab;
 	
-	private const int MAX_NUMBER_OF_LETTERS = 1000;
+	private const int MAX_NUMBER_OF_LETTERS = 20;
 	private const int LETTERSHEET_WIDTH = 736;
 	private const int LETTERSHEET_HEIGHT = 880;
 	
 	private RawImage[] letter_rawimage = new RawImage[MAX_NUMBER_OF_LETTERS];
 	private RectTransform[] letter = new RectTransform[MAX_NUMBER_OF_LETTERS];
 	private bool[] letter_free = new bool[MAX_NUMBER_OF_LETTERS];
+	private int[] letter_id = new int[MAX_NUMBER_OF_LETTERS];
 	private int letter_check_index = 0;
 	
 	private Rect[] letter_source_rectangle = new Rect[256];
@@ -51,11 +129,18 @@ public class _UI_TEXT_PRINTER : MonoBehaviour
 	private float letter_width = 0.0f;
 	private float screen_top = 0.0f;
 	private float screen_left = 0.0f;
+	
+	private Color[] letter_colors = new Color[16];
 
 
 
 	void Start()
 	{
+		letter_colors[0] = new Color(0.0f, 0.0f, 0.0f);
+		letter_colors[1] = new Color(0.0f, 0.0f, 0.67f);
+		letter_colors[2] = new Color(0.0f, 0.67f, 0.0f);
+		
+		
 		calculate_letter_rectangles();
 		instantiate_letter_prefabs();
 	}
@@ -77,14 +162,21 @@ public class _UI_TEXT_PRINTER : MonoBehaviour
 			letter_rawimage[a] = new_letter.GetComponent<RawImage>();
 			letter[a] = new_letter.GetComponent<RectTransform>();
 			
-			letter[a].sizeDelta = new Vector2(0.0f, 0.0f);
-			letter[a].anchoredPosition = new Vector2(1000.0f, 1000.0f);
-			
-			letter[a].localScale = new Vector3(1.0f, 1.0f, 1.0f);
-			letter_rawimage[a].uvRect = letter_source_rectangle[0];
-			letter_rawimage[a].color = new Color(1.0f, 1.0f, 1.0f, 1.0f);
-			letter_free[a] = true;
+			hide_letter(a);
 		}
+	}
+
+
+
+	private void hide_letter(int index)
+	{
+		letter[index].sizeDelta = new Vector2(0.0f, 0.0f);
+		letter[index].anchoredPosition = new Vector2(1000.0f, 1000.0f);
+		
+		letter[index].localScale = new Vector3(1.0f, 1.0f, 1.0f);
+		letter_rawimage[index].uvRect = letter_source_rectangle[0];
+		letter_rawimage[index].color = new Color(1.0f, 1.0f, 1.0f, 1.0f);
+		letter_free[index] = true;
 	}
 
 
@@ -98,7 +190,6 @@ public class _UI_TEXT_PRINTER : MonoBehaviour
 	}
 
 
-	// 736*880 -> 46*55
 
 	private void calculate_letter_rectangles()
 	{
@@ -112,23 +203,35 @@ public class _UI_TEXT_PRINTER : MonoBehaviour
 	}
 
 
-	int TEMP_text_y = -100;
+
 	void Update()
 	{
-		if (PRINT.ui_text_printer_get_message() != "")
+		int number_of_messages = PRINT.number_of_updated_messages();
+		if (number_of_messages > 0) Debug.Log("number="+number_of_messages);
+		for (int a = 0; a < number_of_messages; a++)
 		{
-			display_text(PRINT.ui_text_printer_get_message(), -160, TEMP_text_y, 15,
-						new Color(Random.Range(0.5f, 1.0f), Random.Range(0.0f, 1.0f), Random.Range(0.5f, 1.0f)));
-			TEMP_text_y += 15;
-			if (TEMP_text_y > 90) TEMP_text_y -= 193;
-			PRINT.ui_text_printer_clear_message();
+			string message = "";
+			int x = 0;
+			int y = 0;
+			int color = 0;
+			int id = 0;
+			PRINT.get_updated_message(ref message, ref x, ref y, ref color, ref id);
+			display_text(message, x, y, 20, letter_colors[color], id);
 		}
 	}
 
 
 
-	private void display_text(string text, int x, int y, int font_size, Color font_color)
+	private void display_text(string text, int x, int y, int font_size, Color font_color, int id)
 	{
+				Debug.Log("UI_TEXT_PRINTER: displaying text="+text);
+				string aaa = "";
+				for (int a = 0; a < MAX_NUMBER_OF_LETTERS; a++)
+				{
+					if (letter_free[a]) aaa+="-"; else aaa+=(char)letter_id[a];
+				}
+				Debug.Log(aaa+" aluksi");
+		
 		get_screen_size();
 		
 		float next_letter_size_y = screen_height * font_size * 0.005f;
@@ -137,22 +240,61 @@ public class _UI_TEXT_PRINTER : MonoBehaviour
 		float next_letter_x = screen_height * x * 0.005f + next_letter_size_x * 0.5f;
 		float next_letter_y = screen_height * y * -0.005f - next_letter_size_y * 0.5f;
 		
+		delete_text_with_id(id);
+		
+		bool overwrite_old_text = false;
+		int overwrite_counter = 0;
+		
 		for (int a = 0; a < text.Length; a++)
 		{
+			if (overwrite_old_text)
+			{
+				letter_check_index++;
+				if (letter_check_index >= MAX_NUMBER_OF_LETTERS) letter_check_index = 0;
+			}
+			else
+			{
+				while (!overwrite_old_text && !letter_free[letter_check_index])
+				{
+					letter_check_index++;
+					if (letter_check_index >= MAX_NUMBER_OF_LETTERS) letter_check_index = 0;
+					overwrite_counter++;
+					if (overwrite_counter >= MAX_NUMBER_OF_LETTERS - 1)
+					{
+						overwrite_old_text = true;
+						Debug.Log("overwrite");
+					}
+				}
+			}
+			
 			letter[letter_check_index].sizeDelta = new Vector2(next_letter_size_x, next_letter_size_y);
 			letter[letter_check_index].anchoredPosition = new Vector2(next_letter_x, next_letter_y);
 			letter_rawimage[letter_check_index].uvRect = letter_source_rectangle[text[a]];
 			letter_rawimage[letter_check_index].color = font_color;
+			letter_free[letter_check_index] = false;
+			letter_id[letter_check_index] = id;
 			
-			if (text[a] == 'M' || text[a] == 'm' || text[a] == 'W'|| text[a] == 'w')
+			if (text[a] == 'M' || text[a] == 'm' || text[a] == 'W' || text[a] == 'w')
 				next_letter_x += next_letter_size_x * 1.0f;
 			else
 				next_letter_x += next_letter_size_x * 0.9f;
 			
-			letter_check_index++;
-			if (letter_check_index >= MAX_NUMBER_OF_LETTERS) letter_check_index = 0;
 		}
+		aaa = "";
+		for (int a = 0; a < MAX_NUMBER_OF_LETTERS; a++)
+		{
+			if (letter_free[a]) aaa+="-"; else aaa+=(char)letter_id[a];
+		}
+		Debug.Log(aaa+" lopuksi");
+		
 	}
 
+
+
+	private void delete_text_with_id(int id)
+	{
+		for (int a = 0; a < MAX_NUMBER_OF_LETTERS; a++)
+			if (letter_id[a] == id) hide_letter(a);
+	}
 
 }

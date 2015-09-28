@@ -28,10 +28,12 @@ public class camera_script : MonoBehaviour
 	void Update()
 	{
 		move_towards_target();
-		
-		if (Input.GetKeyDown(KeyCode.Q)) PRINT.report("abcdefghijklmnopqrstuvwxyzåäö");
-		if (Input.GetKeyDown(KeyCode.W)) PRINT.report("ABCDEFGHIJKLMNOPQRSTUVWXYZÅÄÖ");
-		if (Input.GetKeyDown(KeyCode.E)) PRINT.report("!\"#¤%&/()=? @£${[]}\\ +-*/ :;., <> |'");
+		//Debug.Log("cameraupdate");
+		//if (Input.GetKeyDown(KeyCode.Q)) PRINT.report("abcdefghijklmnopqrstuvwxyzåäö", -160, 80, 10, 2);
+		//if (Input.GetKeyDown(KeyCode.W)) PRINT.report("ABCDEFGHIJKLMNOPQRSTUVWXYZÅÄÖ", 30, 30, 11, 2);
+		if (Input.GetKeyDown(KeyCode.Q)) PRINT.report("abcdef", -160, 80, 10, 66);
+		if (Input.GetKeyDown(KeyCode.W)) PRINT.report("ABCDEF", 30, 30, 11, 65);
+		//if (Input.GetKeyDown(KeyCode.E)) PRINT.report("!\"#¤%&/()=? @£${[]}\\ +-*/ :;., <> |'");
 		
 		//if (Input.GetMouseButton(0))
 		{
