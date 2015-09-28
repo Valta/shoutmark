@@ -28,14 +28,14 @@ public class camera_script : MonoBehaviour
 	void Update()
 	{
 		move_towards_target();
-		//Debug.Log("cameraupdate");
-		//if (Input.GetKeyDown(KeyCode.Q)) PRINT.report("abcdefghijklmnopqrstuvwxyzåäö", -160, 80, 10, 2);
-		//if (Input.GetKeyDown(KeyCode.W)) PRINT.report("ABCDEFGHIJKLMNOPQRSTUVWXYZÅÄÖ", 30, 30, 11, 2);
-		if (Input.GetKeyDown(KeyCode.Q)) PRINT.report("abcdef", -160, 80, 10, 66);
-		if (Input.GetKeyDown(KeyCode.W)) PRINT.report("ABCDEF", 30, 30, 11, 65);
-		//if (Input.GetKeyDown(KeyCode.E)) PRINT.report("!\"#¤%&/()=? @£${[]}\\ +-*/ :;., <> |'");
 		
-		//if (Input.GetMouseButton(0))
+				if (Input.GetKeyDown(KeyCode.Q)) MESSAGE.print("a"+(char)16+"b c d e f", -160, 80, 2, 66);
+				if (Input.GetKeyDown(KeyCode.W)) MESSAGE.print("abcdefhilkjmop123", -160, 80, 2, 66);
+				if (Input.GetKeyDown(KeyCode.E)) MESSAGE.print("ABCDEF", 30, 30, 2, 67);
+				if (Input.GetKeyDown(KeyCode.R)) MESSAGE.print("ABCDEFGHIJKL", 30, 30, 2, 67);
+				if (Input.GetKeyDown(KeyCode.T)) MESSAGE.report("säätänän päskä", 7);
+				if (Input.GetKeyDown(KeyCode.Y)) MESSAGE.report("PELAA NES JUO ES \"!#¤%&&/\\", 9);
+		
 		{
 			calculate_touch_position();
 			TEST_QUAD.transform.position = new Vector3(Mathf.Floor(touch_x) + 0.5f, TEST_QUAD.transform.position.y, Mathf.Floor(touch_y) + 0.5f);

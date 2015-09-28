@@ -98,7 +98,7 @@ public class _TILEMAP : MonoBehaviour
 		total_goal_blocks = 0;
 		goal_blocks = 0;
 		instantiate_tilemap();
-		PRINT.report("FIND " + total_goal_blocks + " GOAL BLOCKS.", -160, -50,1,65);
+		MESSAGE.print("FIND " + total_goal_blocks + " GOAL BLOCKS.", -160, -90,1,65);
 	}
 
 

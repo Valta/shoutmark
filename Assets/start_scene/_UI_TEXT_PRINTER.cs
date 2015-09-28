@@ -4,9 +4,9 @@ using UnityEngine.UI;
 
 
 
-public class PRINT
+public class MESSAGE
 {
-	private const int MAX_NUMBER_OF_MESSAGES = 3;
+	private const int MAX_NUMBER_OF_MESSAGES = 20;
 	
 	private static string[] message = new string[MAX_NUMBER_OF_MESSAGES];
 	private static int[] message_x = new int[MAX_NUMBER_OF_MESSAGES];
@@ -14,12 +14,15 @@ public class PRINT
 	private static int[] message_color = new int[MAX_NUMBER_OF_MESSAGES];
 	private static int[] message_id = new int[MAX_NUMBER_OF_MESSAGES];
 	private static bool[] message_update = new bool[MAX_NUMBER_OF_MESSAGES];
+	
+	private static bool[] will_be_reported = new bool[MAX_NUMBER_OF_MESSAGES];
+	private static int next_report_id = -2000000000;
 
 
 
-	public static void report(string new_message, int x, int y, int color, int id)
+	public static void print(string new_message, int x, int y, int color, int id)
 	{
-		Debug.Log("PRINT: prosessoidaan "+new_message+" x="+x+" y="+y+" id="+id+" color="+color);
+		//Debug.Log("PRINT: prosessoidaan "+new_message+" x="+x+" y="+y+" id="+id+" color="+color);
 		bool new_id = true;
 		
 		for (int a = 0; a < MAX_NUMBER_OF_MESSAGES; a++)
@@ -33,7 +36,7 @@ public class PRINT
 				message_x[a] = x;
 				message_y[a] = y;
 				message_color[a] = color;
-				Debug.Log("PRINT: new message="+new_message+"  update="+message_update[a]);
+				//Debug.Log("PRINT: new message="+new_message+"  update="+message_update[a]);
 			}
 		}
 		
@@ -50,30 +53,31 @@ public class PRINT
 			message_color[index] = color;
 			message_id[index] = id;
 			message_update[index] = true;
-			Debug.Log("PRINT: new message="+new_message+"  NEW ID update="+message_update[index]);
+			//Debug.Log("PRINT: new message="+new_message+"  NEW ID update="+message_update[index]);
 		}
 	}
 
 
 
-	public static void clear_message(int id)
+	public static void report(string new_report, int color)
 	{
-		if (id >= 0 && id < MAX_NUMBER_OF_MESSAGES)
+		Debug.Log("report: prosessoidaan "+new_report);
+		
+		int index = MAX_NUMBER_OF_MESSAGES - 1;
+		for (int a = MAX_NUMBER_OF_MESSAGES - 2; a >= 0; a--)
 		{
-			message_id[id] = 0;
-			message_update[id] = false;
+			if (message_id[a] == 0) index = a;
 		}
-	}
-
-
-
-	public static void clear_messages()
-	{
-		for (int a = 0; a < MAX_NUMBER_OF_MESSAGES; a++)
-		{
-			message_id[a] = 0;
-			message_update[a] = false;
-		}
+		message[index] = new_report;
+		message_x[index] = 100;
+		message_y[index] = 70;
+		message_color[index] = color;
+		message_id[index] = next_report_id;
+		will_be_reported[index] = true;
+		message_update[index] = false;
+		Debug.Log("report: new message="+new_report+"  REPORT ID="+message_id[index]);
+		
+		next_report_id++;
 	}
 
 
@@ -87,6 +91,7 @@ public class PRINT
 		}
 		return count;
 	}
+
 
 
 	public static void get_updated_message(ref string new_message, ref int x, ref int y, ref int color, ref int id)
@@ -104,6 +109,43 @@ public class PRINT
 		id = message_id[index];
 	}
 
+
+
+	public static bool is_there_a_report()
+	{
+		for (int a = 0; a < MAX_NUMBER_OF_MESSAGES; a++)
+		{
+			if (will_be_reported[a]) return true;
+		}
+		return false;
+	}
+
+
+
+	public static void get_next_report(ref string report, ref int x, ref int y, ref int color, ref int id)
+	{
+		int min_value_index = 0;
+		int min_value = 0;
+		for (int a = 0; a < MAX_NUMBER_OF_MESSAGES; a++)
+		{
+			if (will_be_reported[a])
+			{
+				if (min_value > message_id[a])
+				{
+					min_value_index = a;
+					min_value = message_id[a];
+				}
+			}
+		}
+		report = message[min_value_index];
+		x = message_x[min_value_index];
+		y = message_y[min_value_index];
+		color = message_color[min_value_index];
+		id = message_id[min_value_index];
+		
+		message_id[min_value_index] = 0;
+		will_be_reported[min_value_index] = false;
+	}
 }
 
 
@@ -112,7 +154,7 @@ public class _UI_TEXT_PRINTER : MonoBehaviour
 {
 	public GameObject letter_prefab;
 	
-	private const int MAX_NUMBER_OF_LETTERS = 20;
+	private const int MAX_NUMBER_OF_LETTERS = 100;
 	private const int LETTERSHEET_WIDTH = 736;
 	private const int LETTERSHEET_HEIGHT = 880;
 	
@@ -121,6 +163,10 @@ public class _UI_TEXT_PRINTER : MonoBehaviour
 	private bool[] letter_free = new bool[MAX_NUMBER_OF_LETTERS];
 	private int[] letter_id = new int[MAX_NUMBER_OF_LETTERS];
 	private int letter_check_index = 0;
+	
+	private float report_timer = 0.0f;
+	private int current_report_id = 0;
+	private bool[] report_letter = new bool[MAX_NUMBER_OF_LETTERS];
 	
 	private Rect[] letter_source_rectangle = new Rect[256];
 	
@@ -139,6 +185,13 @@ public class _UI_TEXT_PRINTER : MonoBehaviour
 		letter_colors[0] = new Color(0.0f, 0.0f, 0.0f);
 		letter_colors[1] = new Color(0.0f, 0.0f, 0.67f);
 		letter_colors[2] = new Color(0.0f, 0.67f, 0.0f);
+		letter_colors[3] = new Color(0.0f, 0.67f, 0.0f);
+		letter_colors[4] = new Color(0.0f, 0.67f, 0.0f);
+		letter_colors[5] = new Color(0.0f, 0.67f, 0.0f);
+		letter_colors[6] = new Color(0.0f, 0.67f, 0.0f);
+		letter_colors[7] = new Color(0.67f, 0.67f, 0.67f);
+		letter_colors[8] = new Color(0.0f, 0.67f, 0.0f);
+		letter_colors[9] = new Color(0.33f, 0.33f, 1.0f);
 		
 		
 		calculate_letter_rectangles();
@@ -177,6 +230,7 @@ public class _UI_TEXT_PRINTER : MonoBehaviour
 		letter_rawimage[index].uvRect = letter_source_rectangle[0];
 		letter_rawimage[index].color = new Color(1.0f, 1.0f, 1.0f, 1.0f);
 		letter_free[index] = true;
+		letter_id[index] = 0;
 	}
 
 
@@ -206,7 +260,7 @@ public class _UI_TEXT_PRINTER : MonoBehaviour
 
 	void Update()
 	{
-		int number_of_messages = PRINT.number_of_updated_messages();
+		int number_of_messages = MESSAGE.number_of_updated_messages();
 		if (number_of_messages > 0) Debug.Log("number="+number_of_messages);
 		for (int a = 0; a < number_of_messages; a++)
 		{
@@ -215,20 +269,69 @@ public class _UI_TEXT_PRINTER : MonoBehaviour
 			int y = 0;
 			int color = 0;
 			int id = 0;
-			PRINT.get_updated_message(ref message, ref x, ref y, ref color, ref id);
-			display_text(message, x, y, 20, letter_colors[color], id);
+			MESSAGE.get_updated_message(ref message, ref x, ref y, ref color, ref id);
+			display_text(message, x, y, 20, letter_colors[color], id, false);
+		}
+		if (report_timer == 0.0f && MESSAGE.is_there_a_report())
+		{
+			string message = "";
+			int x = 0;
+			int y = 0;
+			int color = 0;
+			int id = 0;
+			MESSAGE.get_next_report(ref message, ref x, ref y, ref color, ref id);
+			Debug.Log("REPORT  ID="+id);
+			display_text(message, x, y, 15, letter_colors[color], id, true);
+			
+			report_timer = 3.0f;
+			current_report_id = id;
+		}
+		
+		if (report_timer > 0.0f) scroll_report();
+	}
+
+
+
+	private void scroll_report()
+	{
+		report_timer -= _TIMER.deltatime();
+		
+		float SPEED = screen_height * 0.5f;
+		float VISIBLE_LIMIT = 0.9f * screen_height / 2.0f;
+		float HIDE_LIMIT = screen_height / 2.0f; 
+		
+		for(int a = 0; a < MAX_NUMBER_OF_LETTERS; a++)
+		{
+			if (letter_id[a] == current_report_id)
+			{
+				letter[a].anchoredPosition -= new Vector2(SPEED * _TIMER.deltatime(), 0.0f);
+				float x = letter[a].anchoredPosition.x;
+				Color color = letter_rawimage[a].color;
+				color.a = 1.0f;
+				if (x > HIDE_LIMIT || x < -HIDE_LIMIT) color.a = 0.0f;
+				if (x > VISIBLE_LIMIT && x <= HIDE_LIMIT) color.a = 1.0f - (x - VISIBLE_LIMIT) / (HIDE_LIMIT - VISIBLE_LIMIT);
+				if (x > -HIDE_LIMIT && x <= -VISIBLE_LIMIT) color.a = 1.0f - (-x - VISIBLE_LIMIT) / (HIDE_LIMIT - VISIBLE_LIMIT);
+				letter_rawimage[a].color = color;
+			}
+		}
+		
+		if (report_timer < 0.0f)
+		{
+			delete_text_with_id(current_report_id);
+			current_report_id = 0;
+			report_timer = 0.0f;
 		}
 	}
 
 
 
-	private void display_text(string text, int x, int y, int font_size, Color font_color, int id)
+	private void display_text(string text, int x, int y, int font_size, Color font_color, int id, bool report)
 	{
 				Debug.Log("UI_TEXT_PRINTER: displaying text="+text);
 				string aaa = "";
 				for (int a = 0; a < MAX_NUMBER_OF_LETTERS; a++)
 				{
-					if (letter_free[a]) aaa+="-"; else aaa+=(char)letter_id[a];
+				if (letter_free[a]) aaa+="-"; else aaa+=(char)(48 + (letter_id[a]+2000000000) % 40);
 				}
 				Debug.Log(aaa+" aluksi");
 		
@@ -273,6 +376,7 @@ public class _UI_TEXT_PRINTER : MonoBehaviour
 			letter_rawimage[letter_check_index].color = font_color;
 			letter_free[letter_check_index] = false;
 			letter_id[letter_check_index] = id;
+			report_letter[letter_check_index] = report;
 			
 			if (text[a] == 'M' || text[a] == 'm' || text[a] == 'W' || text[a] == 'w')
 				next_letter_x += next_letter_size_x * 1.0f;
@@ -283,7 +387,7 @@ public class _UI_TEXT_PRINTER : MonoBehaviour
 		aaa = "";
 		for (int a = 0; a < MAX_NUMBER_OF_LETTERS; a++)
 		{
-			if (letter_free[a]) aaa+="-"; else aaa+=(char)letter_id[a];
+			if (letter_free[a]) aaa+="-"; else aaa+=(char)(48 + (letter_id[a]+2000000000) % 40);
 		}
 		Debug.Log(aaa+" lopuksi");
 		
@@ -293,8 +397,16 @@ public class _UI_TEXT_PRINTER : MonoBehaviour
 
 	private void delete_text_with_id(int id)
 	{
+		Debug.Log("DELETE:"+id);
 		for (int a = 0; a < MAX_NUMBER_OF_LETTERS; a++)
 			if (letter_id[a] == id) hide_letter(a);
+		
+		string aaa = "";
+		for (int a = 0; a < MAX_NUMBER_OF_LETTERS; a++)
+		{
+			if (letter_free[a]) aaa+="-"; else aaa+=(char)(48 + (letter_id[a]+2000000000) % 40);
+		}
+		Debug.Log(aaa+" poiston jälkeen");
 	}
 
 }
