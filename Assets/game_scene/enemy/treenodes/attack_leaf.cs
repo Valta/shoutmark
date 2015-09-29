@@ -30,15 +30,19 @@ public class attack_leaf : GeneralNode {
     {
         // do smth at state beginning
         Debug.Log("attack");
+        MESSAGE.report("pois eestä", 7);
         status.CloseOthers(this);
         curState = State.RUNNING;
-        animationtimer = 1;
-        cooldowntimer = 2;
+        animationtimer = 2;
+        cooldowntimer = 4;
         hasAttacked = false;
         
     }
     public override void EndAction()
     {
+        if (!status.player_sighted)
+            status.searching = true;
+        Debug.Log("attack ended");
         curState = State.FAILURE;
     }
     public override State Tick()
@@ -79,6 +83,7 @@ public class attack_leaf : GeneralNode {
         //else
         //    info.ChangeText("Miss!");
         Debug.Log("hit");
+        //MESSAGE.report("penkele", 7);
         hasAttacked = true;
     }
 

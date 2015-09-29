@@ -1,14 +1,16 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class idle_leaf : GeneralNode {
-
+public class lookout_leaf : GeneralNode
+{
+    float end_angle;
+    float current_angle_in_degrees;
     // constructor for setup (not relying on Unity's Start or Awake)
-    public idle_leaf(treeroot_script world_status, enemy_script this_actor)
+    public lookout_leaf(treeroot_script world_status, enemy_script this_actor)
     {
         status = world_status;
         actor = this_actor;
-        curState = State.SUCCESS;
+        curState = State.FAILURE;
         instance = this;
     }
     // presumably we need these. Use when found out where.
@@ -28,24 +30,27 @@ public class idle_leaf : GeneralNode {
     {
         // do smth at state beginning
         // TODO: set default movement and radar
-        Debug.Log("idlestart");
+        Debug.Log("lookout start");
         status.CloseOthers(this);
         curState = State.RUNNING;
-        actor.SetLooking(false);
+        current_angle_in_degrees = actor.GetDirectionAngle();
+        end_angle = current_angle_in_degrees + 360.0f;
     }
     public override void EndAction()
     {
-        
-        
-        // not to be left running, never fails (idle is default behavior)
-        Debug.Log("idle end called");
+        Debug.Log("lookout end");
+        actor.SetLooking(false);
+
         curState = State.SUCCESS;
     }
     public override State Tick()
     {
-        
+        current_angle_in_degrees += _TIMER.deltatime() * 90.0f;
         if (curState != State.RUNNING)
-            StartAction();        
+            StartAction();
+        else if (current_angle_in_degrees >= end_angle)
+            EndAction();
+        else actor.SetDirection(current_angle_in_degrees);
         return curState;
     }
     public bool CheckConditions()

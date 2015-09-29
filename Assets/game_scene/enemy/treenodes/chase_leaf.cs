@@ -29,6 +29,7 @@ public class chase_leaf : GeneralNode {
         // set move direction
         Debug.Log("chase");
         status.CloseOthers(this);
+        
         curState = State.RUNNING;
         
     }
@@ -36,6 +37,8 @@ public class chase_leaf : GeneralNode {
     {
         // do smth at state end
         Debug.Log("chase end");
+        if (!status.player_sighted)
+            status.searching = true;
         curState = State.SUCCESS;
     }
     public override State Tick()

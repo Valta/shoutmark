@@ -13,7 +13,7 @@ public class main_selector : GeneralNode {
         actor = this_actor;
         children = new List<GeneralNode>();
         children.Add(new fight_selector(world_status, this_actor));
-        children.Add(new search_leaf(world_status, this_actor));
+        children.Add(new search_successor(world_status, this_actor));
         children.Add(new idle_selector(world_status, this_actor));
         
     }
@@ -42,7 +42,7 @@ public class main_selector : GeneralNode {
         for (int i = 0; i < children.Count; ++i)
         {            
             curState = children[i].exec();
-            //Debug.Log(children[i] + ": " + curState);
+            
             if (curState != State.FAILURE)
             {
                 //status.CloseOthers(children[i]); // Close nodes on open list

@@ -10,26 +10,35 @@ public class enemy_script : MonoBehaviour
 	private Transform model;
 	private Material model_material;
 	private _TILEMAP tilemap;
+    private radar_script radar;
 	private float dt = 0.0f;
 	
 	private float x = 0.0f;
 	private float y = 0.0f;
 	private float speed_x = 0.0f;
 	private float speed_y = 0.0f;
+    private float direction = 90.0f;
 	private int id = -1;
 
-    private bool roaming;
-    public void SetRoaming(bool is_roaming) { roaming = is_roaming; }
+    private bool looking;
+    public void SetLooking(bool is_looking) { looking = is_looking; }
+    public void SetDirection(float target_x, float target_y)
+    { direction = ENEMY_MATH.get_absolute_angle(target_x - x, target_y - y); }
+    public void SetDirection(float angle) { direction = angle; }
+    public float GetDirectionAngle() { return direction; }
+
+
 
 	void Start()
 	{
-		x = transform.position.x;
+       
+        x = transform.position.x;
 		y = transform.position.z;
 		
 		model = transform.FindChild("enemy_model_temp");
 		model_material = model.gameObject.GetComponent<Renderer>().material;
 		tilemap = GameObject.Find("_GLOBAL_SCRIPTS").GetComponent<_TILEMAP>();
-		
+        radar = gameObject.GetComponent<radar_script>();
 		id = tilemap.add_to_object_list(x, y, ENEMY_RADIUS);
 	}
 
@@ -37,14 +46,20 @@ public class enemy_script : MonoBehaviour
 
 	void Update()
 	{
-		dt =Time.deltaTime;
-		
-		//apply_numpad_input();
-		if (roaming)
-            apply_ai();
-		
-		move_enemy();
-		rotate_model();
+		dt =_TIMER.deltatime();
+
+        if (!looking)
+        {
+            speed_x = SPEED * Mathf.Cos(direction * 3.14159265f / 180.0f);
+            speed_y = SPEED * Mathf.Sin(direction * 3.14159265f / 180.0f);
+        }
+        else
+        {
+            speed_x = 0;
+            speed_y = 0;
+        }
+        rotate_model();
+        move_enemy();
 		scroll_texture();
 		update_collision_jump();
 		
@@ -52,61 +67,17 @@ public class enemy_script : MonoBehaviour
 	}
 
 
-
-	private void apply_numpad_input()
-	{
-		speed_x = 0.0f;
-		speed_y = 0.0f;
-		if (Input.GetKey(KeyCode.Keypad8)) speed_y = SPEED;
-		if (Input.GetKey(KeyCode.Keypad5)) speed_y = -SPEED;
-		if (Input.GetKey(KeyCode.Keypad4)) speed_x = -SPEED;
-		if (Input.GetKey(KeyCode.Keypad6)) speed_x = SPEED;
-	}
-
-
-
-	private int ai_direction = 0;
-	private void apply_ai()
-	{
-		if (speed_x == 0.0f && speed_y == 0.0f)
-		{
-			ai_direction++;
-			if (ai_direction > 3) ai_direction = 0;
-			
-			if (ai_direction == 0)
-			{
-				speed_x = 0.0f;
-				speed_y = SPEED;
-			}
-			if (ai_direction == 1)
-			{
-				speed_x = SPEED;;
-				speed_y = 0.0f;
-			}
-			if (ai_direction == 2)
-			{
-				speed_x = 0.0f;
-				speed_y = -SPEED;
-			}
-			if (ai_direction == 3)
-			{
-				speed_x = -SPEED;;
-				speed_y = 0.0f;
-			}
-		}
-	}
-
-
-
 	private void move_enemy()
 	{
+        bool este = false;
+
 		if (speed_y > 0.0f)
 		{
 			if (tilemap.can_move(x - ENEMY_RADIUS, y + ENEMY_RADIUS + speed_y * dt) &&
 				tilemap.can_move(x, y + ENEMY_RADIUS + speed_y * dt) &&
 				tilemap.can_move(x + ENEMY_RADIUS, y + ENEMY_RADIUS + speed_y * dt)) y += speed_y * dt;
 			else
-				speed_y = 0.0f;
+                este = true;
 		}
 		if (speed_y < 0.0f)
 		{
@@ -114,7 +85,7 @@ public class enemy_script : MonoBehaviour
 				tilemap.can_move(x, y - ENEMY_RADIUS + speed_y * dt) &&
 				tilemap.can_move(x + ENEMY_RADIUS, y - ENEMY_RADIUS + speed_y * dt)) y += speed_y * dt;
 			else
-				speed_y = 0.0f;
+                este = true;
 		}
 		if (speed_x < 0.0f)
 		{
@@ -122,7 +93,7 @@ public class enemy_script : MonoBehaviour
 				tilemap.can_move(x - ENEMY_RADIUS + speed_x * dt, y) &&
 				tilemap.can_move(x - ENEMY_RADIUS + speed_x * dt, y - ENEMY_RADIUS)) x += speed_x * dt;
 			else
-				speed_x = 0.0f;
+                este = true;
 		}
 		if (speed_x > 0.0f)
 		{
@@ -130,9 +101,15 @@ public class enemy_script : MonoBehaviour
 				tilemap.can_move(x + ENEMY_RADIUS + speed_x * dt, y) &&
 				tilemap.can_move(x + ENEMY_RADIUS + speed_x * dt, y - ENEMY_RADIUS)) x += speed_x * dt;
 			else
-				speed_x = 0.0f;
+                este = true;
 		}
-		
+		if (este)
+        {
+            speed_x = 0;
+            speed_y = 0;
+            direction += _TIMER.deltatime() * 180.0f;
+        }
+        radar.set_direction(direction);
 		transform.position = new Vector3(x, transform.position.y, y);
 	}
 
@@ -161,8 +138,7 @@ public class enemy_script : MonoBehaviour
 	private float jump_timer = 999.0f;
 	private void update_collision_jump()
 	{
-		jump_timer += Time.deltaTime;
-		if (speed_x == 0.0f && speed_y == 0.0f) jump_timer = 0.0f;
+
 		
 		float FIRST_JUMP = 0.4f;
 		float SECOND_JUMP = 0.7f;
@@ -171,7 +147,10 @@ public class enemy_script : MonoBehaviour
 		float SECOND_JUMP_HEIGHT = 0.2f;
 		
 		float new_y = 0.0f;
-		
+
+		jump_timer += Time.deltaTime;
+		if (speed_x == 0.0f && speed_y == 0.0f && jump_timer > SECOND_JUMP) jump_timer = 0.0f;
+
 		if (jump_timer < FIRST_JUMP)
 			new_y = Mathf.Sin(jump_timer * 3.14159f / FIRST_JUMP) * FIRST_JUMP_HEIGHT;
 		else if (jump_timer >= FIRST_JUMP && jump_timer < SECOND_JUMP)
@@ -182,4 +161,28 @@ public class enemy_script : MonoBehaviour
 	}
 
 
+}
+
+
+public class ENEMY_MATH
+{
+    public static float get_absolute_angle(float x, float y)
+    {
+        float angle = 0.0f;
+
+        if (x > 0.0f)
+        {
+            angle = Mathf.Atan(y / x);
+        }
+        else if (x < 0.0f)
+        {
+            angle = Mathf.Atan(y / x) + 3.14159f;
+        }
+        else
+        {
+            if (y > 0.0f) angle = 3.14159f * 0.5f; else angle = 3.14159f * 1.5f;
+        }
+        if (angle < 0.0f) angle += 2.0f * 3.14159f;
+        return angle * 180.0f / 3.14159f;
+    }
 }

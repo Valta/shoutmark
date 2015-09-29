@@ -25,24 +25,32 @@ public class search_leaf : GeneralNode {
     }
     public override void StartAction()
     {
-        Debug.Log("search");
+        Debug.Log("search start");
         status.CloseOthers(this);
-        // do smth at state beginning
+        actor.SetDirection(status.player_last_seen.x, status.player_last_seen.y); 
         curState = State.RUNNING;
-        // set destination to last player position
+       
     }
     public override void EndAction()
     {
         // do smth at state end
+        Debug.Log("search end");
         curState = State.SUCCESS;
-        status.searching = false;
+        
+        actor.SetLooking(true);
     }
     public override State Tick()
     {
         if (CheckConditions())
         {
-            curState = State.SUCCESS;
-            StartAction();
+            if (curState != State.RUNNING)
+                StartAction();
+            else if (Mathf.Abs(status._position.x - status.player_last_seen.x) > 0.5f &&
+                     Mathf.Abs(status._position.y - status.player_last_seen.y) > 0.5f) ///// TODO: Better condition!!!!
+            {               
+                actor.SetDirection(status.player_last_seen.x, status.player_last_seen.y);
+            }
+            else EndAction();
         }
         else curState = State.FAILURE;
         return curState;

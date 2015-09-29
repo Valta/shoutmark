@@ -5,7 +5,7 @@ using System.Collections.Generic;
 public class treeroot_script : MonoBehaviour {
 
     public GeneralNode rootnode;
-    radar_script radar; // TODO: diff radar for enemies?
+    public radar_script radar; // TODO: diff radar for enemies?
     enemy_script actor;
     private const float ATTACK_RANGE = 2.0f;
     private const float GOSSIP_RANGE = 1.0f; // Has to be more than enemy radius * 2!

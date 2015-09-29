@@ -35,23 +35,21 @@ public class fight_selector : GeneralNode {
     {
         // do smth at state end
         // TODO: free radar & searching = true
-        status.searching = true;
-        curState = State.SUCCESS;
+
+        //status.searching = true;
+        //curState = State.SUCCESS;
     }
     public override State Tick()
     {
         if (CheckConditions())
         {
+            actor.SetDirection(status.player_last_seen.x, status.player_last_seen.y);
             for (int i = 0; i < children.Count; ++i)
             {
                 curState = children[i].exec();
-                //Debug.Log(children[i] + ": " + curState);
+                
                 if (curState != State.FAILURE)
-                {
-                    //Debug.Log("close others called");
-                    //status.CloseOthers(children[i]); // Close nodes on open list
-                    //if (curState == State.RUNNING)
-                    //    status.open_nodes.Add(children[i]);
+                {                    
                     return curState;
                 }
             }
