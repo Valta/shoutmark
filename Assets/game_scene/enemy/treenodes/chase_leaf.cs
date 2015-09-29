@@ -9,33 +9,43 @@ public class chase_leaf : GeneralNode {
         status = world_status;
         actor = this_actor;
         curState = State.FAILURE;
+        instance = this;
     }
     // presumably we need these. Use when found out where.
     public override void Open()
     {
-        open = true;
+        if (!status.open_nodes.Contains(instance))
+            status.open_nodes.Add(instance);
+        base.Open();
     }
     public override void Close()
     {
-        open = false;
+        //status.open_nodes.Remove(this);
+        base.Close();
     }
     public override void StartAction()
     {
         // do smth at state beginning
-        // set move direction   
-        //Debug.Log("chase");
+        // set move direction
+        Debug.Log("chase");
+        status.CloseOthers(this);
+        curState = State.RUNNING;
+        
     }
     public override void EndAction()
     {
         // do smth at state end
+        Debug.Log("chase end");
         curState = State.SUCCESS;
     }
     public override State Tick()
     {
         if (CheckConditions())
-        {            
-            curState = State.SUCCESS;
-            StartAction();
+        {
+            if (curState != State.RUNNING)
+                StartAction();
+            //curState = State.SUCCESS;
+            
         }
         else curState = State.FAILURE;
         return curState;

@@ -11,21 +11,26 @@ public class gossip_leaf : GeneralNode {
         status = world_status;
         actor = this_actor;
         curState = State.FAILURE;
+        instance = this;
     }
     // presumably we need these. Use when found out where.
     public override void Open()
     {
-        open = true;
+        if (!status.open_nodes.Contains(instance))
+            status.open_nodes.Add(instance);
+        base.Open();
     }
     public override void Close()
     {
-        EndAction();
+        //status.open_nodes.Remove(this);
         base.Close();
     }
     public override void StartAction()
     {
         // do smth at state beginning
         // TODO: stop movement and slow radar
+        Debug.Log("gossip start");
+        status.CloseOthers(this);
         curState = State.RUNNING;
         gossiptimer = _TIMER.time();
         

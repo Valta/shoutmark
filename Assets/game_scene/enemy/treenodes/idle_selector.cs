@@ -19,11 +19,11 @@ public class idle_selector : GeneralNode
     // presumably we need these. Use when found out where.
     public override void Open()
     {
-        open = true;
+        base.Open();
     }
     public override void Close()
     {
-        open = false;
+        base.Close();
     }
     public override void StartAction()
     {
@@ -43,15 +43,11 @@ public class idle_selector : GeneralNode
     {
         for (int i = 0; i < children.Count; ++i)
         {
-            children[i].Open();
-            curState = children[i].Tick();
+            curState = children[i].exec();
+            //Debug.Log(children[i] + ": " + curState);
             if (curState != State.FAILURE)
             {
-                foreach (GeneralNode g in children)
-                {
-                    if (children[i] != g)
-                        g.Close();
-                }
+                //status.CloseOthers(children[i]); // Close nodes on open list
                 return curState;
             }
         }
@@ -63,9 +59,5 @@ public class idle_selector : GeneralNode
         // redundant in default mode.
         return true;
     }
-    State RunChild(int i)
-    {
-        return children[i].Tick();
-    }
-    
+   
 }

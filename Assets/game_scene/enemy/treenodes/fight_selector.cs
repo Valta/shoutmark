@@ -44,10 +44,16 @@ public class fight_selector : GeneralNode {
         {
             for (int i = 0; i < children.Count; ++i)
             {
-                children[i].Open();
-                curState = children[i].Tick();
+                curState = children[i].exec();
+                //Debug.Log(children[i] + ": " + curState);
                 if (curState != State.FAILURE)
+                {
+                    //Debug.Log("close others called");
+                    //status.CloseOthers(children[i]); // Close nodes on open list
+                    //if (curState == State.RUNNING)
+                    //    status.open_nodes.Add(children[i]);
                     return curState;
+                }
             }
         }
         else curState = State.FAILURE;
@@ -57,14 +63,7 @@ public class fight_selector : GeneralNode {
     public bool CheckConditions()
     {        
         if (status.player_sighted)
-        {
-            actor.SetRoaming(false);
             return true;
-        }
         return false;
-    }
-    State RunChild(int i)
-    {
-        return children[i].Tick();
     }
 }

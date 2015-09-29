@@ -12,19 +12,25 @@ public class attack_leaf : GeneralNode {
         status = world_status;
         actor = this_actor;
         curState = State.FAILURE;
+        instance = this;
     }
     // presumably we need these. Use when found out where.
     public override void Open()
     {
-        open = true;
+        if (!status.open_nodes.Contains(instance))
+            status.open_nodes.Add(instance);
+        base.Open();
     }
     public override void Close()
     {
-        open = false;
+        //status.open_nodes.Remove(this);
+        base.Close();
     }
     public override void StartAction()
     {
         // do smth at state beginning
+        Debug.Log("attack");
+        status.CloseOthers(this);
         curState = State.RUNNING;
         animationtimer = 1;
         cooldowntimer = 2;
@@ -33,24 +39,26 @@ public class attack_leaf : GeneralNode {
     }
     public override void EndAction()
     {
-
+        curState = State.FAILURE;
     }
     public override State Tick()
     {
         
         if (CheckConditions())
         {
-            Debug.Log("fight");
+            //Debug.Log("fight");
             if (curState != State.RUNNING)
             {
                 StartAction();
             }
             else
             {
+                animationtimer -= Time.deltaTime;
+                cooldowntimer -= Time.deltaTime;
                 // TODO: change to use master timer.
-                if (animationtimer == 0 && hasAttacked == false)
+                if (animationtimer <= 0 && hasAttacked == false)
                     Hit();
-                else if (cooldowntimer == 0)
+                else if (cooldowntimer <= 0)
                     curState = State.SUCCESS;
             }
         }
@@ -70,6 +78,7 @@ public class attack_leaf : GeneralNode {
         //    info.ChangeText("Hit!");
         //else
         //    info.ChangeText("Miss!");
+        Debug.Log("hit");
         hasAttacked = true;
     }
 

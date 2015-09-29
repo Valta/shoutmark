@@ -26,19 +26,25 @@ public class treeroot_script : MonoBehaviour {
     public float last_attack;
     public float last_gossip;
 
+    public List<GeneralNode> open_nodes;
+
     void Start()
     {        
         radar = this.gameObject.GetComponent<radar_script>();
         friends_last_seen = new List<Vector3>();
+        open_nodes = new List<GeneralNode>();
         actor = this.gameObject.GetComponent<enemy_script>();
         rootnode = new main_selector(this, actor);
+        rootnode.exec();
     }
 
     void Update()
     {        
         // Update world state
-
-        _position = this.transform.position;
+        _position.x = this.transform.position.x;
+        _position.y = this.transform.position.z;
+        _position.z = 0;
+        //Debug.Log(_position);
         // clear friends info
         friends_last_seen.Clear();
         closest_friend.x = 100.0f;
@@ -65,10 +71,25 @@ public class treeroot_script : MonoBehaviour {
         player_sighted = radar.seeing_player();        
         player_last_seen = radar.last_player_position();
         player_in_range = Vector3.Distance(_position, player_last_seen) < ATTACK_RANGE;
+        //Debug.Log(player_in_range + ": " + Vector3.Distance(_position, player_last_seen));
 
-        // 
-        // Update behavior
         rootnode.Tick();
     }
-
+    public void CloseOthers(GeneralNode caller)
+    {
+        if (open_nodes.Count > 1)
+        {
+            foreach (GeneralNode n in open_nodes)
+            {
+               
+                if (n != caller)
+                {
+                   
+                    n.EndAction();
+                }
+            }
+            open_nodes.Clear();
+            open_nodes.Add(caller);
+        }
+    }
 }

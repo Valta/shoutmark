@@ -9,19 +9,24 @@ public class search_leaf : GeneralNode {
         status = world_status;
         actor = this_actor;
         curState = State.FAILURE;
+        instance = this;
     }
     // presumably we need these. Use when found out where.
     public override void Open()
     {
-        open = true;
+        if (!status.open_nodes.Contains(instance))
+            status.open_nodes.Add(instance);
+        base.Open();
     }
     public override void Close()
     {
-        open = false;
-        curState = State.SUCCESS;
+        //status.open_nodes.Remove(this);
+        base.Close();
     }
     public override void StartAction()
     {
+        Debug.Log("search");
+        status.CloseOthers(this);
         // do smth at state beginning
         curState = State.RUNNING;
         // set destination to last player position
@@ -36,7 +41,6 @@ public class search_leaf : GeneralNode {
     {
         if (CheckConditions())
         {
-            Debug.Log("search");
             curState = State.SUCCESS;
             StartAction();
         }

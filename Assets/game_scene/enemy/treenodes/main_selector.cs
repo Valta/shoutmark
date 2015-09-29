@@ -18,14 +18,14 @@ public class main_selector : GeneralNode {
         
     }
     // presumably we need these. Use when found out where.
-    //public override void Open()
-    //{
-    //    base.Open();
-    //}
-    //public override void Close()
-    //{
-    //    base.Close();
-    //}
+    public override void Open()
+    {
+        base.Open();
+    }
+    public override void Close()
+    {
+        base.Close();
+    }
     public override void StartAction()
     {
         // do smth at state beginning
@@ -34,23 +34,22 @@ public class main_selector : GeneralNode {
     public override void EndAction()
     {
         // do smth at state end
-        curState = State.SUCCESS;
+        //curState = State.SUCCESS;
     }
     public override State Tick()
     {
-        // TODO: loop!
-
+        
         for (int i = 0; i < children.Count; ++i)
-        {
-            
-            children[i].Open();
-            curState = children[i].Tick();
+        {            
+            curState = children[i].exec();
+            //Debug.Log(children[i] + ": " + curState);
             if (curState != State.FAILURE)
-                return curState;           
+            {
+                //status.CloseOthers(children[i]); // Close nodes on open list
+                return curState;
+            }
         }
-        //    curState = RunChild(0);
-        //if (curState == State.FAILURE)
-        //    curState = RunChild(1);
+
         //// only another node can interfere.
 
         return curState;
@@ -58,9 +57,5 @@ public class main_selector : GeneralNode {
     public bool CheckConditions()
     {
         return true;        
-    }
-    State RunChild(int i)
-    {
-        return children[i].Tick();
     }
 }
