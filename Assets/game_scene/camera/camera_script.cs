@@ -33,10 +33,17 @@ public class camera_script : MonoBehaviour
 		if (Input.GetKeyDown(KeyCode.W)) MESSAGE.report("Ehtiikö lukea?", 9);
 		if (Input.GetKeyDown(KeyCode.E)) MESSAGE.report("Vielä pidempi viesti.", 10);
 		if (Input.GetKeyDown(KeyCode.R)) MESSAGE.report("Entä jos on vieläkin pidempi viesti?", 12);		
+		
+		calculate_touch_position();
+		if (Input.GetMouseButton(0))
 		{
-			calculate_touch_position();
 			TEST_QUAD.transform.position = new Vector3(Mathf.Floor(touch_x) + 0.5f, TEST_QUAD.transform.position.y, Mathf.Floor(touch_y) + 0.5f);
 			TEST_CUBE.transform.position = new Vector3(touch_x, TEST_CUBE.transform.position.y, touch_y);
+		}
+		else
+		{
+			TEST_QUAD.transform.position = new Vector3(1000.0f, TEST_QUAD.transform.position.y, 1000.0f);
+			TEST_CUBE.transform.position = new Vector3(1000.0f, TEST_CUBE.transform.position.y, 1000.0f);
 		}
 	}
 
@@ -69,6 +76,11 @@ public class camera_script : MonoBehaviour
 		touch_x = CAMERA_CENTER_X + (x_on_screen) * Mathf.Cos(-angle_in_radius) + (-y_on_screen) * Mathf.Sin(-angle_in_radius);
 		touch_y = CAMERA_CENTER_Y + (y_on_screen) * Mathf.Cos(-angle_in_radius) + (x_on_screen) * Mathf.Sin(-angle_in_radius);
 	}
+
+
+
+	public float get_touch_x() {return touch_x;}
+	public float get_touch_y() {return touch_y;}
 
 
 

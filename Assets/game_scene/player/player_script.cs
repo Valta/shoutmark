@@ -35,6 +35,16 @@ public class player_script : MonoBehaviour
 		float speed = 4.0f * _TIMER.deltatime();
 		speed_x = 0.0f;
 		speed_y = 0.0f;
+		
+		if (Input.GetMouseButton(0))
+		{
+			float distance_to_touch =
+				Mathf.Sqrt(	(x - gamecamera.get_touch_x()) * (x - gamecamera.get_touch_x()) +
+							(y - gamecamera.get_touch_y()) * (y - gamecamera.get_touch_y()));
+			speed_x = (gamecamera.get_touch_x() - x) * 4.0f * _TIMER.deltatime() / distance_to_touch;
+			speed_y = (gamecamera.get_touch_y() - y) * 4.0f * _TIMER.deltatime() / distance_to_touch;
+		}
+		
 		if (Input.GetKey(KeyCode.UpArrow))
 		{
 			try_to_push_tile("UP");
