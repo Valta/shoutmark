@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using UnityEngine.UI;
-using UnityEditor;
+//using UnityEditor;
 using UnityEngine.EventSystems;
 
 public class MainMenuScript : MonoBehaviour {
@@ -49,15 +49,16 @@ public class MainMenuScript : MonoBehaviour {
 	
 	public void Loadscene(int levelNumber)
 	{
-		if (levelNumber < EditorBuildSettings.scenes.Length) // this may not work outside unity editor and may cause problems
-		{
-			//SwitchToPanel(3); //loading screen panel if we have one
-			Application.LoadLevel(levelNumber);
-		}
-		else
-		{
-			Debug.Log("Selected level is not in the build, add it");
-		}
+//		if (levelNumber < EditorBuildSettings.scenes.Length) // this may not work outside unity editor and may cause problems
+//		{
+//			//SwitchToPanel(3); //loading screen panel if we have one
+//			Application.LoadLevel(levelNumber);
+//		}
+//		else
+//		{
+//			Debug.Log("Selected level is not in the build, add it");
+//		}
+		Application.LoadLevel(levelNumber);
 		
 	}
 

@@ -65,7 +65,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 672b224245bd7894aaf083f90db6582f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  total_goal_blocks: 0
+  goal_blocks: 0
   tile_floor: {fileID: 131498, guid: 680f404afc212534c999bed872095117, type: 2}
+  tile_start_area: {fileID: 181130, guid: 2d5bdb9c0c39e0340be91fe62d3f2b15, type: 2}
   tile_block: {fileID: 175674, guid: 2640832983181ed4e83400b37910b165, type: 2}
   tile_transparentwall: {fileID: 161994, guid: 1d23abd51fc622f4a9148cbd988eb763, type: 2}
   tile_wireframesprite: {fileID: 145836, guid: 26c16bad39df2e649abd122f9b624176, type: 2}
