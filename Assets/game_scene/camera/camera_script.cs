@@ -45,6 +45,8 @@ public class camera_script : MonoBehaviour
 			TEST_QUAD.transform.position = new Vector3(1000.0f, TEST_QUAD.transform.position.y, 1000.0f);
 			TEST_CUBE.transform.position = new Vector3(1000.0f, TEST_CUBE.transform.position.y, 1000.0f);
 		}
+		if (Input.GetKey(KeyCode.Escape))
+			Application.Quit ();
 	}
 
 
