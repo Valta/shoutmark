@@ -1,12 +1,12 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class lookout_leaf : GeneralNode
+public class lookout_leaf : general_node
 {
     float end_angle;
     float current_angle_in_degrees;
     // constructor for setup (not relying on Unity's Start or Awake)
-    public lookout_leaf(treeroot_script world_status, enemy_script this_actor)
+    public lookout_leaf(tree_script world_status, enemy_script this_actor)
     {
         status = world_status;
         actor = this_actor;
@@ -17,8 +17,7 @@ public class lookout_leaf : GeneralNode
     public override void Open()
     {
 
-        if (!status.open_nodes.Contains(instance))
-            status.open_nodes.Add(instance);
+
         base.Open();
     }
     public override void Close()
@@ -31,7 +30,7 @@ public class lookout_leaf : GeneralNode
         // do smth at state beginning
         // TODO: set default movement and radar
         Debug.Log("lookout start");
-        status.CloseOthers(this);
+        //status.CloseOthers(this);
         curState = State.RUNNING;
         current_angle_in_degrees = actor.GetDirectionAngle();
         end_angle = current_angle_in_degrees + 360.0f;
@@ -39,23 +38,29 @@ public class lookout_leaf : GeneralNode
     public override void EndAction()
     {
         Debug.Log("lookout end");
-        actor.SetLooking(false);
-
+        actor.SetLooking(false);        
         curState = State.SUCCESS;
     }
     public override State Tick()
     {
-        current_angle_in_degrees += _TIMER.deltatime() * 90.0f;
-        if (curState != State.RUNNING)
-            StartAction();
-        else if (current_angle_in_degrees >= end_angle)
-            EndAction();
-        else actor.SetDirection(current_angle_in_degrees);
+        if (CheckConditions())
+        {
+            MESSAGE.print("lookout", -100, -70, 12, 2000);
+            //MESSAGE.print("sighted=" + (end_angle - current_angle_in_degrees).ToString(), -100, -30, 15, 2005);
+            current_angle_in_degrees += _TIMER.deltatime() * 90.0f;
+            if (curState != State.RUNNING)
+                StartAction();
+            else if (current_angle_in_degrees >= end_angle)
+                EndAction();
+            else actor.SetDirection(current_angle_in_degrees);
+        }
+
         return curState;
     }
     public bool CheckConditions()
     {
-        // redundant in default mode.
-        return true;
+        if (!status.player_sighted)
+            return true;
+        return false;
     }
 }

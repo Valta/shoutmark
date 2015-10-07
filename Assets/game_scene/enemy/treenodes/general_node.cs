@@ -9,13 +9,13 @@ public enum State
     //ERROR // so far not used.
 }
 
-public abstract class GeneralNode
+public abstract class general_node
 {
     public bool open;
     protected State curState;
     protected enemy_script actor;
-    protected treeroot_script status;
-    protected GeneralNode instance;
+    protected tree_script status;
+    protected general_node instance;
 
     public virtual void Open()
     {
@@ -43,5 +43,8 @@ public abstract class GeneralNode
         
         return curState;
     }
-
+    public State get_current_state()
+    {
+        return curState;
+    }
 }

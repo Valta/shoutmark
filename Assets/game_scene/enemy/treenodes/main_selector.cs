@@ -2,16 +2,16 @@
 using System.Collections;
 using System.Collections.Generic;
 
-public class main_selector : GeneralNode {
+public class main_selector : general_node {
 
 
-    List<GeneralNode> children;
+    List<general_node> children;
     // constructor for setup (not relying on Unity's Start or Awake)
-    public main_selector(treeroot_script world_status, enemy_script this_actor)
+    public main_selector(tree_script world_status, enemy_script this_actor)
     {
         status = world_status;
         actor = this_actor;
-        children = new List<GeneralNode>();
+        children = new List<general_node>();
         children.Add(new fight_selector(world_status, this_actor));
         children.Add(new search_successor(world_status, this_actor));
         children.Add(new idle_selector(world_status, this_actor));

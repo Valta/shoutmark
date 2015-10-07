@@ -1,10 +1,10 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class idle_leaf : GeneralNode {
+public class idle_leaf : general_node {
 
     // constructor for setup (not relying on Unity's Start or Awake)
-    public idle_leaf(treeroot_script world_status, enemy_script this_actor)
+    public idle_leaf(tree_script world_status, enemy_script this_actor)
     {
         status = world_status;
         actor = this_actor;
@@ -43,7 +43,7 @@ public class idle_leaf : GeneralNode {
     }
     public override State Tick()
     {
-        
+        MESSAGE.print("idle", -100, -70, 12, 2000);
         if (curState != State.RUNNING)
             StartAction();        
         return curState;

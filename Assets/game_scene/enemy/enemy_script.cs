@@ -47,7 +47,7 @@ public class enemy_script : MonoBehaviour
 	void Update()
 	{
 		dt =_TIMER.deltatime();
-
+        
         if (!looking)
         {
             speed_x = SPEED * Mathf.Cos(direction * 3.14159265f / 180.0f);
@@ -55,6 +55,7 @@ public class enemy_script : MonoBehaviour
         }
         else
         {
+            
             speed_x = 0;
             speed_y = 0;
         }

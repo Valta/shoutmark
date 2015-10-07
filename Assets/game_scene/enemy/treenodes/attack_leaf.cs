@@ -1,13 +1,13 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class attack_leaf : GeneralNode {
+public class attack_leaf : general_node {
 
     float animationtimer;
     float cooldowntimer;
     bool hasAttacked = false;
     // constructor for setup (not relying on Unity's Start or Awake)
-    public attack_leaf(treeroot_script world_status, enemy_script this_actor)
+    public attack_leaf(tree_script world_status, enemy_script this_actor)
     {
         status = world_status;
         actor = this_actor;
@@ -50,7 +50,7 @@ public class attack_leaf : GeneralNode {
         
         if (CheckConditions())
         {
-            //Debug.Log("fight");
+            MESSAGE.print("attack", -100, -70, 12, 2000);
             if (curState != State.RUNNING)
             {
                 StartAction();
@@ -83,7 +83,7 @@ public class attack_leaf : GeneralNode {
         //else
         //    info.ChangeText("Miss!");
         Debug.Log("hit");
-        //MESSAGE.report("penkele", 7);
+        MESSAGE.report("penkele", 7);
         hasAttacked = true;
     }
 

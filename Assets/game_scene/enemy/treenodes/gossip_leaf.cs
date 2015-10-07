@@ -1,12 +1,12 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class gossip_leaf : GeneralNode {
+public class gossip_leaf : general_node {
 
     float gossiptimer;
     
     // constructor for setup (not relying on Unity's Start or Awake)
-    public gossip_leaf(treeroot_script world_status, enemy_script this_actor)
+    public gossip_leaf(tree_script world_status, enemy_script this_actor)
     {
         status = world_status;
         actor = this_actor;
@@ -47,7 +47,7 @@ public class gossip_leaf : GeneralNode {
 
         if (CheckConditions())
         {
-            Debug.Log("gossip");
+            MESSAGE.print("gossip", -100, -70, 12, 2000);
             if (curState != State.RUNNING)
             {                
                 {

@@ -3,16 +3,16 @@ using System.Collections;
 using System.Collections.Generic;
 
 
-public class fight_selector : GeneralNode {
+public class fight_selector : general_node {
 
-    List<GeneralNode> children;
+    List<general_node> children;
 
     // constructor for setup 
-    public fight_selector(treeroot_script world_status, enemy_script this_actor)
+    public fight_selector(tree_script world_status, enemy_script this_actor)
     {
         status = world_status;
         actor = this_actor;
-        children = new List<GeneralNode>();
+        children = new List<general_node>();
         children.Add(new attack_leaf(world_status, this_actor));
         children.Add(new chase_leaf(world_status, this_actor));
         curState = State.FAILURE;
@@ -59,9 +59,12 @@ public class fight_selector : GeneralNode {
         return curState;
     }
     public bool CheckConditions()
-    {        
+    {
         if (status.player_sighted)
+        {
+            status.searching = true;
             return true;
+        }
         return false;
     }
 }

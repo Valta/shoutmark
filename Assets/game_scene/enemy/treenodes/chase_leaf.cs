@@ -1,10 +1,10 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class chase_leaf : GeneralNode {
+public class chase_leaf : general_node {
 
     // constructor for setup (not relying on Unity's Start or Awake)
-    public chase_leaf(treeroot_script world_status, enemy_script this_actor)
+    public chase_leaf(tree_script world_status, enemy_script this_actor)
     {
         status = world_status;
         actor = this_actor;
@@ -27,9 +27,9 @@ public class chase_leaf : GeneralNode {
     {
         // do smth at state beginning
         // set move direction
-        Debug.Log("chase");
+        Debug.Log("chase start");
         status.CloseOthers(this);
-        
+        actor.SetLooking(false);
         curState = State.RUNNING;
         
     }
@@ -37,14 +37,15 @@ public class chase_leaf : GeneralNode {
     {
         // do smth at state end
         Debug.Log("chase end");
-        if (!status.player_sighted)
-            status.searching = true;
+        //if (!status.player_sighted)
+        //    status.searching = true;
         curState = State.SUCCESS;
     }
     public override State Tick()
     {
         if (CheckConditions())
         {
+            MESSAGE.print("chase", -100, -70, 12, 2000);
             if (curState != State.RUNNING)
                 StartAction();
             //curState = State.SUCCESS;

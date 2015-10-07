@@ -2,9 +2,9 @@
 using System.Collections;
 using System.Collections.Generic;
 
-public class treeroot_script : MonoBehaviour {
+public class tree_script : MonoBehaviour {
 
-    public GeneralNode rootnode;
+    public general_node rootnode;
     public radar_script radar; // TODO: diff radar for enemies?
     enemy_script actor;
     private const float ATTACK_RANGE = 2.0f;
@@ -26,13 +26,13 @@ public class treeroot_script : MonoBehaviour {
     public float last_attack;
     public float last_gossip;
 
-    public List<GeneralNode> open_nodes;
+    public List<general_node> open_nodes;
 
     void Start()
     {        
         radar = this.gameObject.GetComponent<radar_script>();
         friends_last_seen = new List<Vector3>();
-        open_nodes = new List<GeneralNode>();
+        open_nodes = new List<general_node>();
         actor = this.gameObject.GetComponent<enemy_script>();
         rootnode = new main_selector(this, actor);
         rootnode.exec();
@@ -73,18 +73,22 @@ public class treeroot_script : MonoBehaviour {
         player_in_range = Vector3.Distance(_position, player_last_seen) < ATTACK_RANGE;
         //Debug.Log(player_in_range + ": " + Vector3.Distance(_position, player_last_seen));
 
+        //MESSAGE.print("sighted=" + player_sighted.ToString(), -100, -20, 15, 2004);
+        //MESSAGE.print("x,y=" + player_last_seen.x.ToString() + "," + player_last_seen.z.ToString(), -100, -50, 12, 2001);
+
         rootnode.Tick();
     }
-    public void CloseOthers(GeneralNode caller)
+    public void CloseOthers(general_node caller)
     {
         if (open_nodes.Count > 1)
         {
-            foreach (GeneralNode n in open_nodes)
+            Debug.Log("nodes open: " + open_nodes.Count);
+            foreach (general_node n in open_nodes)
             {
                
                 if (n != caller)
                 {
-                   
+                    Debug.Log(caller + " calling end of " + n);
                     n.EndAction();
                 }
             }

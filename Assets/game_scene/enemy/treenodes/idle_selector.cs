@@ -2,16 +2,16 @@
 using System.Collections;
 using System.Collections.Generic;
 
-public class idle_selector : GeneralNode
+public class idle_selector : general_node
 {
-    List<GeneralNode> children;
+    List<general_node> children;
 
     // constructor for setup (not relying on Unity's Start or Awake)
-    public idle_selector(treeroot_script world_status, enemy_script this_actor)
+    public idle_selector(tree_script world_status, enemy_script this_actor)
     {
         status = world_status;
         actor = this_actor;
-        children = new List<GeneralNode>();
+        children = new List<general_node>();
         children.Add(new gossip_leaf(world_status, this_actor));
         children.Add(new idle_leaf(world_status, this_actor));
         curState = State.SUCCESS;

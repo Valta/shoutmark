@@ -2,60 +2,69 @@
 using System.Collections;
 using System.Collections.Generic;
 
-public class search_successor : GeneralNode
+public class search_successor : general_node
 {
-    List<GeneralNode> children;
+    List<general_node> children;
     int running_child = 0;
 
     // constructor for setup (not relying on Unity's Start or Awake)
-    public search_successor(treeroot_script world_status, enemy_script this_actor)
+    public search_successor(tree_script world_status, enemy_script this_actor)
     {
         status = world_status;
         actor = this_actor;
-        children = new List<GeneralNode>();
+        children = new List<general_node>();
         children.Add(new search_leaf(world_status, this_actor));
         children.Add(new lookout_leaf(world_status, this_actor));
         curState = State.SUCCESS;
+        instance = this;
     }
     // presumably we need these. Use when found out where.
     public override void Open()
     {
+        if (!status.open_nodes.Contains(instance))
+            status.open_nodes.Add(instance);        
         base.Open();
     }
     public override void Close()
-    {
+    {        
         base.Close();
     }
     public override void StartAction()
     {
         Debug.Log("search started");
+        status.CloseOthers(this);
+        running_child = 0;
         curState = State.RUNNING;
     }
     public override void EndAction()
-    {
-        Debug.Log("search ended");
-        status.searching = false;
+    {        
+        children[running_child].EndAction(); 
         running_child = 0;
+        status.searching = false;
         curState = State.FAILURE;
     }
     public override State Tick()
     {
         if (CheckConditions())
         {
+            if (curState != State.RUNNING)
+                StartAction();
+
             if (running_child >= children.Count)
-                EndAction();
-            else
             {
-                //Debug.Log(children[running_child]);
-                curState = children[running_child].exec();
-                Debug.Log(children[running_child] + ": " + curState);
-                if (curState == State.SUCCESS)
+                running_child--;
+                Debug.Log(instance + " ended sequence ");
+                EndAction();
+            }
+            else
+            {               
+                State childState = children[running_child].exec();
+
+                if (childState == State.SUCCESS)
                 {
                     running_child++;
-                    
-                    //Debug.Log("running child moved " + children[running_child]);
                 }
-            }  
+            }
         }
         else curState = State.FAILURE;
         return curState;
