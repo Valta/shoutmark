@@ -48,7 +48,7 @@ public class PausemenuScript : MonoBehaviour {
 	void Update () {
 		if (Input.GetKeyDown(KeyCode.M))
 		{
-			if (Application.loadedLevel != 0 && !PauseOptionsPanel.gameObject.active)
+			if (Application.loadedLevel != 0 && !PauseOptionsPanel.gameObject.activeSelf) // gameobject.active changed to activeSelf (unity update reasons)
 			{
 				PauseGame();
 			}

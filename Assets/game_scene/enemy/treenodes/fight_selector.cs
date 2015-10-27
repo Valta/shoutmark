@@ -16,16 +16,19 @@ public class fight_selector : general_node {
         children.Add(new attack_leaf(world_status, this_actor));
         children.Add(new chase_leaf(world_status, this_actor));
         curState = State.FAILURE;
+        instance = this;
     }
     // presumably we need these. Use when found out where.
-    //public override void Open()
-    //{
-    //    open = true;
-    //}
-    //public override void Close()
-    //{
-    //    open = false;
-    //}
+    public override void Open()
+    {
+        if (!status.open_nodes.Contains(instance))
+            status.open_nodes.Add(instance);
+        base.Open();
+    }
+    public override void Close()
+    {
+        base.Close();
+    }
     public override void StartAction()
     {
         // do smth at state beginning

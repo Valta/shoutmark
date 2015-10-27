@@ -23,7 +23,6 @@ public class attack_leaf : general_node {
     }
     public override void Close()
     {
-        //status.open_nodes.Remove(this);
         base.Close();
     }
     public override void StartAction()
@@ -31,7 +30,7 @@ public class attack_leaf : general_node {
         // do smth at state beginning
         Debug.Log("attack");
         MESSAGE.report("pois eestä", 7);
-        status.CloseOthers(this);
+        //status.CloseOthers(this);
         curState = State.RUNNING;
         animationtimer = 2;
         cooldowntimer = 4;

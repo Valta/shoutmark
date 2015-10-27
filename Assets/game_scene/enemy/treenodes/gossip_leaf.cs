@@ -22,7 +22,6 @@ public class gossip_leaf : general_node {
     }
     public override void Close()
     {
-        //status.open_nodes.Remove(this);
         base.Close();
     }
     public override void StartAction()
@@ -30,7 +29,7 @@ public class gossip_leaf : general_node {
         // do smth at state beginning
         // TODO: stop movement and slow radar
         Debug.Log("gossip start");
-        status.CloseOthers(this);
+        //status.CloseOthers(this);
         curState = State.RUNNING;
         gossiptimer = _TIMER.time();
         

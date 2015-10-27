@@ -32,13 +32,13 @@ public class search_successor : general_node
     public override void StartAction()
     {
         Debug.Log("search started");
-        status.CloseOthers(this);
+        //status.CloseOthers(this);
         running_child = 0;
         curState = State.RUNNING;
     }
     public override void EndAction()
     {        
-        children[running_child].EndAction(); 
+        //children[running_child].EndAction(); 
         running_child = 0;
         status.searching = false;
         curState = State.FAILURE;

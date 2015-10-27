@@ -15,10 +15,13 @@ public class idle_selector : general_node
         children.Add(new gossip_leaf(world_status, this_actor));
         children.Add(new idle_leaf(world_status, this_actor));
         curState = State.SUCCESS;
+        instance = this;
     }
     // presumably we need these. Use when found out where.
     public override void Open()
     {
+        if (!status.open_nodes.Contains(instance))
+            status.open_nodes.Add(instance);
         base.Open();
     }
     public override void Close()

@@ -15,11 +15,13 @@ public class main_selector : general_node {
         children.Add(new fight_selector(world_status, this_actor));
         children.Add(new search_successor(world_status, this_actor));
         children.Add(new idle_selector(world_status, this_actor));
-        
+        instance = this;
     }
     // presumably we need these. Use when found out where.
     public override void Open()
     {
+        if (!status.open_nodes.Contains(instance))
+            status.open_nodes.Add(instance);
         base.Open();
     }
     public override void Close()

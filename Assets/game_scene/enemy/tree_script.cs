@@ -27,12 +27,14 @@ public class tree_script : MonoBehaviour {
     public float last_gossip;
 
     public List<general_node> open_nodes;
+    public List<general_node> last_open_nodes;
 
     void Start()
     {        
         radar = this.gameObject.GetComponent<radar_script>();
         friends_last_seen = new List<Vector3>();
         open_nodes = new List<general_node>();
+        last_open_nodes = new List<general_node>();
         actor = this.gameObject.GetComponent<enemy_script>();
         rootnode = new main_selector(this, actor);
         rootnode.exec();
@@ -44,7 +46,7 @@ public class tree_script : MonoBehaviour {
         _position.x = this.transform.position.x;
         _position.y = this.transform.position.z;
         _position.z = 0;
-        //Debug.Log(_position);
+        
         // clear friends info
         friends_last_seen.Clear();
         closest_friend.x = 100.0f;
@@ -73,11 +75,18 @@ public class tree_script : MonoBehaviour {
         player_in_range = Vector3.Distance(_position, player_last_seen) < ATTACK_RANGE;
         //Debug.Log(player_in_range + ": " + Vector3.Distance(_position, player_last_seen));
 
-        //MESSAGE.print("sighted=" + player_sighted.ToString(), -100, -20, 15, 2004);
+        MESSAGE.print("searching=" + searching, -100, -20, 15, 2004);
         //MESSAGE.print("x,y=" + player_last_seen.x.ToString() + "," + player_last_seen.z.ToString(), -100, -50, 12, 2001);
 
+        // 
+        last_open_nodes.Clear();
+        last_open_nodes.AddRange(open_nodes);
+        open_nodes.Clear();
+        //Debug.Log(last_open_nodes.Count);
         rootnode.Tick();
+        ClosePrevious();
     }
+    // Close nodes other than caller node
     public void CloseOthers(general_node caller)
     {
         if (open_nodes.Count > 1)
@@ -95,5 +104,22 @@ public class tree_script : MonoBehaviour {
             open_nodes.Clear();
             open_nodes.Add(caller);
         }
+    }
+    // Close nodes previously left open, if priority branch interrupts
+    // Called after every tick
+    // TODO: Use this from inside nodes when needed?
+    private void ClosePrevious()
+    {
+        for (int i = 0; i < last_open_nodes.Count; ++i)
+        {
+            if (i < open_nodes.Count)
+            {
+                if (open_nodes[i] != last_open_nodes[i])
+                {                    
+                    last_open_nodes[i].EndAction();                      
+                }
+            }
+            else last_open_nodes[i].EndAction();
+        }        
     }
 }

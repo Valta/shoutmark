@@ -14,16 +14,17 @@ public class search_leaf : general_node {
     // presumably we need these. Use when found out where.
     public override void Open()
     {
+        if (!status.open_nodes.Contains(instance))
+            status.open_nodes.Add(instance);
         base.Open();
     }
     public override void Close()
-    {
-        //status.open_nodes.Remove(this);
+    {        
         base.Close();
     }
     public override void StartAction()
     {
-        Debug.Log("search start to dest " + status.player_last_seen + " from pos " + status._position);
+        //Debug.Log("search start to dest " + status.player_last_seen + " from pos " + status._position);
         
         actor.SetDirection(status.player_last_seen.x, status.player_last_seen.y); 
         curState = State.RUNNING;
@@ -32,10 +33,10 @@ public class search_leaf : general_node {
     public override void EndAction()
     {
         // do smth at state end
-        Debug.Log("search end");
+        //Debug.Log("search end");
         curState = State.SUCCESS;
+        MESSAGE.print("", -100, -60, 12, 3000);
         
-        actor.SetLooking(true);
     }
     public override State Tick()
     {
@@ -46,6 +47,7 @@ public class search_leaf : general_node {
                 StartAction();
             else if (isnotnear()) ///// TODO: Better condition!!!!
             {
+                //MESSAGE.print("updating dest", -100, -60, 12, 3000);
                 actor.SetDirection(status.player_last_seen.x, status.player_last_seen.y);
             }
             else EndAction();
@@ -64,6 +66,7 @@ public class search_leaf : general_node {
             return true;
         return false;
     }
+    // some overly complicated stuff to define if destination is close enough
     private bool isnotnear()
     {
         bool near = (Mathf.Abs(status._position.x - status.player_last_seen.x) < 0.2f &&

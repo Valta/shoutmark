@@ -20,7 +20,7 @@ public class chase_leaf : general_node {
     }
     public override void Close()
     {
-        //status.open_nodes.Remove(this);
+        
         base.Close();
     }
     public override void StartAction()
@@ -28,7 +28,7 @@ public class chase_leaf : general_node {
         // do smth at state beginning
         // set move direction
         Debug.Log("chase start");
-        status.CloseOthers(this);
+        //status.CloseOthers(this);
         actor.SetLooking(false);
         curState = State.RUNNING;
         

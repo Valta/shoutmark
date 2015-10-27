@@ -16,28 +16,31 @@ public class lookout_leaf : general_node
     // presumably we need these. Use when found out where.
     public override void Open()
     {
-
-
+        if (!status.open_nodes.Contains(instance))
+            status.open_nodes.Add(instance);
         base.Open();
     }
     public override void Close()
-    {
-        //status.open_nodes.Remove(this);
+    {        
         base.Close();
     }
     public override void StartAction()
     {
         // do smth at state beginning
         // TODO: set default movement and radar
-        Debug.Log("lookout start");
-        //status.CloseOthers(this);
+        //Debug.Log("lookout start");
+
+        // stop movement while turning around
+        actor.SetLooking(true);        
         curState = State.RUNNING;
         current_angle_in_degrees = actor.GetDirectionAngle();
         end_angle = current_angle_in_degrees + 360.0f;
     }
     public override void EndAction()
     {
-        Debug.Log("lookout end");
+        //Debug.Log("lookout end");
+
+        // release movement
         actor.SetLooking(false);        
         curState = State.SUCCESS;
     }
@@ -51,7 +54,9 @@ public class lookout_leaf : general_node
             if (curState != State.RUNNING)
                 StartAction();
             else if (current_angle_in_degrees >= end_angle)
+            {
                 EndAction();
+            }
             else actor.SetDirection(current_angle_in_degrees);
         }
 

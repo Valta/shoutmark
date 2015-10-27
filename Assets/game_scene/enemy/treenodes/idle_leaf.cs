@@ -20,8 +20,7 @@ public class idle_leaf : general_node {
         base.Open();
     }
     public override void Close()
-    {
-        //status.open_nodes.Remove(this);
+    {        
         base.Close();
     }
     public override void StartAction()
@@ -29,7 +28,7 @@ public class idle_leaf : general_node {
         // do smth at state beginning
         // TODO: set default movement and radar
         Debug.Log("idlestart");
-        status.CloseOthers(this);
+        //status.CloseOthers(this);
         curState = State.RUNNING;
         actor.SetLooking(false);
     }

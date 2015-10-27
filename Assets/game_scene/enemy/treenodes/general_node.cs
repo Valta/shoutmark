@@ -25,6 +25,7 @@ public abstract class general_node
     public virtual void Close()
     {
         status.open_nodes.Remove(instance);
+        status.last_open_nodes.Remove(instance);
         open = false;
         // remove from open list
         // call endaction

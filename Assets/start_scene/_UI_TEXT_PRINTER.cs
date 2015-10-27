@@ -272,8 +272,8 @@ public class _UI_TEXT_PRINTER : MonoBehaviour
 	{
 		update_messages();
 		update_reports();
-		Debug.Log("timerit="+report_timer[0]+"   "+report_timer[1]+"   "+report_timer[2]);
-		Debug.Log("speedit="+report_speed[0]+"   "+report_speed[1]+"   "+report_speed[2]);
+		//Debug.Log("timerit="+report_timer[0]+"   "+report_timer[1]+"   "+report_timer[2]);
+		//Debug.Log("speedit="+report_speed[0]+"   "+report_speed[1]+"   "+report_speed[2]);
 	}
 
 
@@ -368,7 +368,7 @@ public class _UI_TEXT_PRINTER : MonoBehaviour
 
 
 	private void scroll_report()
-	{Debug.Log("scroll");
+	{//Debug.Log("scroll");
 		for (int a = 0; a < 3; a++)
 			if (report_timer[a] > 0.0f) report_timer[a] -= _TIMER.deltatime();
 		
