@@ -2,19 +2,18 @@
 using System.Collections;
 using System.Collections.Generic;
 
-public class main_selector : general_node {
-
+public class attack_sequence : general_node {
 
     List<general_node> children;
     // constructor for setup (not relying on Unity's Start or Awake)
-    public main_selector(tree_script world_status, enemy_script this_actor)
+    public attack_sequence(tree_script world_status, enemy_script this_actor)
     {
         status = world_status;
         actor = this_actor;
         children = new List<general_node>();
-        children.Add(new fight_sequence(world_status, this_actor));
-        children.Add(new search_sequence(world_status, this_actor));
-        children.Add(new idle_selector(world_status, this_actor));
+        children.Add(new is_in_range(world_status, this_actor));
+        children.Add(new is_cooled_down(world_status, this_actor));
+        children.Add(new attack_leaf(world_status, this_actor));
         instance = this;
     }
     // presumably we need these. Use when found out where.
@@ -45,16 +44,12 @@ public class main_selector : general_node {
         {            
             curState = children[i].exec();
             
-            if (curState != State.FAILURE)
-            {
-                //status.CloseOthers(children[i]); // Close nodes on open list
+            if (curState == State.FAILURE)
+            {                
                 return curState;
             }
         }
-
-        //// only another node can interfere.
-
+        
         return curState;
     }
-
 }

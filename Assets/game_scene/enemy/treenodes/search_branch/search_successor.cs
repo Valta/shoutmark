@@ -15,7 +15,7 @@ public class search_successor : general_node
         children = new List<general_node>();
         children.Add(new search_leaf(world_status, this_actor));
         children.Add(new lookout_leaf(world_status, this_actor));
-        curState = State.SUCCESS;
+        curState = State.FAILURE;
         instance = this;
     }
     // presumably we need these. Use when found out where.
@@ -32,48 +32,36 @@ public class search_successor : general_node
     public override void StartAction()
     {
         Debug.Log("search started");
-        //status.CloseOthers(this);
+        
         running_child = 0;
         curState = State.RUNNING;
     }
     public override void EndAction()
-    {        
-        //children[running_child].EndAction(); 
-        running_child = 0;
-        status.searching = false;
+    {         
+        running_child = 0;       
         curState = State.FAILURE;
     }
     public override State Tick()
     {
-        if (CheckConditions())
+
+        if (curState != State.RUNNING)
+            StartAction();
+        
+        if (running_child >= children.Count)
         {
-            if (curState != State.RUNNING)
-                StartAction();
-
-            if (running_child >= children.Count)
-            {
-                running_child--;
-                Debug.Log(instance + " ended sequence ");
-                EndAction();
-            }
-            else
-            {               
-                State childState = children[running_child].exec();
-
-                if (childState == State.SUCCESS)
-                {
-                    running_child++;
-                }
-            }
+            running_child--;
+            Debug.Log(instance + " ended sequence ");
+            EndAction();
         }
-        else curState = State.FAILURE;
+        else
+        {               
+            State childState = children[running_child].exec();
+
+            if (childState == State.SUCCESS)
+            {
+                running_child++;
+            }
+        }        
         return curState;
     }
-    public bool CheckConditions()
-    {
-        if (!status.player_sighted && status.searching)
-            return true;
-        return false;
-    }
-
 }

@@ -41,31 +41,23 @@ public class lookout_leaf : general_node
         //Debug.Log("lookout end");
 
         // release movement
-        actor.SetLooking(false);        
+        actor.SetLooking(false);
+        status.searching = false;
         curState = State.SUCCESS;
     }
     public override State Tick()
     {
-        if (CheckConditions())
+        MESSAGE.print("lookout", -100, -70, 12, 2000);
+        
+        current_angle_in_degrees += _TIMER.deltatime() * 90.0f;
+        if (curState != State.RUNNING)
+            StartAction();
+        else if (current_angle_in_degrees >= end_angle)
         {
-            MESSAGE.print("lookout", -100, -70, 12, 2000);
-            //MESSAGE.print("sighted=" + (end_angle - current_angle_in_degrees).ToString(), -100, -30, 15, 2005);
-            current_angle_in_degrees += _TIMER.deltatime() * 90.0f;
-            if (curState != State.RUNNING)
-                StartAction();
-            else if (current_angle_in_degrees >= end_angle)
-            {
-                EndAction();
-            }
-            else actor.SetDirection(current_angle_in_degrees);
+            EndAction();
         }
-
+        else actor.SetDirection(current_angle_in_degrees);
+        
         return curState;
-    }
-    public bool CheckConditions()
-    {
-        if (!status.player_sighted)
-            return true;
-        return false;
     }
 }

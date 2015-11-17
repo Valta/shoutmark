@@ -13,7 +13,7 @@ public class fight_selector : general_node {
         status = world_status;
         actor = this_actor;
         children = new List<general_node>();
-        children.Add(new attack_leaf(world_status, this_actor));
+        children.Add(new attack_sequence(world_status, this_actor));
         children.Add(new chase_leaf(world_status, this_actor));
         curState = State.FAILURE;
         instance = this;
@@ -31,43 +31,24 @@ public class fight_selector : general_node {
     }
     public override void StartAction()
     {
-        // do smth at state beginning
-        // TODO: lock on target
+
     }
     public override void EndAction()
     {
-        // do smth at state end
-        // TODO: free radar & searching = true
 
-        //status.searching = true;
-        //curState = State.SUCCESS;
     }
     public override State Tick()
-    {
-        if (CheckConditions())
+    {            
+        for (int i = 0; i < children.Count; ++i)
         {
-            actor.SetDirection(status.player_last_seen.x, status.player_last_seen.y);
-            for (int i = 0; i < children.Count; ++i)
-            {
-                curState = children[i].exec();
+            curState = children[i].exec();
                 
-                if (curState != State.FAILURE)
-                {                    
-                    return curState;
-                }
+            if (curState != State.FAILURE)
+            {                    
+                return curState;
             }
         }
-        else curState = State.FAILURE;
-
         return curState;
     }
-    public bool CheckConditions()
-    {
-        if (status.player_sighted)
-        {
-            status.searching = true;
-            return true;
-        }
-        return false;
-    }
+
 }

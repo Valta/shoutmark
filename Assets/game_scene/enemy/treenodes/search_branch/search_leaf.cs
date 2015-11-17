@@ -40,31 +40,17 @@ public class search_leaf : general_node {
     }
     public override State Tick()
     {
-        if (CheckConditions())
+        MESSAGE.print("search", -100, -70, 12, 2000);
+        if (curState != State.RUNNING)
+            StartAction();
+        else if (isnotnear()) ///// TODO: Better condition!!!!
         {
-            MESSAGE.print("search", -100, -70, 12, 2000);
-            if (curState != State.RUNNING)
-                StartAction();
-            else if (isnotnear()) ///// TODO: Better condition!!!!
-            {
-                //MESSAGE.print("updating dest", -100, -60, 12, 3000);
-                actor.SetDirection(status.player_last_seen.x, status.player_last_seen.y);
-            }
-            else EndAction();
+            //MESSAGE.print("updating dest", -100, -60, 12, 3000);
+            actor.SetDirection(status.player_last_seen.x, status.player_last_seen.y);
         }
-        else
-        {
-            Debug.Log("search failed");
-            curState = State.FAILURE;
-        }
+        else EndAction();
+
         return curState;
-    }
-    public bool CheckConditions()
-    {
-        // player is out of sight AND last known position is not reached
-        if (!status.player_sighted && status.searching)
-            return true;
-        return false;
     }
     // some overly complicated stuff to define if destination is close enough
     private bool isnotnear()

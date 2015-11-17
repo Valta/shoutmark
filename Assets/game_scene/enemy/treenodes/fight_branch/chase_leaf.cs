@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
+// NB! This actually does nothing.
 public class chase_leaf : general_node {
 
     // constructor for setup (not relying on Unity's Start or Awake)
@@ -35,29 +36,19 @@ public class chase_leaf : general_node {
     }
     public override void EndAction()
     {
-        // do smth at state end
+
         Debug.Log("chase end");
-        //if (!status.player_sighted)
-        //    status.searching = true;
+
         curState = State.SUCCESS;
     }
     public override State Tick()
     {
-        if (CheckConditions())
-        {
-            MESSAGE.print("chase", -100, -70, 12, 2000);
-            if (curState != State.RUNNING)
-                StartAction();
-            //curState = State.SUCCESS;
-            
-        }
-        else curState = State.FAILURE;
+
+        MESSAGE.print("chase", -100, -70, 12, 2000);
+        if (curState != State.RUNNING)
+            StartAction();
+
         return curState;
     }
-    public bool CheckConditions()
-    {
-        if (status.player_sighted && !status.player_in_range)
-            return true;
-        return false;
-    }
+
 }
