@@ -13,6 +13,7 @@ public class player_script : MonoBehaviour
 	
 	private _TILEMAP tilemap;
 	private camera_script gamecamera;
+    private GameObject player_model;
 
 
 
@@ -22,7 +23,8 @@ public class player_script : MonoBehaviour
 		y = transform.position.z;
 		tilemap = GameObject.Find("_GLOBAL_SCRIPTS").GetComponent<_TILEMAP>();
 		gamecamera = GameObject.Find("Main Camera").GetComponent<camera_script>();
-		
+        player_model = transform.FindChild("player_model").gameObject;
+
 		id = tilemap.add_to_object_list(x, y, PLAYER_RADIUS);
 		tilemap.set_player_id(id);
 		gamecamera.set_camera_target(x, y, true);
