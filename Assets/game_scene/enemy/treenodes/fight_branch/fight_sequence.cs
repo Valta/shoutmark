@@ -13,7 +13,7 @@ public class fight_sequence : general_node {
         children = new List<general_node>();
         children.Add(new is_visible(world_status, this_actor));
         children.Add(new lock_on_target_leaf(world_status, this_actor));
-        children.Add(new fight_selector(world_status, this_actor));
+        children.Add(new attack_decorator(world_status, this_actor));
         instance = this;
     }
     // presumably we need these. Use when found out where.

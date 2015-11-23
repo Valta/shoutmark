@@ -38,7 +38,7 @@ public class search_sequence : general_node {
     }
     public override State Tick()
     {
-        MESSAGE.print(curState.ToString(), 0, 0, 12, 768);
+        //MESSAGE.print(curState.ToString(), 0, 0, 12, 768);
         for (int i = 0; i < children.Count; ++i)
         {            
             curState = children[i].exec();

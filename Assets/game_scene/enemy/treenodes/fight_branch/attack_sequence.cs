@@ -45,7 +45,7 @@ public class attack_sequence : general_node {
             curState = children[i].exec();
             
             if (curState == State.FAILURE)
-            {                
+            {
                 return curState;
             }
         }

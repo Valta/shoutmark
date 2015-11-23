@@ -20,7 +20,7 @@ public abstract class general_node
     public virtual void Open()
     {
         open = true;
-        
+        Debug.Log(instance);
     }
     public virtual void Close()
     {

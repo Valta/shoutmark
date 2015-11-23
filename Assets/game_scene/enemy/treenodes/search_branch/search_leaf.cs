@@ -44,6 +44,7 @@ public class search_leaf : general_node {
         if (curState != State.RUNNING)
             StartAction();
         else if (isnotnear()) ///// TODO: Better condition!!!!
+                                // NB could / should condition be checked outside node?
         {
             //MESSAGE.print("updating dest", -100, -60, 12, 3000);
             actor.SetDirection(status.player_last_seen.x, status.player_last_seen.y);

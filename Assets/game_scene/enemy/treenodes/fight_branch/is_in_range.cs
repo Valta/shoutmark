@@ -34,7 +34,10 @@ public class is_in_range : general_node {
     public override State Tick()
     {
         if (status.player_in_range)
+        {
+            MESSAGE.print("attack", -100, -70, 12, 2000);
             curState = State.SUCCESS;
+        }
         else curState = State.FAILURE;
 
         return curState;
