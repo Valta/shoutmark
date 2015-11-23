@@ -44,7 +44,7 @@ public abstract class general_node
         
         return curState;
     }
-    public State get_current_state()
+    public State get_current_state() // Why?
     {
         return curState;
     }

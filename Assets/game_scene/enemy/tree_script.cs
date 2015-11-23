@@ -75,7 +75,7 @@ public class tree_script : MonoBehaviour {
         player_in_range = Vector3.Distance(_position, player_last_seen) < ATTACK_RANGE;
         //Debug.Log(player_in_range + ": " + Vector3.Distance(_position, player_last_seen));
 
-        MESSAGE.print("searching=" + searching, -100, -20, 15, 2004);
+        //MESSAGE.print("searching=" + searching, -100, -20, 15, 2004);
         //MESSAGE.print("x,y=" + player_last_seen.x.ToString() + "," + player_last_seen.z.ToString(), -100, -50, 12, 2001);
 
         // 
