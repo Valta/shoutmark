@@ -76,6 +76,23 @@ public class _LEVELS : MonoBehaviour
 			};
 			return level;
 		}
+        if (level_index == 2) // incomplete test level
+        {
+            string[] level =
+			{
+				"TTTTTTTTTTTTTT",
+				"T------------T",
+				"T--t---t-----T",
+				"T--t---tBP---T",
+				"T--e--    -B-T",
+				"T--t-P s  P--T",
+				"T--te-    ---T",
+				"T---ttt---e-BT",
+				"T------------T",
+				"TTTTTTTTTTTTTT"
+			};
+            return level;
+        }
 		
 		Debug.Log("error! bad level index: " + level_index);
 		string[] invalid_level_index = {""};
