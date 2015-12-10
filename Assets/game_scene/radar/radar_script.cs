@@ -5,7 +5,7 @@ public class radar_script : MonoBehaviour
 {
 	private Vector3 last_detected_player_position;
 	private float direction = 45.0f;
-	private float radar_lenght = 3.0f;
+	private float radar_lenght = 5.0f;
 	private float radar_width = 90.0f;
 	private bool player_detected = false;
 	

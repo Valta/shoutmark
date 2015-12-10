@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 public enum State
 {
@@ -9,43 +10,57 @@ public enum State
     //ERROR // so far not used.
 }
 
+public struct sequence_memory_data
+{
+    public int running_child;
+    public State current_state;
+}
+
 public abstract class general_node
 {
-    public bool open;
     protected State curState;
-    protected enemy_script actor;
     protected tree_script status;
     protected general_node instance;
 
-    public virtual void Open()
+    // not defined for leaf nodes
+    protected List<general_node> children;
+
+    public virtual void Open(enemy_script actor)
     {
-        open = true;
-        Debug.Log(instance);
+        //Debug.Log("adding to list: " + instance);
+
+        // Nodes are on last open list only if they are still running!
+        if (actor.open_nodes.Contains(instance))
+            curState = State.RUNNING;
     }
     public virtual void Close()
     {
+        //Debug.Log("removing from list: " + instance);
         status.open_nodes.Remove(instance);
-        status.last_open_nodes.Remove(instance);
-        open = false;
-        // remove from open list
-        // call endaction
+
     }
     public abstract void StartAction(); // call if not on open-list?
     public abstract void EndAction(); // Do stuff needed to exit 
-    public abstract State Tick();
+    public abstract State Tick(enemy_script actor);
 
     // 
-    public State exec()
+    public State exec(enemy_script actor)
     {
-        Open();
+        Open(actor);
         
-        if (Tick() != State.RUNNING) // Tick modifies curState anyway
+        if (Tick(actor) != State.RUNNING) // Tick modifies curState anyway
                 Close();
         
         return curState;
     }
-    public State get_current_state() // Why?
+
+    public void add_child_node(general_node child)
     {
-        return curState;
+        if (children == null)
+        {
+            Debug.Log("Error! Trying to add child to leaf node");
+        }
+        else
+        children.Add(child);
     }
 }

@@ -1,6 +1,8 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
+// TODO: Rearrange data so it can be found!
 public class enemy_script : MonoBehaviour
 {
 	private const float SPEED = 1.0f;
@@ -20,15 +22,87 @@ public class enemy_script : MonoBehaviour
     private float direction = 90.0f;
 	private int id = -1;
 
+    private const float COOLDOWN_TIME = 3.0f;
+    private const float ATTACK_RANGE = 2.0f;
+    private const float GOSSIP_RANGE = 1.0f; // Has to be more than enemy radius * 2!
+    private const int MAX_HEALTH = 5;
+    private const float SEARCH_TIMEOUT = 10.0f;
+    
+// stuff from tree (TODO: delete useless?)
+
+    public tree_script bt;
+
+    private Vector3 _position;
+    private Vector3 player_last_seen;
+    private bool player_sighted;
+
+    //public bool friend_close;
+    //public bool will_talk;
+    //public List<Vector3> friends_last_seen;
+    //public Vector3 closest_friend;
+//
+
+    public int hits;
+    public float end_angle;
+    public float current_angle_in_degrees;
+
+    // values defined in leaf nodes
+    public float attack_timer = 0;
+    private float search_timer = SEARCH_TIMEOUT;
+    public float last_gossip;
+
+    // list of open nodes on last tick
+    public List<general_node> open_nodes;
+    private sequence_memory_data search_sequence;
+
+    // enemy stops moving when it is looking around.
     private bool looking;
+
+    public bool searching { set; get; }
+    // access methods for stuff needed in AI
     public void SetLooking(bool is_looking) { looking = is_looking; }
     public void SetDirection(float target_x, float target_y)
     { direction = ENEMY_MATH.get_absolute_angle(target_x - x, target_y - y); }
+    public void SetDirectionToPlayer()
+    { direction = ENEMY_MATH.get_absolute_angle(player_last_seen.x - x, player_last_seen.y - y); /*Debug.Log("dest " + player_last_seen);*/ }
     public void SetDirection(float angle) { direction = angle; }
     public float GetDirectionAngle() { return direction; }
+    public Vector3 GetPosition() { return _position; }
+    public bool is_dead() { return hits >= MAX_HEALTH; }
+    public bool GetPlayerSighted() { return radar.seeing_player(); }
+    public bool GetPlayerInRange() { return Vector3.Distance(_position, player_last_seen) < ATTACK_RANGE; }
+    public Vector3 GetPlayerLastSeen() { return player_last_seen; }
+    public List<general_node> GetOpenList() { return open_nodes; }
+    public void ResetCooldown() { attack_timer = COOLDOWN_TIME; }
+    public void ResetSearchTimer() { search_timer = SEARCH_TIMEOUT; }
+    
 
-
-
+    // TODO: check if this actually does what it seems to do and copies the list.
+    // NB we need two lists so pointer would be, er, pointless.
+    public void SetOpenList(List<general_node> new_list)
+    {
+        open_nodes.Clear();
+        open_nodes.AddRange(new_list);
+        
+    }
+    ////////////////////////////////////////////////////////////////////////////// Sequence data methods. identify by int / enum! no id now b/c only one.
+    
+    public sequence_memory_data get_data(int id)
+    {        
+        return search_sequence;
+    }
+    public void set_running_child(int child, int id)
+    {
+        search_sequence.running_child = child;        
+    }
+    // this may be useless:
+    public void set_current_state(State state, int id)
+    {
+        search_sequence.current_state = state;
+    }
+    
+    /// ///////////////////////////////////////////////////////////////////////////
+    
 	void Start()
 	{
        
@@ -40,6 +114,12 @@ public class enemy_script : MonoBehaviour
 		tilemap = GameObject.Find("_GLOBAL_SCRIPTS").GetComponent<_TILEMAP>();
         radar = gameObject.GetComponent<radar_script>();
 		id = tilemap.add_to_object_list(x, y, ENEMY_RADIUS);
+        bt = GameObject.Find("Tree").GetComponent<tree_script>();
+
+        search_sequence.running_child = 0;
+        search_sequence.current_state = State.FAILURE;
+
+        open_nodes = new List<general_node>();
 	}
 
 
@@ -62,12 +142,29 @@ public class enemy_script : MonoBehaviour
         rotate_model();
         move_enemy();
 		scroll_texture();
-		update_collision_jump();
-		
+		update_collision_jump();        
 		tilemap.update_object_data(id, x, y);
+        update_world_status();
+        bt.UpdateAI(this);
 	}
 
-
+    private void update_world_status()
+    {
+        _position.x = x;
+        _position.y = y;
+        player_last_seen = radar.last_player_position();
+        if (searching)
+        {
+            search_timer -= _TIMER.deltatime();
+            if (search_timer < 0)
+            {
+                Debug.Log("search timeout");
+                search_timer = SEARCH_TIMEOUT;
+                searching = false;
+            }
+        }
+    }
+    
 	private void move_enemy()
 	{
         bool este = false;
@@ -112,6 +209,10 @@ public class enemy_script : MonoBehaviour
         }
         radar.set_direction(direction);
 		transform.position = new Vector3(x, transform.position.y, y);
+        // update position used by BT nodes (if necessary?)
+
+
+
 	}
 
 
@@ -161,7 +262,13 @@ public class enemy_script : MonoBehaviour
 		
 	}
 
-
+    public bool isnotnear()
+    {
+        bool near = (Mathf.Abs(_position.x - player_last_seen.x) < 0.2f &&
+                     Mathf.Abs(_position.y - player_last_seen.y) < 0.2f);
+        // if (near) Debug.Log("search destination reached" + player_last_seen + " from pos " + _position);
+        return !near;
+    }
 }
 
 
@@ -186,4 +293,6 @@ public class ENEMY_MATH
         if (angle < 0.0f) angle += 2.0f * 3.14159f;
         return angle * 180.0f / 3.14159f;
     }
+
+
 }

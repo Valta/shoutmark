@@ -1,24 +1,25 @@
 ﻿using UnityEngine;
 using System.Collections;
 
+// TODO: Fix!
+// Has to use startaction to define dest angle!
+// Has to ask enemy instance is it running!
 public class lookout_leaf : general_node
 {
-    float end_angle;
-    float current_angle_in_degrees;
-    // constructor for setup (not relying on Unity's Start or Awake)
-    public lookout_leaf(tree_script world_status, enemy_script this_actor)
+    enemy_script cur_actor;
+    // constructor for setup
+    public lookout_leaf(tree_script world_status)
     {
         status = world_status;
-        actor = this_actor;
         curState = State.FAILURE;
         instance = this;
     }
     // presumably we need these. Use when found out where.
-    public override void Open()
+    public override void Open(enemy_script actor)
     {
         if (!status.open_nodes.Contains(instance))
             status.open_nodes.Add(instance);
-        base.Open();
+        base.Open(actor);
     }
     public override void Close()
     {        
@@ -26,37 +27,35 @@ public class lookout_leaf : general_node
     }
     public override void StartAction()
     {
-        // do smth at state beginning
-        // TODO: set default movement and radar
-        //Debug.Log("lookout start");
-
         // stop movement while turning around
-        actor.SetLooking(true);        
+        cur_actor.SetLooking(true);        
         curState = State.RUNNING;
-        current_angle_in_degrees = actor.GetDirectionAngle();
-        end_angle = current_angle_in_degrees + 360.0f;
+        // get current angle and set target angle at full circle
+        cur_actor.current_angle_in_degrees = cur_actor.GetDirectionAngle();
+        cur_actor.end_angle = cur_actor.current_angle_in_degrees + 360.0f;
+        
     }
     public override void EndAction()
     {
-        //Debug.Log("lookout end");
 
         // release movement
-        actor.SetLooking(false);
-        status.searching = false;
+        cur_actor.SetLooking(false);
+        cur_actor.searching = false;
         curState = State.SUCCESS;
     }
-    public override State Tick()
+    public override State Tick(enemy_script actor)
     {
+        cur_actor = actor;
         MESSAGE.print("lookout", -100, -70, 12, 2000);
-        
-        current_angle_in_degrees += _TIMER.deltatime() * 90.0f;
+
+        actor.current_angle_in_degrees += _TIMER.deltatime() * 90.0f;
         if (curState != State.RUNNING)
             StartAction();
-        else if (current_angle_in_degrees >= end_angle)
+        else if (actor.current_angle_in_degrees >= actor.end_angle)
         {
             EndAction();
         }
-        else actor.SetDirection(current_angle_in_degrees);
+        else actor.SetDirection(actor.current_angle_in_degrees);
         
         return curState;
     }

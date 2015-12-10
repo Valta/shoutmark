@@ -1,35 +1,33 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class attack_decorator : general_node {
+public class idle_leaf : general_node {
 
-    general_node child;
-
-    public attack_decorator(tree_script world_status, enemy_script this_actor)
+    // constructor for setup
+    public idle_leaf(tree_script world_status)
     {
         status = world_status;
-        actor = this_actor;
         curState = State.SUCCESS;
-        child = new attack_sequence(world_status, this_actor);
         instance = this;
     }
-    public override void Open()
+    // presumably we need these. Use when found out where.
+    public override void Open(enemy_script actor)
     {
+
         if (!status.open_nodes.Contains(instance))
             status.open_nodes.Add(instance);
-        base.Open();
+        base.Open(actor);
     }
     public override void Close()
-    {
+    {        
         base.Close();
     }
     public override void StartAction() { }
-
     public override void EndAction() { }
-
-    public override State Tick()
+    public override State Tick(enemy_script actor)
     {
-        child.exec();
-        return State.SUCCESS;
+        MESSAGE.print("idle", -100, -70, 12, 2000);       
+        return curState;
     }
+
 }

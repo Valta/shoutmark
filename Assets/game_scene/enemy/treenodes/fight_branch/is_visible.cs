@@ -4,39 +4,32 @@ using System.Collections;
 public class is_visible : general_node {
 
     // constructor for setup (not relying on Unity's Start or Awake)
-    public is_visible(tree_script world_status, enemy_script this_actor)
+    public is_visible(tree_script world_status)
     {
-        status = world_status;
-        actor = this_actor;
+        status = world_status;        
         curState = State.FAILURE;
         instance = this;
     }
-    // presumably we need these. Use when found out where.
-    public override void Open()
+    public override void Open(enemy_script actor)
     {
 
         if (!status.open_nodes.Contains(instance))
             status.open_nodes.Add(instance);
-        base.Open();
+        base.Open(actor);
     }
     public override void Close()
     {        
         base.Close();
     }
-    public override void StartAction()
+    public override void StartAction() { }
+    public override void EndAction() { }
+    public override State Tick(enemy_script actor)
     {
-
-    }
-    public override void EndAction()
-    {
-
-    }
-    public override State Tick()
-    {
-        if (status.player_sighted)
+        if (actor.GetPlayerSighted())
         {
+            
             curState = State.SUCCESS;
-            status.searching = true;
+            actor.searching = true;
         }
         else curState = State.FAILURE;
 

@@ -78,6 +78,7 @@ public class _TILEMAP : MonoBehaviour
 		{
 			goal_blocks = 0;
 			//PRINT.report("LEVEL CLEAR!");
+            MESSAGE.print("LEVEL CLEAR!", -160, -90, 1, 65);
 		}
 	}
 

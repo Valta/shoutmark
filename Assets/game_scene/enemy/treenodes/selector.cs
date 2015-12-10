@@ -1,25 +1,26 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
-public class is_in_range : general_node {
+public class selector : general_node
+{
 
-    // constructor for setup (not relying on Unity's Start or Awake)
-    public is_in_range(tree_script world_status)
+    // constructor for setup
+    public selector(tree_script world_status)
     {
         status = world_status;
-        curState = State.SUCCESS;
+        children = new List<general_node>();        
         instance = this;
     }
-    // presumably we need these. Use when found out where.
+
     public override void Open(enemy_script actor)
     {
-
         if (!status.open_nodes.Contains(instance))
             status.open_nodes.Add(instance);
         base.Open(actor);
     }
     public override void Close()
-    {        
+    {
         base.Close();
     }
     public override void StartAction()
@@ -31,13 +32,16 @@ public class is_in_range : general_node {
 
     }
     public override State Tick(enemy_script actor)
-    {
-        if (actor.GetPlayerInRange())
+    {        
+        for (int i = 0; i < children.Count; ++i)
         {
-            MESSAGE.print("attack", -100, -70, 12, 2000);
-            curState = State.SUCCESS;
+            curState = children[i].exec(actor);
+
+            if (curState != State.FAILURE)
+            {
+                return curState;
+            }
         }
-        else curState = State.FAILURE;
 
         return curState;
     }

@@ -480,7 +480,7 @@ public class _UI_TEXT_PRINTER : MonoBehaviour
 							{
 								if (letter_free[a]) aaa+="-"; else aaa+=(char)(48 + (letter_id[a]+2000000000) % 40);
 							}
-							Debug.Log(aaa+" lopuksi");
+							//Debug.Log(aaa+" lopuksi");
 							
 	}
 
