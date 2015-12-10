@@ -53,7 +53,7 @@ public class MainMenuScript : MonoBehaviour {
 	
 	public void Loadscene(int levelNumber)
 	{
-        tilemap.set_level(levelNumber);
+        tilemap.set_level(levelNumber-1); // levels start from 0 in code
 
 		Application.LoadLevel(1); // gamescene
 		
