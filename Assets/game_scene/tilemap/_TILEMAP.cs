@@ -213,9 +213,14 @@ public class _TILEMAP : MonoBehaviour
 
 	public void get_player_information(ref float x, ref float y, ref float radius)		//
 	{																					//
-		x = object_x[player_id];														//
-		y = object_y[player_id];														//
-		radius = object_radius[player_id];												//
+		if (player_id >= 0)
+		{
+			x = object_x[player_id];														//
+			y = object_y[player_id];														//
+			radius = object_radius[player_id];												//
+		}
+		else
+			Debug.Log("ERROR. get_player_information(), player_id="+player_id);				//
 	}																					//
 
 

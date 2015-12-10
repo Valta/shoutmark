@@ -26,6 +26,7 @@ public class player_script : MonoBehaviour
         player_model = transform.FindChild("player_model").gameObject;
 
 		id = tilemap.add_to_object_list(x, y, PLAYER_RADIUS);
+		Debug.Log("kljladjhslöfkjasödlf id="+id);
 		tilemap.set_player_id(id);
 		gamecamera.set_camera_target(x, y, true);
 	}
