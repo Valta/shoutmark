@@ -12,6 +12,8 @@ public class MainMenuScript : MonoBehaviour {
 	public int LevelsUnlocked = 1; // will be moved to GameManager
 	public Button[] LevelButtons;
 
+    private _TILEMAP tilemap;
+
 	// Use this for initialization
 	void Start () {
 		Canvas.gameObject.SetActive(true);
@@ -27,6 +29,8 @@ public class MainMenuScript : MonoBehaviour {
 			LevelButtons[i].interactable = false;//gameObject.SetActive(false);
 		}
 		UnlockLevels (LevelsUnlocked);
+
+        tilemap = GameObject.Find("_GLOBAL_SCRIPTS").GetComponent<_TILEMAP>();
 
 	
 	}
@@ -49,16 +53,9 @@ public class MainMenuScript : MonoBehaviour {
 	
 	public void Loadscene(int levelNumber)
 	{
-//		if (levelNumber < EditorBuildSettings.scenes.Length) // this may not work outside unity editor and may cause problems
-//		{
-//			//SwitchToPanel(3); //loading screen panel if we have one
-//			Application.LoadLevel(levelNumber);
-//		}
-//		else
-//		{
-//			Debug.Log("Selected level is not in the build, add it");
-//		}
-		Application.LoadLevel(levelNumber);
+        tilemap.set_level(levelNumber);
+
+		Application.LoadLevel(1); // gamescene
 		
 	}
 
