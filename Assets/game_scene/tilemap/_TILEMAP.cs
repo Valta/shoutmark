@@ -99,6 +99,8 @@ public class _TILEMAP : MonoBehaviour
 		total_goal_blocks = 0;
 		goal_blocks = 0;
 		instantiate_tilemap();
+        _UI_TEXT_PRINTER text_printer = gameObject.GetComponent<_UI_TEXT_PRINTER>();
+        text_printer.instantiate_letter_prefabs();
 		MESSAGE.print("FIND " + total_goal_blocks + " GOAL BLOCKS.", -160, -90,1,65);
 	}
 

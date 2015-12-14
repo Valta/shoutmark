@@ -23,7 +23,7 @@ public class player_script : MonoBehaviour
 		y = transform.position.z;
 		tilemap = GameObject.Find("_GLOBAL_SCRIPTS").GetComponent<_TILEMAP>();
 		gamecamera = GameObject.Find("Main Camera").GetComponent<camera_script>();
-        player_model = transform.FindChild("player_model").gameObject;
+        player_model = transform.FindChild("head").gameObject;
 
 		id = tilemap.add_to_object_list(x, y, PLAYER_RADIUS);
 		Debug.Log("kljladjhslöfkjasödlf id="+id);

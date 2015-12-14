@@ -10,9 +10,10 @@ public class enemy_script : MonoBehaviour
 	private const float ENEMY_RADIUS = 0.45f;
 	
 	private Transform model;
-	private Material model_material;
+	//private Material model_material;
 	private _TILEMAP tilemap;
     private radar_script radar;
+    private enemy_graphics_script graphics;
 	private float dt = 0.0f;
 	
 	private float x = 0.0f;
@@ -64,7 +65,7 @@ public class enemy_script : MonoBehaviour
     public void SetDirection(float target_x, float target_y)
     { direction = ENEMY_MATH.get_absolute_angle(target_x - x, target_y - y); }
     public void SetDirectionToPlayer()
-    { direction = ENEMY_MATH.get_absolute_angle(player_last_seen.x - x, player_last_seen.y - y); /*Debug.Log("dest " + player_last_seen);*/ }
+    { direction = ENEMY_MATH.get_absolute_angle(player_last_seen.x - x, player_last_seen.y - y); }
     public void SetDirection(float angle) { direction = angle; }
     public float GetDirectionAngle() { return direction; }
     public Vector3 GetPosition() { return _position; }
@@ -76,14 +77,15 @@ public class enemy_script : MonoBehaviour
     public void ResetCooldown() { attack_timer = COOLDOWN_TIME; }
     public void ResetSearchTimer() { search_timer = SEARCH_TIMEOUT; }
     
-
-    // TODO: check if this actually does what it seems to do and copies the list.
-    // NB we need two lists so pointer would be, er, pointless.
+    // NB we need two separate lists so pointer would be, er, pointless.
     public void SetOpenList(List<general_node> new_list)
     {
         open_nodes.Clear();
-        open_nodes.AddRange(new_list);
-        
+        open_nodes.AddRange(new_list);        
+    }
+    public void shoot()
+    {
+        graphics.shoot();        
     }
     ////////////////////////////////////////////////////////////////////////////// Sequence data methods. identify by int / enum! no id now b/c only one.
     
@@ -109,13 +111,13 @@ public class enemy_script : MonoBehaviour
         x = transform.position.x;
 		y = transform.position.z;
 		
-		model = transform.FindChild("enemy_model_temp");
-		model_material = model.gameObject.GetComponent<Renderer>().material;
+		model = transform.FindChild("enemy_model_parent");
+		//model_material = model.gameObject.GetComponent<Renderer>().material;
 		tilemap = GameObject.Find("_GLOBAL_SCRIPTS").GetComponent<_TILEMAP>();
         radar = gameObject.GetComponent<radar_script>();
 		id = tilemap.add_to_object_list(x, y, ENEMY_RADIUS);
         bt = GameObject.Find("Tree").GetComponent<tree_script>();
-
+        graphics = model.gameObject.GetComponent<enemy_graphics_script>();
         search_sequence.running_child = 0;
         search_sequence.current_state = State.FAILURE;
 
@@ -139,10 +141,10 @@ public class enemy_script : MonoBehaviour
             speed_x = 0;
             speed_y = 0;
         }
-        rotate_model();
+        //rotate_model();
         move_enemy();
-		scroll_texture();
-		update_collision_jump();        
+		//scroll_texture();
+		//update_collision_jump();        
 		tilemap.update_object_data(id, x, y);
         update_world_status();
         bt.UpdateAI(this);
@@ -158,7 +160,7 @@ public class enemy_script : MonoBehaviour
             search_timer -= _TIMER.deltatime();
             if (search_timer < 0)
             {
-                Debug.Log("search timeout");
+                //Debug.Log("search timeout");
                 search_timer = SEARCH_TIMEOUT;
                 searching = false;
             }
@@ -232,7 +234,7 @@ public class enemy_script : MonoBehaviour
 	private void scroll_texture()
 	{
 		int step = (int)Mathf.Abs((int)(_TIMER.time() * TEXTURE_SPEED + id * 0.5f) % 36 - 12);
-		model_material.SetTextureOffset("_MainTex", new Vector2(0.0f, step / 12.0f));
+		//model_material.SetTextureOffset("_MainTex", new Vector2(0.0f, step / 12.0f));
 	}
 
 

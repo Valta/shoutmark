@@ -24,7 +24,7 @@ public class search_leaf : general_node {
     public override void StartAction() 
     {
         cur_actor.ResetSearchTimer();
-        Debug.Log("timer reset");
+        //Debug.Log("timer reset");
     }
     public override void EndAction()
     {

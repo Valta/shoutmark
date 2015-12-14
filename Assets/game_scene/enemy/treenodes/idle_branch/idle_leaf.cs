@@ -26,7 +26,7 @@ public class idle_leaf : general_node {
     public override void EndAction() { }
     public override State Tick(enemy_script actor)
     {
-        MESSAGE.print("idle", -100, -70, 12, 2000);       
+        //MESSAGE.print("idle", -100, -70, 12, 2000);       
         return curState;
     }
 

@@ -32,10 +32,10 @@ public class attack_leaf : general_node {
     public override State Tick(enemy_script actor)
     {
         // TODO: Actual attack logic.
-        MESSAGE.print("attack", -100, -70, 12, 2000);
-        
+        //MESSAGE.print("attack", -100, -70, 12, 2000);
+        actor.shoot();
         MESSAGE.report("penkele", 7);
-        Hit(actor);
+        //Hit(actor);
         return curState;
     }
     void Hit(enemy_script actor)

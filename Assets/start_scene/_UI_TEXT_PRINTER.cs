@@ -204,16 +204,16 @@ public class _UI_TEXT_PRINTER : MonoBehaviour
 		
 		
 		calculate_letter_rectangles();
-		instantiate_letter_prefabs();
+		//instantiate_letter_prefabs();
 	}
 
 
 
-	private void instantiate_letter_prefabs()
+	public void instantiate_letter_prefabs()
 	{
 		get_screen_size();
-		Transform letter_parent = GameObject.Find("Canvas").transform.FindChild("message_texts");
-		
+		Transform letter_parent = GameObject.Find("Canvas").transform.FindChild("message_texts"); // TODO: set parent as indestructible object!
+        Debug.Log("parent: " + letter_parent);
 		for (int a = 0; a < MAX_NUMBER_OF_LETTERS; a++)
 		{
 			GameObject new_letter = (GameObject)Instantiate(letter_prefab,
@@ -226,6 +226,7 @@ public class _UI_TEXT_PRINTER : MonoBehaviour
 			
 			hide_letter(a);
 		}
+        Debug.Log("letters initialised");
 	}
 
 

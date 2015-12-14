@@ -34,7 +34,7 @@ public class is_in_range : general_node {
     {
         if (actor.GetPlayerInRange())
         {
-            MESSAGE.print("attack", -100, -70, 12, 2000);
+            //MESSAGE.print("attack", -100, -70, 12, 2000);
             curState = State.SUCCESS;
         }
         else curState = State.FAILURE;

@@ -46,7 +46,7 @@ public class lookout_leaf : general_node
     public override State Tick(enemy_script actor)
     {
         cur_actor = actor;
-        MESSAGE.print("lookout", -100, -70, 12, 2000);
+        //MESSAGE.print("lookout", -100, -70, 12, 2000);
 
         actor.current_angle_in_degrees += _TIMER.deltatime() * 90.0f;
         if (curState != State.RUNNING)

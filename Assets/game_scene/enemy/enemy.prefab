@@ -245,7 +245,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!1 &195084
 GameObject:
   m_ObjectHideFlags: 1
@@ -1141,6 +1141,10 @@ Prefab:
       propertyPath: laserbeam
       value: 
       objectReference: {fileID: 174870, guid: ad8f8a132956fca41b1b69e2cd005924, type: 2}
+    - target: {fileID: 0}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
   m_RootGameObject: {fileID: 176420}

@@ -28,6 +28,7 @@ public class lock_on_target_leaf : general_node {
     {
         actor.SetDirectionToPlayer();
         actor.searching = true;
+        
         //actor.SetLooking(false);
         // curState is always SUCCESS
         // TODO: define when failed
