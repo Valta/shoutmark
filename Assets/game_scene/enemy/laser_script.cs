@@ -4,8 +4,8 @@ using System.Collections;
 public class laser_script : MonoBehaviour
 {
 	private const int MAX_NUMBER_OF_LASERS = 120;
-	private const float SPEED = 6.0f;
-	private const float DISTANCE = 0.5f;
+	private const float SPEED = 4.0f;
+	private const float DISTANCE = 0.6f;
 	
 	public GameObject laser;
 	private Transform[] lasers = new Transform[MAX_NUMBER_OF_LASERS];

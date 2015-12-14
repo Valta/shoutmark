@@ -3,6 +3,8 @@ using System.Collections;
 
 public class enemy_graphics_script : MonoBehaviour
 {
+	private const float SHOOT_TIME = 0.5f;
+	
 	private Transform body;
 	private Transform head;
 	private Transform left_leg;
@@ -10,11 +12,13 @@ public class enemy_graphics_script : MonoBehaviour
 	private Transform left_gun;
 	private Transform right_gun;
 	
-	private float timer = 0.0f;
+	private float timer;
+	private float shoot_timer;
 	private Vector3 previous_position;
 	private float current_speed;
 	private float current_direction;
 	private bool running;
+	private laser_script laser;
 
 
 	void Start()
@@ -30,6 +34,9 @@ public class enemy_graphics_script : MonoBehaviour
 		current_speed = 0.0f;
 		current_direction = 0.0f;
 		running = false;
+		timer = 0.0f;
+		shoot_timer = 0.0f;
+		laser = GameObject.Find("_GLOBAL_SCRIPTS").GetComponent<laser_script>();
 	}
 
 
@@ -42,20 +49,19 @@ public class enemy_graphics_script : MonoBehaviour
 		calculate_direction();
 		set_previous_position();
 		animate_bodyparts();
-		//animate_idle();
-		//Debug.Log("ENEMY= speed="+current_speed);
 		
 		if (Input.GetKeyDown(KeyCode.S)) shoot();
-		
-		transform.localRotation = Quaternion.Euler(0.0f, -current_direction, 0.0f);
 	}
 
 
 
 	public void shoot()
 	{
-		Debug.Log("SHOOT");
-		head.localPosition = new Vector3(0.0f, 3.0f, 0.0f);
+		if (shoot_timer < 0.01f)
+		{
+			shoot_timer = 0.02f;
+			laser.shoot(transform.position, transform.rotation.eulerAngles.y);
+		}
 	}
 
 
@@ -85,9 +91,9 @@ public class enemy_graphics_script : MonoBehaviour
 		}
 		
 	}
-	
-	
-	
+
+
+
 	private void calculate_direction()
 	{
 		float x = transform.position.x;
@@ -107,6 +113,8 @@ public class enemy_graphics_script : MonoBehaviour
 			if (cd > -10.0f && cd < 10.0f) increment *= cd * 0.1f;
 			current_direction += increment;
 		}
+		
+		transform.localRotation = Quaternion.Euler(0.0f, -current_direction, 0.0f);
 	}
 
 
@@ -121,13 +129,26 @@ public class enemy_graphics_script : MonoBehaviour
 	private void animate_bodyparts()
 	{
 		const float SPEED = 9.0f;
+		if (shoot_timer > 0.01f)
+		{
+			shoot_timer += _TIMER.deltatime();
+			if (shoot_timer > SHOOT_TIME) shoot_timer = 0.0f;
+		}
 		
 		head.localPosition = new Vector3(0.0f, -0.12f + 0.20f * Mathf.Abs(Mathf.Sin(timer * SPEED)), 0.0f);
 		head.localRotation = Quaternion.Euler(0.0f, 180.0f + 16.0f * Mathf.Sin(timer * SPEED), 0.0f);
-		left_gun.localRotation = Quaternion.Euler(-8.1f, 180.0f + 8.0f * Mathf.Sin(timer * SPEED), 90.0f);
-		left_gun.localPosition = new Vector3(0.143f, -0.5f + 0.17f * Mathf.Abs(Mathf.Sin(timer * SPEED - 1.0f)), -0.3f);
-		right_gun.localRotation = Quaternion.Euler(-8.1f, 180.0f + 8.0f * Mathf.Sin(timer * SPEED), 90.0f);
-		right_gun.localPosition = new Vector3(0.143f, -0.5f + 0.17f * Mathf.Abs(Mathf.Sin(timer * SPEED - 1.0f)), 0.3f);
+		left_gun.localRotation = Quaternion.Euler(	-8.1f,
+													180.0f + 8.0f * Mathf.Sin(timer * SPEED),
+													90.0f - (shoot_timer / SHOOT_TIME) * 45.0f);
+		left_gun.localPosition = new Vector3(	0.143f - 0.25f * Mathf.Sin(3.14f * shoot_timer / SHOOT_TIME),
+												-0.5f + 0.17f * Mathf.Abs(Mathf.Sin(timer * SPEED - 1.0f)),
+												-0.3f);
+		right_gun.localRotation = Quaternion.Euler(	-8.1f,
+													180.0f + 8.0f * Mathf.Sin(timer * SPEED),
+													90.0f - (shoot_timer / SHOOT_TIME) * 50.0f);
+		right_gun.localPosition = new Vector3(	0.143f - 0.35f * Mathf.Sin(3.14f * shoot_timer / SHOOT_TIME),
+												-0.5f + 0.17f * Mathf.Abs(Mathf.Sin(timer * SPEED - 1.0f)),
+												0.3f);
 		
 		left_leg.localRotation = Quaternion.Euler(0.0f, 0.0f, 80.0f * Mathf.Sin(timer * SPEED));
 		right_leg.localRotation = Quaternion.Euler(0.0f, 0.0f, -80.0f * Mathf.Sin(timer * SPEED));
