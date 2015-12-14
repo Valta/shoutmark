@@ -64,14 +64,16 @@ public class _LEVELS : MonoBehaviour
 			string[] level =
 			{
 				"TTTTTTTTTTTTTT",
-				"T------------T",
-				"T--t---t-----T",
-				"T--t-s-tBP---T",
-				"T--e-------B-T",
-				"T--t-P-t--P--T",
-				"T--te--t-----T",
-				"T---ttt---e-BT",
-				"T------------T",
+                "T-------------T",
+				"T-------------T",
+				"T--t---t------T",
+				"T--t---tBG----T",
+				"Te---------B--T",
+				"T--t  st--G---T",
+				"T--t   t------T",
+				"T---ttt---e-B-T",
+				"T---G---------T",
+                "T-------------T",
 				"TTTTTTTTTTTTTT"
 			};
 			return level;

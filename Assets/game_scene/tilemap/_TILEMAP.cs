@@ -2,7 +2,6 @@
 using System.Collections;
 
 
-
 	// kameran kallistuskulmat: (38, 12, 0)
 	// kameran koko (ortografinen): noin 2.8
 	// tilekuvan position, rotation, scale= (0.08, 0.95, 0.37), (0, 12, 0), (1.4, 3.55, 0)
@@ -17,6 +16,7 @@ public class _TILEMAP : MonoBehaviour
 	private int level_height = 0;
 	private int current_level = 0;
 	private _LEVELS levels;
+    
 	
 										// counters:
 	public int total_goal_blocks = 0;
@@ -67,21 +67,37 @@ public class _TILEMAP : MonoBehaviour
 	void Start()
 	{
 		levels = gameObject.GetComponent<_LEVELS>();
+        
 	}
 
 
 
 	void Update()
 	{
-		//Debug.Log("goal blocks="+goal_blocks);
+		
 		if (goal_blocks == total_goal_blocks)
 		{
 			goal_blocks = 0;
-			//PRINT.report("LEVEL CLEAR!");
-            MESSAGE.print("LEVEL CLEAR!", -160, -90, 1, 65);
+            level_clear();
+            // TODO: Add winning animation?
 		}
+        if (Input.GetKeyDown(KeyCode.N))
+        {
+            set_level(current_level + 1);
+            
+            _TIMER.set_pause(false);
+            Application.LoadLevel("game_scene");
+        }
+        if (Input.GetKeyDown(KeyCode.U))
+        {
+            Application.LoadLevel("game_scene");
+        }
 	}
-
+    void init_text()
+    {
+        _UI_TEXT_PRINTER text_printer = gameObject.GetComponent<_UI_TEXT_PRINTER>();
+        text_printer.instantiate_letter_prefabs();
+    }
 
 
 				// public interface:
@@ -99,8 +115,7 @@ public class _TILEMAP : MonoBehaviour
 		total_goal_blocks = 0;
 		goal_blocks = 0;
 		instantiate_tilemap();
-        _UI_TEXT_PRINTER text_printer = gameObject.GetComponent<_UI_TEXT_PRINTER>();
-        text_printer.instantiate_letter_prefabs();
+        init_text();
 		MESSAGE.print("FIND " + total_goal_blocks + " GOAL BLOCKS.", -160, -90,1,65);
 	}
 
@@ -108,6 +123,7 @@ public class _TILEMAP : MonoBehaviour
 
 	private void instantiate_tilemap()
 	{
+
 		GameObject tilemap_parent_gameobject = (GameObject)Instantiate(new GameObject(), new Vector3(0.0f, 0.0f, 0.0f), Quaternion.identity);
 		Transform tilemap_parent = tilemap_parent_gameobject.transform;
 		tilemap_parent.name = "_TILEMAP_PARENT";
@@ -194,12 +210,14 @@ public class _TILEMAP : MonoBehaviour
 
 	public int add_to_object_list(float x, float y, float radius)
 	{
+        Debug.Log("object nr " + number_of_objects);
 		if (number_of_objects < MAX_NUMBER_OF_OBJECTS)
 		{
 			object_x[number_of_objects] = x;
 			object_y[number_of_objects] = y;
 			object_radius[number_of_objects] = radius;
 			number_of_objects++;
+            
 			return (number_of_objects - 1); // return the id for an object.
 		}
 		return -1; // the object list is full, return illegal id.
@@ -338,7 +356,11 @@ public class _TILEMAP : MonoBehaviour
 			return TILE_BLOCK; // if coordinates are outside the level, return any non-movable wall tile.
 	}
 
-
-
-
+    private void level_clear()
+    {
+        MESSAGE.print("LEVEL CLEAR!", -160, 0, 1, 65);
+        MESSAGE.print("press n to continue", -160, 20, 5, 66);
+        // TODO: pause, next button, animation?
+        _TIMER.set_pause(true);
+    }
 }

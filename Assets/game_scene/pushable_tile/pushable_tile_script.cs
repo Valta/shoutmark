@@ -230,6 +230,7 @@ public class pushable_tile_script : MonoBehaviour
 			Debug.Log("cant move yet!");
 			
 		}
+        MESSAGE.print("GOAL BLOCKS FOUND: " + tilemap.goal_blocks, -160, -90, 1, 65);
 	}
 
 

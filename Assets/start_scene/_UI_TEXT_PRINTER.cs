@@ -273,8 +273,7 @@ public class _UI_TEXT_PRINTER : MonoBehaviour
 	{
 		update_messages();
 		update_reports();
-		//Debug.Log("timerit="+report_timer[0]+"   "+report_timer[1]+"   "+report_timer[2]);
-		//Debug.Log("speedit="+report_speed[0]+"   "+report_speed[1]+"   "+report_speed[2]);
+
 	}
 
 
@@ -282,7 +281,7 @@ public class _UI_TEXT_PRINTER : MonoBehaviour
 	private void update_messages()
 	{
 		int number_of_messages = MESSAGE.number_of_updated_messages();
-		if (number_of_messages > 0) Debug.Log("number="+number_of_messages);
+		if (number_of_messages > 0) Debug.Log("number of messages="+number_of_messages);
 		for (int a = 0; a < number_of_messages; a++)
 		{
 			string message = "";
