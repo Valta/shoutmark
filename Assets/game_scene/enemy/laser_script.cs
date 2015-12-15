@@ -101,6 +101,19 @@ public class laser_script : MonoBehaviour
 				{
 					destroy_laser(a);
 				}
+				float player_x = 0;
+				float player_y = 0;
+				float player_radius = 0;
+				tilemap.get_player_information(ref player_x, ref player_y, ref player_radius);
+				if (lasers[a].position.x > player_x - player_radius &&
+					lasers[a].position.x < player_x + player_radius &&
+					lasers[a].position.z > player_y - player_radius &&
+					lasers[a].position.z < player_y + player_radius)
+				{
+					player_script player = GameObject.Find("player(Clone)").GetComponent<player_script>();
+					player.laser_hit();
+					destroy_laser(a);
+				}
 			}
 		}
 	}

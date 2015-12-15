@@ -73,6 +73,12 @@ public class player_script : MonoBehaviour
 			speed_x = speed;
 		}
 		
+		if (Input.GetKeyDown(KeyCode.Alpha1))
+		{
+			MESSAGE.print("test TEST", 0, 50, 15, 5, 77);
+			MESSAGE.print("test TEST", 2, 60, 15, 30, 78);
+		}
+		
 		move_player();
 		gamecamera.set_camera_target(x, y, false);
 		tilemap.update_object_data(id, x, y);
@@ -179,5 +185,12 @@ public class player_script : MonoBehaviour
 				pushable.push_this_tile("RIGHT");
 			}
 		}
+	}
+
+
+
+	public void laser_hit()
+	{
+		Debug.Log("LAASERI OSUI");
 	}
 }
