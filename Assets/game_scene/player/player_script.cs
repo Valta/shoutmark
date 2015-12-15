@@ -41,11 +41,15 @@ public class player_script : MonoBehaviour
 		
 		if (Input.GetMouseButton(0))
 		{
-			float distance_to_touch =
-				Mathf.Sqrt(	(x - gamecamera.get_touch_x()) * (x - gamecamera.get_touch_x()) +
-							(y - gamecamera.get_touch_y()) * (y - gamecamera.get_touch_y()));
-			speed_x = (gamecamera.get_touch_x() - x) * 4.0f * _TIMER.deltatime() / distance_to_touch;
-			speed_y = (gamecamera.get_touch_y() - y) * 4.0f * _TIMER.deltatime() / distance_to_touch;
+			float touch_x = gamecamera.get_touch_x();
+			float touch_y = gamecamera.get_touch_y();
+			float distance_to_touch = Mathf.Sqrt((x - touch_x) * (x - touch_x) + (y - touch_y) * (y - touch_y));
+			if (Mathf.Abs(touch_x - x) > PLAYER_RADIUS || Mathf.Abs(touch_y - y) > PLAYER_RADIUS)
+			{
+				speed_x = (touch_x - x) * speed / distance_to_touch;
+				speed_y = (touch_y - y) * speed / distance_to_touch;
+			}
+			//Debug.Log("speedx="+speed_x+"   speedy0"+speed_y);
 		}
 		
 		if (Input.GetKey(KeyCode.UpArrow))
@@ -118,7 +122,7 @@ public class player_script : MonoBehaviour
 	private void try_to_push_tile(string direction)
 	{
 		float PUSH_RADIUS = PLAYER_RADIUS - 0.1f;		// a bit smaller that player radius.
-		float PUSH_DISTANCE = PLAYER_RADIUS + 0.1f;		// a bit bigger than player radius.
+		float PUSH_DISTANCE = PLAYER_RADIUS + 0.01f;		// a bit bigger than player radius.
 		
 		if (direction == "UP")
 		{

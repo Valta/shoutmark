@@ -13,6 +13,7 @@ public class MESSAGE
 	private static int[] message_y = new int[MAX_NUMBER_OF_MESSAGES];
 	private static int[] message_color = new int[MAX_NUMBER_OF_MESSAGES];
 	private static int[] message_id = new int[MAX_NUMBER_OF_MESSAGES];
+	private static int[] message_size = new int[MAX_NUMBER_OF_MESSAGES];
 	private static bool[] message_update = new bool[MAX_NUMBER_OF_MESSAGES];
 	
 	private static bool[] will_be_reported = new bool[MAX_NUMBER_OF_MESSAGES];
@@ -21,6 +22,13 @@ public class MESSAGE
 
 
 	public static void print(string new_message, int x, int y, int color, int id)
+	{
+		print(new_message, x, y, color, 40, id);
+	}
+
+
+
+	public static void print(string new_message, int x, int y, int color, int size, int id)
 	{
 		//Debug.Log("PRINT: prosessoidaan "+new_message+" x="+x+" y="+y+" id="+id+" color="+color);
 		bool new_id = true;
@@ -35,6 +43,7 @@ public class MESSAGE
 				message[a] = new_message;
 				message_x[a] = x;
 				message_y[a] = y;
+				message_size[a] = size;
 				message_color[a] = color;
 				//Debug.Log("PRINT: new message="+new_message+"  update="+message_update[a]);
 			}
@@ -52,6 +61,7 @@ public class MESSAGE
 			message_y[index] = y;
 			message_color[index] = color;
 			message_id[index] = id;
+			message_size[index] = size;
 			message_update[index] = true;
 			//Debug.Log("PRINT: new message="+new_message+"  NEW ID update="+message_update[index]);
 		}
@@ -73,6 +83,7 @@ public class MESSAGE
 		message_y[index] = 70;
 		message_color[index] = color;
 		message_id[index] = next_report_id;
+		message_size[index] = 20;
 		will_be_reported[index] = true;
 		message_update[index] = false;
 		Debug.Log("report: new message="+new_report+"  REPORT ID="+message_id[index]);
@@ -94,7 +105,10 @@ public class MESSAGE
 
 
 
-	public static void get_updated_message(ref string new_message, ref int x, ref int y, ref int color, ref int id)
+	public static void get_updated_message(	ref string new_message,
+											ref int x, ref int y,
+											ref int color, ref int size,
+											ref int id)
 	{
 		int index = MAX_NUMBER_OF_MESSAGES - 1;
 		for (int a = MAX_NUMBER_OF_MESSAGES - 2; a >= 0; a--)
@@ -107,6 +121,7 @@ public class MESSAGE
 		y = message_y[index];
 		color = message_color[index];
 		id = message_id[index];
+		size = message_size[index];
 	}
 
 
@@ -288,9 +303,10 @@ public class _UI_TEXT_PRINTER : MonoBehaviour
 			int x = 0;
 			int y = 0;
 			int color = 0;
+			int size = 0;
 			int id = 0;
-			MESSAGE.get_updated_message(ref message, ref x, ref y, ref color, ref id);
-			display_text(message, x, y, 20, letter_colors[color], id, false);
+			MESSAGE.get_updated_message(ref message, ref x, ref y, ref color, ref size, ref id);
+			display_text(message, x, y, size, letter_colors[color], id, false);
 		}
 	}
 

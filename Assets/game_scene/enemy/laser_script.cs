@@ -3,7 +3,7 @@ using System.Collections;
 
 public class laser_script : MonoBehaviour
 {
-	private const int MAX_NUMBER_OF_LASERS = 120;
+	private const int MAX_NUMBER_OF_LASERS = 20;
 	private const float SPEED = 4.0f;
 	private const float DISTANCE = 0.6f;
 	

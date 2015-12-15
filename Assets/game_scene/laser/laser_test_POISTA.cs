@@ -23,3 +23,16 @@ public class laser_test_POISTA : MonoBehaviour
 	
 	
 }
+
+/*
+			float touch_x = gamecamera.get_touch_x();
+			float touch_y = gamecamera.get_touch_y();
+			float distance_to_touch = Mathf.Sqrt((x - touch_x) * (x - touch_x) + (y - touch_x) * (y - touch_x));
+			if (Mathf.Abs(touch_x - x) > PLAYER_RADIUS && Mathf.Abs(touch_y - y) > PLAYER_RADIUS)
+			{
+				speed_x = (touch_x - x) * speed * distance_to_touch;
+				speed_y = (touch_y - y) * speed * distance_to_touch;
+			}
+			//Debug.Log("speedx="+speed_x+"   speedy0"+speed_y);
+
+*/
