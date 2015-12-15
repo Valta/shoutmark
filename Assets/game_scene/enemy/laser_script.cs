@@ -12,12 +12,14 @@ public class laser_script : MonoBehaviour
 	private bool[] laser_active = new bool[MAX_NUMBER_OF_LASERS];
 	private float[] laser_direction = new float[MAX_NUMBER_OF_LASERS];
 	private _TILEMAP tilemap;
+	private particle_script particles;
 
 
 
 	void Start()
 	{
 		tilemap = GameObject.Find("_GLOBAL_SCRIPTS").GetComponent<_TILEMAP>();
+		particles = GameObject.Find("_GLOBAL_SCRIPTS").GetComponent<particle_script>();
 		initialize_lasers();
 	}
 
@@ -69,6 +71,8 @@ public class laser_script : MonoBehaviour
 								0.0f,
 								position.z - (b - 0.5f) * DISTANCE * Mathf.Sin((direction + 90.0f) * 3.14159f / 180.0f));
 				lasers[index].rotation = Quaternion.Euler(0.0f, laser_direction[index], 0.0f);
+				
+				particles.start_particle(position, direction, 1);
 			}
 			else
 			{

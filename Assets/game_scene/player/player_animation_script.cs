@@ -13,6 +13,7 @@ public class player_animation_script : MonoBehaviour
 	private float current_speed;
 	private float current_direction;
 	private float timer = 0.0f;
+	private float damage_timer;
 
 
 
@@ -26,6 +27,7 @@ public class player_animation_script : MonoBehaviour
 		current_speed = 0.0f;
 		current_direction = 0.0f;
 		timer = 0.0f;
+		damage_timer = 0.0f;
 	}
 
 
@@ -38,6 +40,13 @@ public class player_animation_script : MonoBehaviour
 		animate_bodyparts();
 		
 		transform.localRotation = Quaternion.Euler(0.0f, -current_direction, 0.0f);
+	}
+
+
+
+	public void damage()
+	{
+		damage_timer = 0.01f;
 	}
 
 
@@ -86,8 +95,24 @@ public class player_animation_script : MonoBehaviour
 
 	private void animate_bodyparts()
 	{
+		float DAMAGE_TIME = 0.7f;
+		if (damage_timer > 0.001f)
+		{
+			damage_timer += _TIMER.deltatime();
+			float AMOUNT = 0.7f;
+			body.localScale = new Vector3(	1.0f - AMOUNT * Mathf.Sin(12.4f * damage_timer / DAMAGE_TIME),
+											1.0f + AMOUNT * Mathf.Sin(12.4f * damage_timer / DAMAGE_TIME),
+											1.0f - AMOUNT * Mathf.Sin(12.4f * damage_timer / DAMAGE_TIME));
+		}
+		else
+			body.localScale = new Vector3(1.0f, 1.0f, 1.0f);
+		
+		if (damage_timer > DAMAGE_TIME) damage_timer = 0.0f;
+		
 		body.localPosition = new Vector3(	0.0f,
-											0.5f + 0.6f * Mathf.Abs(Mathf.Sin(timer * SPEED)),
+											0.5f +
+											0.6f * Mathf.Abs(Mathf.Sin(timer * SPEED) +
+											1.0f * Mathf.Sin(3.14f * damage_timer / DAMAGE_TIME)),
 											0.0f);
 		ass_ball.localPosition = new Vector3(	-0.72f,
 												-0.44f + 0.6f * Mathf.Abs(Mathf.Sin(timer * SPEED - 1.0f)),

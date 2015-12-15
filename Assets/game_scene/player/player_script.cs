@@ -14,7 +14,7 @@ public class player_script : MonoBehaviour
 	private _TILEMAP tilemap;
 	private camera_script gamecamera;
     private GameObject player_model;
-
+	private particle_script particles;
 
 
 	void Start()
@@ -22,6 +22,7 @@ public class player_script : MonoBehaviour
 		x = transform.position.x;
 		y = transform.position.z;
 		tilemap = GameObject.Find("_GLOBAL_SCRIPTS").GetComponent<_TILEMAP>();
+		particles = GameObject.Find("_GLOBAL_SCRIPTS").GetComponent<particle_script>();
 		gamecamera = GameObject.Find("Main Camera").GetComponent<camera_script>();
         player_model = transform.FindChild("head").gameObject;
 
@@ -191,6 +192,7 @@ public class player_script : MonoBehaviour
 
 	public void laser_hit()
 	{
-		Debug.Log("LAASERI OSUI");
+		particles.start_particle(transform.position, 0, 0);
+		player_model.GetComponent<player_animation_script>().damage();
 	}
 }
