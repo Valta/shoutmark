@@ -16,6 +16,7 @@ public class _TILEMAP : MonoBehaviour
 	private int level_height = 0;
 	private int current_level = 0;
 	private _LEVELS levels;
+    private laser_script laser;
     
 	
 										// counters:
@@ -67,6 +68,7 @@ public class _TILEMAP : MonoBehaviour
 	void Start()
 	{
 		levels = gameObject.GetComponent<_LEVELS>();
+        laser = gameObject.GetComponent<laser_script>();
         
 	}
 
@@ -108,6 +110,7 @@ public class _TILEMAP : MonoBehaviour
 
 	public void start_game()
 	{
+        
 		levels.load_level(	current_level,
 							ref level_width,
 							ref level_height,
@@ -116,14 +119,19 @@ public class _TILEMAP : MonoBehaviour
 		goal_blocks = 0;
 		instantiate_tilemap();
         init_text();
-		MESSAGE.print("FIND " + total_goal_blocks + " GOAL BLOCKS.", -160, -90,1,65);
+        laser.initialize_lasers();
+        MESSAGE.print("", -160, -90, 1, 20, 65);
+        MESSAGE.print("", -170, 90, 6, 10, 22);
+        MESSAGE.print("FIND " + total_goal_blocks + " GOAL BLOCKS.", -160, -90, 1, 20, 65);
+        MESSAGE.print("press M to pause", -170, 90, 6, 10, 22);
 	}
 
 
 
 	private void instantiate_tilemap()
 	{
-
+        // clear old object and pushable lists when starting new level
+        objectlist_clear();
 		GameObject tilemap_parent_gameobject = (GameObject)Instantiate(new GameObject(), new Vector3(0.0f, 0.0f, 0.0f), Quaternion.identity);
 		Transform tilemap_parent = tilemap_parent_gameobject.transform;
 		tilemap_parent.name = "_TILEMAP_PARENT";
@@ -204,6 +212,7 @@ public class _TILEMAP : MonoBehaviour
 				}
 			}
 		}
+
 	}
 
 
@@ -220,6 +229,7 @@ public class _TILEMAP : MonoBehaviour
             
 			return (number_of_objects - 1); // return the id for an object.
 		}
+        Debug.Log("objects full!");
 		return -1; // the object list is full, return illegal id.
 	}
 
@@ -265,6 +275,7 @@ public class _TILEMAP : MonoBehaviour
 			number_of_pushables++;
 			return (number_of_pushables - 1); // return the id for the pushable tile.
 		}
+        Debug.Log("pushables full!");
 		return -1; // the pushable list is full, return illegal id.
 	}
 
@@ -282,7 +293,7 @@ public class _TILEMAP : MonoBehaviour
 	{
 		for (int a = 0; a < number_of_pushables; a++)
 		{
-			Debug.Log("pushable coordinates:"+pushable_x[a]+","+pushable_y[a]);
+			//Debug.Log("pushable coordinates:"+pushable_x[a]+","+pushable_y[a]);
 			if (pushable_x[a] == x && pushable_y[a] == y)
 				return pushable_script[a];
 		}
@@ -358,9 +369,30 @@ public class _TILEMAP : MonoBehaviour
 
     private void level_clear()
     {
-        MESSAGE.print("LEVEL CLEAR!", -160, 0, 1, 65);
-        MESSAGE.print("press n to continue", -160, 20, 5, 66);
+        MESSAGE.print("LEVEL CLEAR!", -160, 0, 1, 20, 65);
+        MESSAGE.print("", -160, 20, 5, 15, 66);
+        MESSAGE.print("press n to continue", -160, 20, 5, 15, 66);
+        MESSAGE.print("", -170, 90, 6, 10, 22);
         // TODO: pause, next button, animation?
         _TIMER.set_pause(true);
+    }
+    private void objectlist_clear()
+    {
+	    for (int i = 0; i < MAX_NUMBER_OF_OBJECTS; ++i)
+        {
+            object_x[i] = 0;
+            object_y[i] = 0;
+            object_radius[i] = 0;
+        }
+	    number_of_objects = 0;
+
+        for (int i = 0; i < MAX_NUMBER_OF_PUSHABLES; ++i)
+        {
+            pushable_x[i] = 0;
+            pushable_y[i] = 0;
+            pushable_tile_type[i] = 0;
+            pushable_script[i] = null;
+        }
+        number_of_pushables = 0;
     }
 }

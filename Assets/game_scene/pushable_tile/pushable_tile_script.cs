@@ -11,7 +11,7 @@ public class pushable_tile_script : MonoBehaviour
 	private int x = 0;
 	private int y = 0;
 	private int tile_under = _TILEMAP.TILE_FLOOR;
-	private float move_timer = 0.0f;
+	private float move_timer; // = 0.0f;
 	private float MOVE_TIME = 0.3f;
 	private string move_direction = "";
 	private bool starting_to_move = false;
@@ -24,7 +24,7 @@ public class pushable_tile_script : MonoBehaviour
 		x = (int)transform.position.x;
 		y = (int)(-transform.position.z);
 		get_type_of_this_tile();
-		
+        move_timer = 0.0f;
 		tilemap = GameObject.Find("_GLOBAL_SCRIPTS").GetComponent<_TILEMAP>();
 		id = tilemap.add_to_pushable_list(x, y, type, gameObject.GetComponent<pushable_tile_script>());
 		model = transform.FindChild("Cube");
@@ -230,7 +230,7 @@ public class pushable_tile_script : MonoBehaviour
 			Debug.Log("cant move yet!");
 			
 		}
-        MESSAGE.print("GOAL BLOCKS FOUND: " + tilemap.goal_blocks, -160, -90, 1, 65);
+        MESSAGE.print("GOAL BLOCKS FOUND: " + tilemap.goal_blocks, -160, -90, 1, 20, 65);
 	}
 
 

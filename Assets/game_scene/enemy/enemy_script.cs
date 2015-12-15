@@ -7,14 +7,14 @@ public class enemy_script : MonoBehaviour
 {
 	private const float SPEED = 1.0f;
 	private const float TEXTURE_SPEED = 7.5f;
-	private const float ENEMY_RADIUS = 0.45f;
+	private const float ENEMY_RADIUS = 0.35f;
 	
 	private Transform model;
 	//private Material model_material;
 	private _TILEMAP tilemap;
     private radar_script radar;
     private enemy_graphics_script graphics;
-	private float dt = 0.0f;
+    private float dt = 0.0f;
 	
 	private float x = 0.0f;
 	private float y = 0.0f;
@@ -24,7 +24,7 @@ public class enemy_script : MonoBehaviour
 	private int id = -1;
 
     private const float COOLDOWN_TIME = 3.0f;
-    private const float ATTACK_RANGE = 2.0f;
+    private const float ATTACK_RANGE = 3.0f;
     private const float GOSSIP_RANGE = 1.0f; // Has to be more than enemy radius * 2!
     private const int MAX_HEALTH = 5;
     private const float SEARCH_TIMEOUT = 10.0f;
@@ -85,7 +85,7 @@ public class enemy_script : MonoBehaviour
     }
     public void shoot()
     {
-        graphics.shoot();        
+        graphics.shoot();
     }
     ////////////////////////////////////////////////////////////////////////////// Sequence data methods. identify by int / enum! no id now b/c only one.
     
@@ -118,6 +118,7 @@ public class enemy_script : MonoBehaviour
 		id = tilemap.add_to_object_list(x, y, ENEMY_RADIUS);
         bt = GameObject.Find("Tree").GetComponent<tree_script>();
         graphics = model.gameObject.GetComponent<enemy_graphics_script>();
+        
         search_sequence.running_child = 0;
         search_sequence.current_state = State.FAILURE;
 

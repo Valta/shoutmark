@@ -203,7 +203,6 @@ GameObject:
   - 114: {fileID: 11488782}
   - 114: {fileID: 11418182}
   - 114: {fileID: 11499816}
-  - 114: {fileID: 11446078}
   m_Layer: 0
   m_Name: enemy
   m_TagString: Untagged
@@ -1053,18 +1052,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   radar_line: {fileID: 174870, guid: ad8f8a132956fca41b1b69e2cd005924, type: 2}
---- !u!114 &11446078
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 176420}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2baf655872e60b84e954e0de1f194fd1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  laserbeam: {fileID: 174870, guid: ad8f8a132956fca41b1b69e2cd005924, type: 2}
 --- !u!114 &11473300
 MonoBehaviour:
   m_ObjectHideFlags: 1

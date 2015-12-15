@@ -3,6 +3,7 @@ using System.Collections;
 
 public class _LEVELS : MonoBehaviour
 {
+    public const int TOTAL_LEVELS = 3;
 
 	void Start()
 	{
@@ -40,65 +41,85 @@ public class _LEVELS : MonoBehaviour
 
 	private string[] get_level_data(int level_index)
 	{
-		if (level_index == 0)
-		{
-			string[] level =
-			{
-				"TTTTTTTTTTTTTT",
-				"T------------T",
-				"T---------G--T",
-				"Tt-e-TTTT----T",
-				"T-------t----T",
-				"T-------tt---T",
-				"TTTTTt---te--T",
-				"T    t---t---T",
-				"Ts   t---t---T",
-				"T    --G-----T",
-				"T    --------T",
-				"TTTTTTTTTTTTTT"
-			};
-			return level;
-		}
-		if (level_index == 1)
-		{
-			string[] level =
-			{
-				"TTTTTTTTTTTTTT",
-                "T-------------T",
-				"T-------------T",
-				"T--t---t------T",
-				"T--t---tBG----T",
-				"Te---------B--T",
-				"T--t  st--G---T",
-				"T--t   t------T",
-				"T---ttt---e-B-T",
-				"T---G---------T",
-                "T-------------T",
-				"TTTTTTTTTTTTTT"
-			};
-			return level;
-		}
-        if (level_index == 2) // incomplete test level
+        switch (level_index)
         {
-            string[] level =
-			{
-				"TTTTTTTTTTTTTT",
-				"T------------T",
-				"T--t---t-----T",
-				"T--t---tBP---T",
-				"T--e--    -B-T",
-				"T--t-P s  P--T",
-				"T--te-    ---T",
-				"T---ttt---e-BT",
-				"T------------T",
-				"TTTTTTTTTTTTTT"
-			};
-            return level;
+            case (0):
+                {
+                        string[] level =
+			        {
+				        "TTTTTTTTTTTTTT",
+				        "T------------T",
+				        "T---------G--T",
+				        "Tt-e-TTTT----T",
+				        "T-------t----T",
+				        "T-------tt---T",
+				        "TTTTTt---te--T",
+				        "T    t---t---T",
+				        "Ts   t---t---T",
+				        "T    --G-----T",
+				        "T    --------T",
+				        "TTTTTTTTTTTTTT"
+			        };
+                    return level;
+                }
+            case(1):
+                {
+                    string[] level =
+			        {
+				        "TTTTTTTTTTTTTTT",
+                        "T-------------T",
+				        "T-------------T",
+				        "T--t---t------T",
+				        "T--t---tBG----T",
+				        "Te---------B--T",
+				        "T--t  st--G---T",
+				        "T--t   t------T",
+				        "T---ttt---e-B-T",
+				        "T---G---------T",
+                        "T-------------T",
+				        "TTTTTTTTTTTTTTT"
+			        };
+                    return level;
+                }
+            case(2):
+                {
+                    string[] level =
+			        {
+				        "TTTTTTTTTTTTTT",
+                        "T------------T",
+				        "T------------T",
+				        "T--t---t-----T",
+				        "T--t---tBG---T",
+				        "T--e--    -B-T",
+				        "T--t-G s  P--T",
+				        "T--te-    ---T",
+				        "T---ttt---e-BT",
+                        "T------------T",
+				        "T------------T",
+				        "TTTTTTTTTTTTTT"
+			        };
+                    return level;
+                }
+            default:
+                {
+                    string[] level =
+                    {
+                        "TTTTT",
+                        "T---T",
+                        "T-s-T",
+                        "T---T",
+                        "TTTTT"
+                    };
+                    return level;
+                    //Debug.Log("error! bad level index: " + level_index);
+                    //string[] invalid_level_index = {""};
+                    //return invalid_level_index;                    
+                }
         }
+
+
 		
-		Debug.Log("error! bad level index: " + level_index);
-		string[] invalid_level_index = {""};
-		return invalid_level_index;
+
 	}
 	
 }

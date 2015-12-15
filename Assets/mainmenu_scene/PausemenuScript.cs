@@ -62,12 +62,25 @@ public class PausemenuScript : MonoBehaviour {
 		{
 			_TIMER.set_pause (true);
 			PausemenuPanel.gameObject.SetActive(true);
+            // set instructions
+            MESSAGE.print("Press N for next level", -170, -60, 9, 15, 80);
+            MESSAGE.print("Press U to restart", -170, -40, 9, 15, 81);
+            MESSAGE.print("B", -170, -20, 9, 15, 82);
+            MESSAGE.print("C", -170, 0, 9, 15, 83);
+            MESSAGE.print("D", -170, 20, 9, 15, 84);
+            MESSAGE.print("E", -170, 40, 9, 15, 85);
 			Debug.Log("game is paused");
 		}
 		else
 		{
 			_TIMER.set_pause(false);
 			PausemenuPanel.gameObject.SetActive(false);
+            MESSAGE.print("", -170, -90, 9, 15, 80);
+            MESSAGE.print("", -170, -70, 9, 15, 81);
+            MESSAGE.print("", -170, -50, 9, 15, 82);
+            MESSAGE.print("", -170, -30, 9, 15, 83);
+            MESSAGE.print("", -170, -10, 9, 15, 84);
+            MESSAGE.print("", -170, 10, 9, 15, 85);
 			Debug.Log("game is not paused");
 		}
 	}
