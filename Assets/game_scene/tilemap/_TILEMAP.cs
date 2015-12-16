@@ -17,6 +17,7 @@ public class _TILEMAP : MonoBehaviour
 	private int current_level = 0;
 	private _LEVELS levels;
     private laser_script laser;
+    private particle_script particlesys;
     
 	
 										// counters:
@@ -69,7 +70,7 @@ public class _TILEMAP : MonoBehaviour
 	{
 		levels = gameObject.GetComponent<_LEVELS>();
         laser = gameObject.GetComponent<laser_script>();
-        
+        particlesys = gameObject.GetComponent<particle_script>();
 	}
 
 
@@ -93,6 +94,10 @@ public class _TILEMAP : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.U))
         {
             Application.LoadLevel("game_scene");
+        }
+        if (current_level >= _LEVELS.TOTAL_LEVELS && Input.GetKeyDown(KeyCode.Z))
+        {
+            Application.LoadLevel(0);
         }
 	}
     void init_text()
@@ -120,9 +125,14 @@ public class _TILEMAP : MonoBehaviour
 		instantiate_tilemap();
         init_text();
         laser.initialize_lasers();
-        MESSAGE.print("", -160, -90, 1, 20, 65);
+        particlesys.particle_init();
+        
         MESSAGE.print("", -170, 90, 6, 10, 22);
-        MESSAGE.print("FIND " + total_goal_blocks + " GOAL BLOCKS.", -160, -90, 1, 20, 65);
+        if (current_level < _LEVELS.TOTAL_LEVELS)
+        {
+            MESSAGE.print("", -160, -90, 1, 20, 65);
+            MESSAGE.print("FIND " + total_goal_blocks + " GOAL BLOCKS.", -160, -90, 1, 20, 65);
+        }
         MESSAGE.print("press M to pause", -170, 90, 6, 10, 22);
 	}
 
@@ -369,9 +379,12 @@ public class _TILEMAP : MonoBehaviour
 
     private void level_clear()
     {
-        MESSAGE.print("LEVEL CLEAR!", -160, 0, 1, 20, 65);
-        MESSAGE.print("", -160, 20, 5, 15, 66);
-        MESSAGE.print("press n to continue", -160, 20, 5, 15, 66);
+        if (current_level < _LEVELS.TOTAL_LEVELS)
+        {
+            MESSAGE.print("LEVEL CLEAR!", -160, 0, 1, 20, 65);
+            MESSAGE.print("", -160, 20, 5, 15, 66);
+            MESSAGE.print("press n to continue", -160, 20, 5, 15, 66);
+        }
         MESSAGE.print("", -170, 90, 6, 10, 22);
         // TODO: pause, next button, animation?
         _TIMER.set_pause(true);

@@ -50,7 +50,7 @@ public class _LEVELS : MonoBehaviour
 				        "TTTTTTTTTTTTTT",
 				        "T------------T",
 				        "T---------G--T",
-				        "Tt-e-TTTT----T",
+				        "TB-e-TTTT----T",
 				        "T-------t----T",
 				        "T-------tt---T",
 				        "TTTTTt---te--T",
@@ -110,6 +110,9 @@ public class _LEVELS : MonoBehaviour
                         "T---T",
                         "TTTTT"
                     };
+                    MESSAGE.print("YOU WIN!", -160, -20, 3, 40, 65);
+                    MESSAGE.print("", -160, 20, 5, 15, 66);
+                    MESSAGE.print("press z to quit", -160, 20, 5, 15, 66); // TODO: exit to menu!
                     return level;
                     //Debug.Log("error! bad level index: " + level_index);
                     //string[] invalid_level_index = {""};

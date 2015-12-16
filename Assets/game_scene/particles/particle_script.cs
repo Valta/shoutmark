@@ -21,6 +21,18 @@ public class particle_script : MonoBehaviour
 		}
 	}
 
+    public void particle_init()
+    {
+        particles = new GameObject[MAX_NUMBER_OF_PARTICLES];
+	    particle_systems = new ParticleSystem[MAX_NUMBER_OF_PARTICLES];
+
+        for (int a = 0; a < MAX_NUMBER_OF_PARTICLES; a++)
+        {
+            particles[a] = (GameObject)Instantiate(particle_prefab, new Vector3(3 + a * 3, 1, -8), Quaternion.identity);
+            particles[a].transform.rotation = Quaternion.Euler(0, 180, 90);
+            particle_systems[a] = particles[a].GetComponent<ParticleSystem>();
+        }
+    }
 
 
 	void Update()

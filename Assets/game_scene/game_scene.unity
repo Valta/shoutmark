@@ -37,14 +37,11 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
---- !u!127 &3
-LevelGameManager:
-  m_ObjectHideFlags: 0
 --- !u!157 &4
 LightmapSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 5
-  m_GIWorkflowMode: 0
+  m_GIWorkflowMode: 1
   m_LightmapsMode: 1
   m_GISettings:
     serializedVersion: 2
@@ -53,8 +50,8 @@ LightmapSettings:
     m_AlbedoBoost: 1
     m_TemporalCoherenceThreshold: 1
     m_EnvironmentLightingMode: 0
-    m_EnableBakedLightmaps: 1
-    m_EnableRealtimeLightmaps: 1
+    m_EnableBakedLightmaps: 0
+    m_EnableRealtimeLightmaps: 0
   m_LightmapEditorSettings:
     serializedVersion: 3
     m_Resolution: 2
@@ -68,7 +65,9 @@ LightmapSettings:
     m_TextureCompression: 1
     m_FinalGather: 0
     m_FinalGatherRayCount: 1024
-  m_LightmapSnapshot: {fileID: 0}
+    m_ReflectionCompression: 2
+  m_LightmapSnapshot: {fileID: 112000001, guid: 8f4a67f20e9fc384a98af1eaccab8a0f,
+    type: 2}
   m_RuntimeCPUUsage: 25
 --- !u!196 &5
 NavMeshSettings:
@@ -87,7 +86,7 @@ NavMeshSettings:
     cellSize: .166666672
     manualCellSize: 0
   m_NavMeshData: {fileID: 0}
---- !u!1 &461848284
+--- !u!1 &461848284 stripped
 GameObject:
   m_PrefabParentObject: {fileID: 123962, guid: 4ae00ab036ebac1419abffbcd12f6340, type: 2}
   m_PrefabInternal: {fileID: 617456479}
@@ -162,6 +161,22 @@ Prefab:
       propertyPath: player
       value: 
       objectReference: {fileID: 119714, guid: 4584322eab6cd194b9aef3b475151058, type: 2}
+    - target: {fileID: 11424294, guid: 4ae00ab036ebac1419abffbcd12f6340, type: 2}
+      propertyPath: tile_transparentwall
+      value: 
+      objectReference: {fileID: 102616, guid: c1bd4fec66c2ef04f98e4b6b5357380a, type: 2}
+    - target: {fileID: 11424294, guid: 4ae00ab036ebac1419abffbcd12f6340, type: 2}
+      propertyPath: tile_testcube
+      value: 
+      objectReference: {fileID: 102616, guid: c1bd4fec66c2ef04f98e4b6b5357380a, type: 2}
+    - target: {fileID: 11424294, guid: 4ae00ab036ebac1419abffbcd12f6340, type: 2}
+      propertyPath: tile_block
+      value: 
+      objectReference: {fileID: 179178, guid: d34d1fb4a83984441b06791fc0a665bd, type: 2}
+    - target: {fileID: 11424294, guid: 4ae00ab036ebac1419abffbcd12f6340, type: 2}
+      propertyPath: tile_goal
+      value: 
+      objectReference: {fileID: 125112, guid: dd8e1eb0b0cb7f642b46786f274100ec, type: 2}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 4ae00ab036ebac1419abffbcd12f6340, type: 2}
   m_IsPrefabParent: 0
@@ -233,7 +248,7 @@ MonoBehaviour:
   m_Script: {fileID: 1997211142, guid: f5f67c52d1564df4a8936ccd202a3bd8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_AllowActivationOnStandalone: 0
+  m_ForceModuleActive: 0
 --- !u!114 &1051069683
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -250,7 +265,8 @@ MonoBehaviour:
   m_SubmitButton: Submit
   m_CancelButton: Cancel
   m_InputActionsPerSecond: 10
-  m_AllowActivationOnMobileDevice: 0
+  m_RepeatDelay: .5
+  m_ForceModuleActive: 0
 --- !u!114 &1051069684
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -334,10 +350,12 @@ Camera:
   m_RenderingPath: -1
   m_TargetTexture: {fileID: 0}
   m_TargetDisplay: 0
+  m_TargetEye: 3
   m_HDR: 0
   m_OcclusionCulling: 1
   m_StereoConvergence: 10
   m_StereoSeparation: .0219999999
+  m_StereoMirrorMode: 0
 --- !u!4 &1261632116
 Transform:
   m_ObjectHideFlags: 0
