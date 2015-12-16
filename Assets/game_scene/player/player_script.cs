@@ -49,28 +49,38 @@ public class player_script : MonoBehaviour
 			{
 				speed_x = (touch_x - x) * speed / distance_to_touch;
 				speed_y = (touch_y - y) * speed / distance_to_touch;
+				if (Mathf.Abs(touch_y - y) > 3.0f * Mathf.Abs(touch_x - x))
+				{
+					if (touch_y > y) try_to_push_tile("UP", speed_y);
+					if (touch_y < y) try_to_push_tile("DOWN", speed_y);
+				}
+				else if (Mathf.Abs(touch_x - x) > 3.0f * Mathf.Abs(touch_y - y))
+				{
+					if (touch_x < x) try_to_push_tile("LEFT", speed_x);
+					if (touch_x > x) try_to_push_tile("RIGHT", speed_x);
+				}
 			}
 			//Debug.Log("speedx="+speed_x+"   speedy0"+speed_y);
 		}
 		
 		if (Input.GetKey(KeyCode.UpArrow))
 		{
-			try_to_push_tile("UP");
+			try_to_push_tile("UP", speed);
 			speed_y = speed;
 		}
 		if (Input.GetKey(KeyCode.DownArrow))
 		{
 			speed_y = -speed;
-			try_to_push_tile("DOWN");
+			try_to_push_tile("DOWN", speed);
 		}
 		if (Input.GetKey(KeyCode.LeftArrow))
 		{
-			try_to_push_tile("LEFT");
+			try_to_push_tile("LEFT", speed);
 			speed_x = -speed;
 		}
 		if (Input.GetKey(KeyCode.RightArrow))
 		{
-			try_to_push_tile("RIGHT");
+			try_to_push_tile("RIGHT", speed);
 			speed_x = speed;
 		}
 		
@@ -126,10 +136,10 @@ public class player_script : MonoBehaviour
 
 
 
-	private void try_to_push_tile(string direction)
+	private void try_to_push_tile(string direction, float speed)
 	{
-		float PUSH_RADIUS = PLAYER_RADIUS - 0.1f;		// a bit smaller that player radius.
-		float PUSH_DISTANCE = PLAYER_RADIUS + 0.01f;		// a bit bigger than player radius.
+		float PUSH_RADIUS = PLAYER_RADIUS - 0.1f;							// a bit smaller that player radius.
+		float PUSH_DISTANCE = PLAYER_RADIUS + Mathf.Abs(speed) + 0.01f;		// a bit bigger than player radius.
 		
 		if (direction == "UP")
 		{
