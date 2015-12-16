@@ -13,8 +13,16 @@ public class MainMenuScript : MonoBehaviour {
 	public Button[] LevelButtons;
 
     private _TILEMAP tilemap;
+    
+    public GameObject panel_main_gameobject;
+	public GameObject panel_options_gameobject;
+	public GameObject level_selection_panel_gameobject;
+    private RectTransform panel_main;
+	private RectTransform panel_options;
+	private RectTransform level_selection_panel;
 
-	// Use this for initialization
+
+
 	void Start () {
 		Canvas.gameObject.SetActive(true);
 		for (int i = 0; i < Panels.Length; i++)
@@ -31,13 +39,32 @@ public class MainMenuScript : MonoBehaviour {
 		UnlockLevels (LevelsUnlocked);
 
         tilemap = GameObject.Find("_GLOBAL_SCRIPTS").GetComponent<_TILEMAP>();
-
 	
 	}
 	
 	// Update is called once per frame
 	void Update () {
-	
+		float scale = Screen.height * 0.003f;
+		
+		if (panel_main_gameobject.activeInHierarchy)
+		{
+			if (!panel_main) panel_main =
+				panel_main_gameobject.GetComponent<RectTransform>();
+			panel_main.localScale = new Vector3(scale, scale, 1.0f);
+		}
+		if (panel_options_gameobject.activeInHierarchy)
+		{
+			if (!panel_options) panel_options =
+				panel_options_gameobject.GetComponent<RectTransform>();
+			panel_options.localScale = new Vector3(scale, scale, 1.0f);
+		}
+		if (level_selection_panel_gameobject.activeInHierarchy)
+		{
+			if (!level_selection_panel) level_selection_panel =
+				level_selection_panel_gameobject.GetComponent<RectTransform>();
+			level_selection_panel.localScale = new Vector3(scale, scale, 1.0f);
+		}
+		
 	}
 
 

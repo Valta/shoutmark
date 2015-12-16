@@ -748,6 +748,9 @@ MonoBehaviour:
   - {fileID: 1071294170}
   - {fileID: 957064328}
   - {fileID: 871783515}
+  panel_main_gameobject: {fileID: 418893182}
+  panel_options_gameobject: {fileID: 1731397704}
+  level_selection_panel_gameobject: {fileID: 338968071}
 --- !u!4 &439886204
 Transform:
   m_ObjectHideFlags: 0
