@@ -26,6 +26,8 @@ public class _TILEMAP : MonoBehaviour
 	
 										// prefabs:
 	public GameObject tile_floor;
+	public GameObject tile_floor_var1;
+	public GameObject tile_floor_var2;
 	public GameObject tile_start_area;
 	public GameObject tile_block;
 	public GameObject tile_transparentwall;
@@ -155,7 +157,15 @@ public class _TILEMAP : MonoBehaviour
 				
 				if (map[x, y] == TILE_FLOOR)
 				{
-					GameObject floor = (GameObject)Instantiate(tile_floor, tile_position, tile_rotation);
+					GameObject floor;
+					int pattern = (3 * x + y * y + x * (y + 1) + (x + y) % 3) % 4;
+					if (pattern > 2) pattern = 0;
+					if (pattern == 0)
+						floor = (GameObject)Instantiate(tile_floor, tile_position, tile_rotation);
+					else if (pattern == 1)
+						floor = (GameObject)Instantiate(tile_floor_var1, tile_position, tile_rotation);
+					else
+						floor = (GameObject)Instantiate(tile_floor_var2, tile_position, tile_rotation);
 					floor.transform.SetParent(tilemap_parent);
 				}
 				if (map[x, y] == TILE_START_AREA)
