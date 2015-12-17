@@ -139,7 +139,7 @@ public class player_script : MonoBehaviour
 	private void try_to_push_tile(string direction, float speed)
 	{
 		float PUSH_RADIUS = PLAYER_RADIUS - 0.1f;							// a bit smaller that player radius.
-		float PUSH_DISTANCE = PLAYER_RADIUS + Mathf.Abs(speed) + 0.01f;		// a bit bigger than player radius.
+		float PUSH_DISTANCE = PLAYER_RADIUS + Mathf.Abs(speed) + 0.1f;		// a bit bigger than player radius.
 		
 		if (direction == "UP")
 		{

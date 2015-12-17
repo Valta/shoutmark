@@ -37,9 +37,6 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
---- !u!127 &3
-LevelGameManager:
-  m_ObjectHideFlags: 0
 --- !u!157 &4
 LightmapSettings:
   m_ObjectHideFlags: 0
@@ -68,6 +65,7 @@ LightmapSettings:
     m_TextureCompression: 1
     m_FinalGather: 0
     m_FinalGatherRayCount: 1024
+    m_ReflectionCompression: 2
   m_LightmapSnapshot: {fileID: 112000001, guid: 8f4a67f20e9fc384a98af1eaccab8a0f,
     type: 2}
   m_RuntimeCPUUsage: 25
@@ -88,34 +86,6 @@ NavMeshSettings:
     cellSize: .166666672
     manualCellSize: 0
   m_NavMeshData: {fileID: 0}
---- !u!1 &461848284
-GameObject:
-  m_PrefabParentObject: {fileID: 123962, guid: 4ae00ab036ebac1419abffbcd12f6340, type: 2}
-  m_PrefabInternal: {fileID: 617456479}
---- !u!114 &461848285
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 461848284}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2baf655872e60b84e954e0de1f194fd1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  laser: {fileID: 161026, guid: 1564ef39d5ff7144b81923cff8370dc5, type: 2}
---- !u!114 &461848292
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 461848284}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1a12c0c38de725c4eaffe9b6271e2e2d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  particle_prefab: {fileID: 181282, guid: 732f0db793840ea49b8a1e13853a3758, type: 2}
 --- !u!1001 &617456479
 Prefab:
   m_ObjectHideFlags: 0
@@ -155,39 +125,9 @@ Prefab:
       propertyPath: m_RootOrder
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 11424294, guid: 4ae00ab036ebac1419abffbcd12f6340, type: 2}
-      propertyPath: tile_start_area
-      value: 
-      objectReference: {fileID: 181130, guid: 2d5bdb9c0c39e0340be91fe62d3f2b15, type: 2}
-    - target: {fileID: 11424294, guid: 4ae00ab036ebac1419abffbcd12f6340, type: 2}
-      propertyPath: player
-      value: 
-      objectReference: {fileID: 119714, guid: 4584322eab6cd194b9aef3b475151058, type: 2}
-    - target: {fileID: 11424294, guid: 4ae00ab036ebac1419abffbcd12f6340, type: 2}
-      propertyPath: tile_transparentwall
-      value: 
-      objectReference: {fileID: 102616, guid: c1bd4fec66c2ef04f98e4b6b5357380a, type: 2}
-    - target: {fileID: 11424294, guid: 4ae00ab036ebac1419abffbcd12f6340, type: 2}
-      propertyPath: tile_testcube
-      value: 
-      objectReference: {fileID: 102616, guid: c1bd4fec66c2ef04f98e4b6b5357380a, type: 2}
-    - target: {fileID: 11424294, guid: 4ae00ab036ebac1419abffbcd12f6340, type: 2}
-      propertyPath: tile_block
-      value: 
-      objectReference: {fileID: 179178, guid: d34d1fb4a83984441b06791fc0a665bd, type: 2}
-    - target: {fileID: 11424294, guid: 4ae00ab036ebac1419abffbcd12f6340, type: 2}
-      propertyPath: tile_goal
-      value: 
-      objectReference: {fileID: 125112, guid: dd8e1eb0b0cb7f642b46786f274100ec, type: 2}
-    - target: {fileID: 11424294, guid: 4ae00ab036ebac1419abffbcd12f6340, type: 2}
-      propertyPath: tile_floor_var1
-      value: 
-      objectReference: {fileID: 182372, guid: d0921108b4d32184a9cba0d9d4036739, type: 2}
-    - target: {fileID: 11424294, guid: 4ae00ab036ebac1419abffbcd12f6340, type: 2}
-      propertyPath: tile_floor_var2
-      value: 
-      objectReference: {fileID: 154466, guid: 24c513abc2c291c4dbf53995b900c87a, type: 2}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 11456318, guid: 4ae00ab036ebac1419abffbcd12f6340, type: 2}
+    - {fileID: 11427150, guid: 4ae00ab036ebac1419abffbcd12f6340, type: 2}
   m_ParentPrefab: {fileID: 100100000, guid: 4ae00ab036ebac1419abffbcd12f6340, type: 2}
   m_IsPrefabParent: 0
 --- !u!1 &752966979
@@ -258,7 +198,7 @@ MonoBehaviour:
   m_Script: {fileID: 1997211142, guid: f5f67c52d1564df4a8936ccd202a3bd8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_AllowActivationOnStandalone: 0
+  m_ForceModuleActive: 0
 --- !u!114 &1051069683
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -275,7 +215,8 @@ MonoBehaviour:
   m_SubmitButton: Submit
   m_CancelButton: Cancel
   m_InputActionsPerSecond: 10
-  m_AllowActivationOnMobileDevice: 0
+  m_RepeatDelay: .5
+  m_ForceModuleActive: 0
 --- !u!114 &1051069684
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -359,10 +300,12 @@ Camera:
   m_RenderingPath: -1
   m_TargetTexture: {fileID: 0}
   m_TargetDisplay: 0
+  m_TargetEye: 3
   m_HDR: 0
   m_OcclusionCulling: 1
   m_StereoConvergence: 10
   m_StereoSeparation: .0219999999
+  m_StereoMirrorMode: 0
 --- !u!4 &1261632116
 Transform:
   m_ObjectHideFlags: 0

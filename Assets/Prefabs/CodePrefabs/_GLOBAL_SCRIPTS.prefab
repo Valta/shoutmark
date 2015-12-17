@@ -14,6 +14,9 @@ GameObject:
   - 114: {fileID: 11497626}
   - 114: {fileID: 11412430}
   - 114: {fileID: 11499502}
+  - 114: {fileID: 11402352}
+  - 114: {fileID: 11456318}
+  - 114: {fileID: 11427150}
   m_Layer: 0
   m_Name: _GLOBAL_SCRIPTS
   m_TagString: Untagged
@@ -33,6 +36,18 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
+--- !u!114 &11402352
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 123962}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1a12c0c38de725c4eaffe9b6271e2e2d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  particle_prefab: {fileID: 181282, guid: 732f0db793840ea49b8a1e13853a3758, type: 2}
 --- !u!114 &11411098
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -69,15 +84,41 @@ MonoBehaviour:
   total_goal_blocks: 0
   goal_blocks: 0
   tile_floor: {fileID: 131498, guid: 680f404afc212534c999bed872095117, type: 2}
+  tile_floor_var1: {fileID: 182372, guid: d0921108b4d32184a9cba0d9d4036739, type: 2}
+  tile_floor_var2: {fileID: 154466, guid: 24c513abc2c291c4dbf53995b900c87a, type: 2}
   tile_start_area: {fileID: 181130, guid: 2d5bdb9c0c39e0340be91fe62d3f2b15, type: 2}
-  tile_block: {fileID: 175674, guid: 2640832983181ed4e83400b37910b165, type: 2}
-  tile_transparentwall: {fileID: 161994, guid: 1d23abd51fc622f4a9148cbd988eb763, type: 2}
+  tile_block: {fileID: 179178, guid: d34d1fb4a83984441b06791fc0a665bd, type: 2}
+  tile_transparentwall: {fileID: 102616, guid: c1bd4fec66c2ef04f98e4b6b5357380a, type: 2}
   tile_wireframesprite: {fileID: 145836, guid: 26c16bad39df2e649abd122f9b624176, type: 2}
-  tile_testcube: {fileID: 108772, guid: 5a7a68fb53499d04195f0b4b4078ef65, type: 2}
+  tile_testcube: {fileID: 102616, guid: c1bd4fec66c2ef04f98e4b6b5357380a, type: 2}
   tile_pushable: {fileID: 165472, guid: 954cb385d6139c744a6440281ec6bce3, type: 2}
-  tile_goal: {fileID: 154032, guid: 98b8e285fb88ac946bda2bcf81a3fa9c, type: 2}
+  tile_goal: {fileID: 125112, guid: dd8e1eb0b0cb7f642b46786f274100ec, type: 2}
   player: {fileID: 119714, guid: 4584322eab6cd194b9aef3b475151058, type: 2}
   enemy: {fileID: 176420, guid: 01e509c10d1974744b29cf820fa47b92, type: 2}
+--- !u!114 &11427150
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 123962}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1a12c0c38de725c4eaffe9b6271e2e2d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  particle_prefab: {fileID: 181282, guid: 732f0db793840ea49b8a1e13853a3758, type: 2}
+--- !u!114 &11456318
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 123962}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2baf655872e60b84e954e0de1f194fd1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  laser: {fileID: 161026, guid: 1564ef39d5ff7144b81923cff8370dc5, type: 2}
 --- !u!114 &11461638
 MonoBehaviour:
   m_ObjectHideFlags: 1

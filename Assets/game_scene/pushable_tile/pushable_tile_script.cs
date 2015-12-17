@@ -35,7 +35,7 @@ public class pushable_tile_script : MonoBehaviour
 	private void get_type_of_this_tile()
 	{
 		if (transform.name == "tile_pushable(Clone)") type = _TILEMAP.TILE_PUSHABLE;
-		if (transform.name == "tile_goal(Clone)") type = _TILEMAP.TILE_GOAL;
+		if (transform.name == "PF_rantakuutio(Clone)") type = _TILEMAP.TILE_GOAL;
 	}
 
 
@@ -230,7 +230,7 @@ public class pushable_tile_script : MonoBehaviour
 			Debug.Log("cant move yet!");
 			
 		}
-        MESSAGE.print("GOAL BLOCKS FOUND: " + tilemap.goal_blocks, -160, -90, 1, 20, 65);
+        MESSAGE.print("BEACH CUBES FOUND: " + tilemap.goal_blocks, -160, -90, 1, 20, 65);
 	}
 
 

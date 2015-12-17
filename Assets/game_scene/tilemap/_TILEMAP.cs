@@ -133,7 +133,7 @@ public class _TILEMAP : MonoBehaviour
         if (current_level < _LEVELS.TOTAL_LEVELS)
         {
             MESSAGE.print("", -160, -90, 1, 20, 65);
-            MESSAGE.print("FIND " + total_goal_blocks + " GOAL BLOCKS.", -160, -90, 1, 20, 65);
+            MESSAGE.print("FIND " + total_goal_blocks + " BEACH CUBES.", -160, -90, 1, 20, 65);
         }
         MESSAGE.print("press M to pause", -170, 90, 6, 10, 22);
 	}
