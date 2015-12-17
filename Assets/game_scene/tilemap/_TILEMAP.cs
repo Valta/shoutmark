@@ -389,15 +389,16 @@ public class _TILEMAP : MonoBehaviour
 
     private void level_clear()
     {
-        if (current_level < _LEVELS.TOTAL_LEVELS)
+        if (current_level < _LEVELS.TOTAL_LEVELS && Application.loadedLevel != 0)
         {
             MESSAGE.print("LEVEL CLEAR!", -160, 0, 1, 20, 65);
             MESSAGE.print("", -160, 20, 5, 15, 66);
             MESSAGE.print("press n to continue", -160, 20, 5, 15, 66);
+            _TIMER.set_pause(true);
         }
         MESSAGE.print("", -170, 90, 6, 10, 22);
         // TODO: pause, next button, animation?
-        _TIMER.set_pause(true);
+        
     }
     private void objectlist_clear()
     {
